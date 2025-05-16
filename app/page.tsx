@@ -1,7 +1,8 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <p>hello</p>
+    <div>
+      <span className="flex text-blue-500 font-bold text-large">Hello from Home</span>
+      <p>hello</p>
+    </div>
   );
 }
