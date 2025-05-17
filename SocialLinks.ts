@@ -1,9 +1,10 @@
-import { FaDiscord, FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa"
+import { FaDiscord, FaGithub, FaLinkedinIn, FaInstagram } from "react-icons/fa"
+import LinkedInIcon from "assets/LinkedIn_Icon.svg"
 
 export const links = [
   {
     id: 1,
-    icon: FaLinkedin,
+    icon: FaLinkedinIn,
     url: "https://www.linkedin.com/in/mubassim",
     alt: "LinkedIn",
   },
@@ -15,6 +16,12 @@ export const links = [
   },
   {
     id: 3,
+    icon: FaDiscord,
+    url: "https://discord.com/users/732681893484691518",
+    alt: "Discord",
+  },
+  {
+    id: 4,
     icon: FaInstagram,
     url: "https://www.instagram.com/mubassimahmedkhan",
     alt: "Instagram",

@@ -60,9 +60,9 @@ const Navbar = () => {
             </Nav.Link>
           </Nav>
 
-          <div className="d-flex align-items-center gap-3">
+          <div className="navbar-text d-flex align-items-center gap-3">
             <div className="social-icons d-flex gap-2">
-              {links.slice(0, 2).map(({ url, id, icon: Icon }) => {
+              {links.slice(0, 3).map(({ url, id, icon: Icon }) => {
                 return (
                   <Link
                     key={id}
@@ -70,7 +70,7 @@ const Navbar = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Icon />
+                    <Icon className='text-white hover:text-black' />
                   </Link>
                 )
               })}
