@@ -58,7 +58,9 @@ const Banner = () => {
                             {({ isVisible }) =>
                                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
                                     <span className='tagLine'>Welcome to my Portfolio</span>
-                                    <h1>{`Hi, I'm a `} <span className="wrap">{text}</span> </h1>
+                                    <div className='pb-15 mt-5 mb-5'>
+                                        <h1>{`Hi, I'm a `} <span className="wrap">{text}</span> </h1>
+                                    </div>
                                     <p>My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi.</p>
                                     <button>
                                         <Link className='connect-btn' href="#connect">Let's Connect</Link>

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Navbar as BootstrapNavbar, Nav } from 'react-bootstrap';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { links } from "../SocialLinks";
 
@@ -62,15 +63,15 @@ const Navbar = () => {
 
           <div className="navbar-text d-flex align-items-center gap-3">
             <div className="social-icons d-flex gap-2">
-              {links.slice(0, 3).map(({ url, id, icon: Icon }) => {
+              {links.slice(0, 3).map((link, id) => {
                 return (
                   <Link
                     key={id}
-                    href={url}
+                    href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Icon className='text-white hover:text-black' />
+                    <Image className='text-white' src={link.icon} alt={link.alt} />
                   </Link>
                 )
               })}
