@@ -71,7 +71,7 @@ const Navbar = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Image className='text-white' src={link.icon} alt={link.alt} />
+                    <Image src={link.icon} alt={link.alt} />
                   </Link>
                 )
               })}
