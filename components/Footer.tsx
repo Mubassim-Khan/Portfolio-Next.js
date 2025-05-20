@@ -10,6 +10,7 @@ const Footer = () => {
         <footer className='footer'>
             <Container>
                 <Row className='align-items-center justify-content-center'>
+                    <Col sm={6}></Col>
                     <Col sm={6} className='text-center text-sm-end'>
                         <div className='social-icons'>
                             {links.slice(0, 3).map((link, id) => {
