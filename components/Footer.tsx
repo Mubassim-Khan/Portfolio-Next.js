@@ -20,6 +20,7 @@ const Footer = () => {
                                         href={link.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        className='cursor--pointer'
                                     >
                                         <Image src={link.icon} alt={link.alt} />
                                     </Link>

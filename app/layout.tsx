@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from "@/components/Navbar";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
+import Cursor from "@/components/Cursor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Cursor />
         <Navbar />
         <Banner />
         <Footer />

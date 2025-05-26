@@ -42,7 +42,12 @@
 * {
   margin: 0;
   padding: 0;
+  cursor: none !important;
   box-sizing: border-box;
+}
+
+html, body {
+  cursor: none !important;
 }
 
 body {
@@ -135,7 +140,7 @@ nav.navbar {
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 9999;
+  z-index: 50;
   transition: 0.32s ease-in-out;
 }
 
@@ -759,4 +764,48 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   color: #B8B8B8;
   letter-spacing: 0.5px;
   margin-top: 20px;
+}
+
+/* Cursor */
+.cursor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s linear;
+  z-index: 1000;
+}
+
+.cursor-trail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -25px;
+  left: -25px;
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out;
+  z-index: 999;
+}
+
+.cursor img {
+  position: relative;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
 }
