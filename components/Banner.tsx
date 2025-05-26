@@ -14,6 +14,7 @@ const Banner = () => {
     const [loopNum, setLoopNum] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
     const toRotate = ["MERN Stack Developer", "Student", "Gen AI Enthusiast", "Web Developer"];
+    // const toRotate = ["MERN Stack Developer", "ggkkndgdgdfg fgfdgfgfgh", "ggkkndgdgdfg fgfdgfgfgh", "ggkkndgdgdfg fgfdgfgfgh"];
     const [delta, setDelta] = useState(200 - Math.random() * 100);
     const period = 2000;
 
@@ -58,10 +59,12 @@ const Banner = () => {
                             {({ isVisible }) =>
                                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
                                     <span className='tagLine'>Welcome to my Portfolio</span>
-                                    <div className='pb-15 mt-5 mb-5'>
-                                        <h1>{`Hi, I'm a `} <span className="wrap">{text}</span> </h1>
+                                    <div className="pb-12 mt-2 mb-[150px] relative h-[100px]">
+                                        <h1 className="font-bold mb-[125px] h-full">
+                                            {`Hi, I'm a `} <span className="inline-block min-h-[50px]">{text}</span>
+                                        </h1>
                                     </div>
-                                    <p>My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi.</p>
+                                    <p className='mt-[50px]'>My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi.</p>
                                     <button>
                                         <Link className='connect-btn' href="#connect">Let's Connect</Link>
                                         <BsArrowRightCircle size={25} />
