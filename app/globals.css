@@ -817,7 +817,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   right: 8rem;
   width: 31.25rem;
   height: 31.25rem;
-  background: rgb(90, 81, 194); /* Dark muted red */
+  background: rgb(90, 81, 194); /* Dark muted purple */
   border-radius: 50%;
   filter: blur(12rem);
   z-index: -30;
@@ -829,10 +829,23 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   left: -25rem;
   width: 68.75rem;
   height: 31.25rem;
-  background: #946263; /* Dark muted purple */
+  background: #946263; /* Dark muted red */
   border-radius: 50%;
   filter: blur(8rem);
   z-index: -30;
+}
+
+.gradient-effect-3 {
+  position: absolute;
+  bottom: 25rem;
+  right: 8rem;
+  width: 35rem;
+  height: 35rem;
+  background: #628c94; /* Muted Teal */
+  border-radius: 50%;
+  filter: blur(10rem);
+  z-index: -1;
+  transform: translateY(80%); /* Push it deeper dynamically */
 }
 
 /* Responsive Adjustments */
@@ -852,6 +865,15 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
     height: 20rem;
     filter: blur(6rem);
   }
+
+  .gradient-effect-3 {
+    bottom: 10rem;
+    right: 2rem;
+    width: 18rem;
+    height: 18rem;
+    filter: blur(6rem);
+    transform: translateY(40%);
+  }
 }
 
 @media (max-width: 480px) {
@@ -869,5 +891,14 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
     width: 25rem;
     height: 15rem;
     filter: blur(4rem);
+  }
+  
+  .gradient-effect-3 {
+    bottom: 2rem;
+    right: 1rem;
+    width: 10rem;
+    height: 10rem;
+    filter: blur(3rem);
+    transform: translateY(20%);
   }
 }

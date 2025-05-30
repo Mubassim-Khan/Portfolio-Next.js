@@ -115,3 +115,36 @@ export const LanguageSkills = [
       "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
   }
 ];
+
+export const CertificateData = [
+        {
+            title: "Foundational Generative AI - iNeuron",
+            skill: "Generative AI",
+            verifyLink: "https://learn.ineuron.ai/certificate/a6eddac2-5014-460c-afd4-ab273969a93b"
+        },
+        {
+            title: "Generative AI with Large Language Models - AWS | DeepLearning.AI",
+            skill: "Generative AI",
+            verifyLink: "https://coursera.org/verify/A1N8VDV2FCUIY"
+        },
+        {
+            title: "Google IT Automation with Python - Google",
+            skill: "Automation",
+            verifyLink: "https://coursera.org/verify/professional-cert/N9YF92Y9QP8P"
+        },
+        {
+            title: "Backend Web Development with Node.js and Express - Microsoft Learn Student Ambassador",
+            skill: "Backend Development",
+            verifyLink: "https://cert.devtown.in/verify/19wlu6"
+        },
+        {
+            title: "DevOps for Web Development - Google Developer Student Clubs",
+            skill: "DevOps for Web Development",
+            verifyLink: "https://cert.devtown.in/verify/Z2oRtPz"
+        },
+        {
+            title: "Introduction to Software Engineering - IBM",
+            skill: "Software Engineering",
+            verifyLink: "https://coursera.org/verify/0U1KZ7GBNKPT"
+        },
+    ];

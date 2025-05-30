@@ -7,6 +7,7 @@ import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import Cursor from "@/components/Cursor";
 import Skills from "@/components/Skills";
+import Certifications from "@/components/Certifications";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
         <Navbar />
         <Banner />
         <Skills />
+        <Certifications />
         <Footer />
       </body>
     </html>
