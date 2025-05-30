@@ -5,7 +5,7 @@ import { Container, Navbar as BootstrapNavbar, Nav } from 'react-bootstrap';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { links } from "../PortfolioData";
+import { SocialLinks } from "@/PortfolioData";
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState("home");
@@ -30,8 +30,8 @@ const Navbar = () => {
   const NavData = [
     { id: "home", label: "Home" },
     { id: "skills", label: "Skills" },
-    { id: "certifications", label: "Certifications" },
-    { id: "project", label: "Projects" }
+    { id: "project", label: "Projects" },
+    { id: "certifications", label: "Certifications" }
   ]
 
   return (
@@ -56,7 +56,7 @@ const Navbar = () => {
 
           <div className="navbar-text d-flex align-items-center gap-3">
             <div className="social-icons d-flex gap-2">
-              {links.slice(0, 3).map((link, id) => {
+              {SocialLinks.slice(0, 3).map((link, id) => {
                 return (
                   <Link
                     key={id}

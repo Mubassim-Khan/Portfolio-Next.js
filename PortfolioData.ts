@@ -1,10 +1,9 @@
-// import { FaDiscord, FaGithub, FaLinkedinIn, FaInstagram } from "react-icons/fa"
 import LinkedInIcon from "@/assets/icons/linkedInIcon.svg";
 import DiscordIcon from "@/assets/icons/discordIcon.svg";
 import InstagramIcon from "@/assets/icons/instagramIcon.svg";
 import GitHubIcon from "@/assets/icons/githubIcon.svg";
 
-export const links = [
+export const SocialLinks = [
   {
     id: 1,
     icon: LinkedInIcon,

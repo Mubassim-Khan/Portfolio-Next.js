@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 
-import { links } from '@/PortfolioData'
+import { SocialLinks } from '@/PortfolioData'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -13,7 +13,7 @@ const Footer = () => {
                     <Col sm={6}></Col>
                     <Col sm={6} className='text-center text-sm-end'>
                         <div className='social-icons'>
-                            {links.slice(0, 3).map((link, id) => {
+                            {SocialLinks.slice(0, 3).map((link, id) => {
                                 return (
                                     <Link
                                         key={id}
