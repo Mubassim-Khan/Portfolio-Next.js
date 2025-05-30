@@ -14,7 +14,6 @@ const Banner = () => {
     const [loopNum, setLoopNum] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
     const toRotate = ["MERN Stack Developer", "Student", "Gen AI Enthusiast", "Web Developer"];
-    // const toRotate = ["MERN Stack Developer", "ggkkndgdgdfg fgfdgfgfgh", "ggkkndgdgdfg fgfdgfgfgh", "ggkkndgdgdfg fgfdgfgfgh"];
     const [delta, setDelta] = useState(200 - Math.random() * 100);
     const period = 2000;
 
@@ -61,7 +60,11 @@ const Banner = () => {
                                     <span className='tagLine'>Welcome to my Portfolio</span>
                                     <div className="pb-12 mt-2 mb-[150px] relative h-[100px]">
                                         <h1 className="font-bold mb-[125px] h-full">
-                                            {`Hi, I'm a `} <span className="inline-block min-h-[50px]">{text}</span>
+                                            {`Hi, I'm a `}
+                                            <span className="inline-block min-h-[50px]">
+                                                {text}
+                                                <span className="inline-block animate-blink">|</span>
+                                            </span>
                                         </h1>
                                     </div>
                                     <p className='mt-[50px]'>My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi.</p>
@@ -88,4 +91,4 @@ const Banner = () => {
     )
 }
 
-export default Banner
+export default Banner;
