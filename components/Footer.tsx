@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 
-import { links } from '@/SocialLinks'
+import { links } from '@/PortfolioData'
 import Link from 'next/link'
 import Image from 'next/image'
 

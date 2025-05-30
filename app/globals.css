@@ -408,13 +408,13 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 
 .skill-bx {
   background: #151515;
-  border-radius: 64px;
+  border-radius: 65px;
   text-align: center;
   padding: 60px 50px;
   margin-top: -60px;
 }
 
-.skill h2 {
+.skill-heading {
   font-size: 45px;
   font-weight: 700;
 }
@@ -792,7 +792,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   width: 50px;
   height: 50px;
   background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(0.5px);  /* Increase this value for more blured trail */
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
   border-radius: 50%;
@@ -808,4 +808,66 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   object-fit: contain;
   height: 100%;
   width: 100%;
+}
+
+/* Gradient Effect */
+.gradient-effect-1 {
+  position: absolute;
+  top: -2rem;
+  right: 8rem;
+  width: 31.25rem;
+  height: 31.25rem;
+  background: rgb(90, 81, 194); /* Dark muted red */
+  border-radius: 50%;
+  filter: blur(12rem);
+  z-index: -30;
+}
+
+.gradient-effect-2 {
+  position: absolute;
+  top: 10rem;
+  left: -25rem;
+  width: 68.75rem;
+  height: 31.25rem;
+  background: #946263; /* Dark muted purple */
+  border-radius: 50%;
+  filter: blur(8rem);
+  z-index: -30;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .gradient-effect-1 {
+    top: -3rem;
+    right: 5rem;
+    width: 18rem; /* Reduce size */
+    height: 18rem;
+    filter: blur(6rem); /* Reduce blur */
+  }
+
+  .gradient-effect-2 {
+    top: -2rem;
+    left: -20rem;
+    width: 40rem;
+    height: 20rem;
+    filter: blur(6rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .gradient-effect-1 {
+    top: -2rem;
+    right: 2rem;
+    width: 12rem;
+    height: 12rem;
+    filter: blur(4rem);
+  }
+
+  .gradient-effect-2 {
+    top: 0;
+    left: -10rem;
+    width: 25rem;
+    height: 15rem;
+    filter: blur(4rem);
+  }
 }
