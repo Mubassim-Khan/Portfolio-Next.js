@@ -1,3 +1,5 @@
+import CustomButton from "./Button";
+
 interface CertificateCardProps {
     title: string,
     skill: string,
@@ -11,14 +13,10 @@ const CertificateCard = ({ title, skill, verifyLink }: CertificateCardProps) => 
             <p className="text-md text-gray-300 mb-4 mt-4">
                 Skill: <span className="font-medium">{skill}</span>
             </p>
-            <a
-                href={verifyLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-2 px-4 rounded transition no-underline"
-            >
-                Verify Certificate
-            </a>
+            <CustomButton 
+                Url={verifyLink} 
+                text="Verify Certificate"
+            />
         </div>
     )
 }
