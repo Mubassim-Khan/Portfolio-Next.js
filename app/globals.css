@@ -459,16 +459,6 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   text-align: center;
 }
 
-.project p {
-  color: #B8B8B8;
-  font-size: 18px;
-  letter-spacing: 0.8px;
-  line-height: 1.5em;
-  margin: 14px auto 30px auto;
-  text-align: center;
-  width: 56%;
-}
-
 .project .nav.nav-pills {
   width: 72%;
   margin: 0 auto;
@@ -825,7 +815,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 
 .gradient-effect-2 {
   position: absolute;
-  top: 10rem;
+  top: 20rem;
   left: -25rem;
   width: 68.75rem;
   height: 31.25rem;
@@ -850,7 +840,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 
 .gradient-effect-4 {
   position: absolute;
-  bottom: 40rem;
+  bottom: 35rem;
   left: -25rem;
   width: 60rem;
   height: 30rem;
