@@ -9,7 +9,7 @@ const Certifications = () => {
             <Container>
                 <Row>
                     <Col>
-                        <div className="gradient-effect-3"></div>
+                        <div className="gradient-effect-4"></div>
                         <div className='pb-[50px] relative'>
                             <h2 className='text-[45px] font-bold text-center'>Certifications</h2>
                             <p className="text-center font-[500] text-[#B8B8B8] text-[18px] tracking-[0.8px] leading-[1.5em] my-[14px] mt-[14px] mb-[75px]">

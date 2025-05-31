@@ -450,7 +450,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 .project {
   padding: 80px 0;
   position: relative;
-  background: linear-gradient(0deg, black, #1C00ff00);
+  /* background: linear-gradient(0deg, black, #1C00ff00); */
 }
 
 .project h2 {
@@ -847,6 +847,20 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   z-index: -1;
   transform: translateY(80%); /* Push it deeper dynamically */
 }
+
+.gradient-effect-4 {
+  position: absolute;
+  bottom: 40rem;
+  left: -25rem;
+  width: 60rem;
+  height: 30rem;
+  background: #947a62; /* Muted Warm Brown */
+  border-radius: 50%;
+  filter: blur(10rem);
+  z-index: -1;
+  transform: translateY(80%); /* Push it deeper dynamically */
+}
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
