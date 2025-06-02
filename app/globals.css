@@ -588,7 +588,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 /************ Projects Css ************/
 
 .contact {
-  background: linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%);
+  /* background: linear-gradient(90.21deg, #AA367C -5.91%, #4A2FBD 111.58%); */
   padding: 60px 0 75px 0;
 }
 
@@ -840,7 +840,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 
 .gradient-effect-4 {
   position: absolute;
-  bottom: 35rem;
+  bottom: 65rem;
   left: -25rem;
   width: 60rem;
   height: 30rem;

@@ -61,7 +61,7 @@ const Contact = () => {
     setFormDetails(formInitialDetails);
   };
   return (
-    <section className="contact" id="connect">
+    <section className="contact relative bg-white/5 backdrop-blur-sm rounded-xl shadow-md p-6 w-full border-white/10 hover:shadow-lg transition text-center" id="connect">
       <Container>
         <Row className="align-items-center">
           <Col md={6}>
