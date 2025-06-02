@@ -9,6 +9,8 @@ import Cursor from "@/components/Cursor";
 import Skills from "@/components/Skills";
 import Certifications from "@/components/Certifications";
 import Projects from "@/components/Projects";
+import { ToasterProvider } from "@/components/ToastProvider";
+import Contact from "@/components/Contact";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,13 +37,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Cursor />
-        <Navbar />
-        <Banner />
-        <Skills />
-        <Projects />
-        <Certifications />
-        <Footer />
+        <ToasterProvider>
+          <Cursor />
+          <Navbar />
+          <Banner />
+          <Skills />
+          <Projects />
+          <Certifications />
+          <Contact />
+          <Footer />
+        </ToasterProvider>
       </body>
     </html>
   );
