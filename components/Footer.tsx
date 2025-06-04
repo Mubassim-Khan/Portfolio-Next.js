@@ -13,7 +13,7 @@ const Footer = () => {
                     <Col sm={6}></Col>
                     <Col sm={6} className='text-center text-sm-end'>
                         <div className='social-icons'>
-                            {SocialLinks.slice(0, 3).map((link, id) => {
+                            {SocialLinks.slice(0, 4).map((link, id) => {
                                 return (
                                     <Link
                                         key={id}

@@ -2,6 +2,8 @@ import LinkedInIcon from "@/assets/icons/linkedInIcon.svg";
 import DiscordIcon from "@/assets/icons/discordIcon.svg";
 import InstagramIcon from "@/assets/icons/instagramIcon.svg";
 import GitHubIcon from "@/assets/icons/githubIcon.svg";
+import GmailIcon from "@/assets/icons/gmailIcon.svg";
+import ResumeIcon from "@/assets/icons/resumeIcon.png";
 
 // Links & Icons for Social Media
 export const SocialLinks = [
@@ -22,6 +24,18 @@ export const SocialLinks = [
     icon: DiscordIcon,
     url: "https://discord.com/users/732681893484691518",
     alt: "Discord",
+  },
+  {
+    id: 4,
+    icon: GmailIcon,
+    url: "mailto:mubassimkhan@gmail.com",
+    alt: "Gmail",
+  },
+  {
+    id: 5,
+    icon: ResumeIcon,
+    url: "https://drive.google.com/file/d/1320m3Q7mjxfDCdG4tFqEP7_D1cJwUWaq/view",
+    alt: "Resume",
   },
   {
     id: 4,
@@ -160,7 +174,7 @@ export const ProjectsData = [
     id: 1,
     title: "QuizMaster AI",
     description:
-      "A quiz generating AI app made using GPT-4o, Streamlit, LangChain & Python.",
+      "An AI based quiz generating app made using GPT-4o, Streamlit, LangChain & Python.",
     imgURL:
       "https://raw.githubusercontent.com/Mubassim-Khan/QuizMaster-AI/refs/heads/master/data/Preview.png",
     webURL: "https://quizmaster-ai.streamlit.app/",
@@ -208,12 +222,12 @@ export const ProjectsData = [
   },
   {
     id: 6,
-    title: "Netflix Clone",
+    title: "Zentry",
     description:
-      "A Netflix-inspired Clone, built using Vanilla JavaScript to recreate the visual design and layout of the Netflix.",
+      "Zentry is an award-winning landing page, recognized in 2024 for its modern design and exceptional user experience made using React.js, Tailwind CSS, & GSAP.",
     imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/Netflix-Clone/main/Preview.jpg",
-    webURL: "https://netfflix-clone.netlify.app/",
-    githubURL: "https://github.com/Mubassim-Khan/Netflix-Clone",
+      "https://raw.githubusercontent.com/Mubassim-Khan/Zentry/refs/heads/main/public/img/Preview.png",
+    webURL: "https://zentry-eight-weld.vercel.app/",
+    githubURL: "https://github.com/Mubassim-Khan/Zentry",
   },
 ];

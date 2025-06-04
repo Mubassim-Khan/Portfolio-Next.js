@@ -29,8 +29,8 @@ const Contact = () => {
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { firstName, lastName, email, message } = formDetails;
-    if (!firstName || !lastName || !email || !message) {
+    const { firstName, lastName, email, phone, message } = formDetails;
+    if (!firstName || !email || !message) {
       toast.error("Please fill out all required fields!");
       return;
     }
@@ -87,9 +87,8 @@ const Contact = () => {
                     type="text"
                     value={formDetails.lastName}
                     name="last_name"
-                    placeholder="*Last name"
+                    placeholder="Last name"
                     onChange={(e) => onFormUpdate("lastName", e.target.value)}
-                    minLength={3} required
                   />
                 </Col>
                 <Col sm={6} className="px-1">
@@ -105,6 +104,8 @@ const Contact = () => {
                   <input
                     type="tel"
                     value={formDetails.phone}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     name="phone_no"
                     placeholder="Phone number"
                     onChange={(e) => onFormUpdate("phone", e.target.value)}
@@ -117,7 +118,7 @@ const Contact = () => {
                     name="message"
                     placeholder="*Leave your message"
                     onChange={(e) => onFormUpdate("message", e.target.value)}
-                    minLength={10} required
+                    minLength={5} required
                   ></textarea>
                   <button type="submit" value="send">
                     <span>Send</span>

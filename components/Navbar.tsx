@@ -56,7 +56,7 @@ const Navbar = () => {
 
           <div className="navbar-text d-flex align-items-center gap-3">
             <div className="social-icons d-flex gap-2">
-              {SocialLinks.slice(0, 3).map((link, id) => {
+              {SocialLinks.slice(0, 4).map((link, id) => {
                 return (
                   <Link
                     key={id}
