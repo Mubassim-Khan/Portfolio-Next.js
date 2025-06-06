@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { SocialLinks } from "@/PortfolioData";
+import Logo from "@/assets/images/logo.png";
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState("home");
@@ -37,6 +38,9 @@ const Navbar = () => {
   return (
     <BootstrapNavbar expand="md" className={scrolled ? "scrolled" : ""}>
       <Container>
+        <BootstrapNavbar.Brand href="#home">
+          <img className="w-[100%] h-[50px] mr-3" src={Logo.src} alt="Logo" />
+        </BootstrapNavbar.Brand>
         <BootstrapNavbar.Toggle aria-controls='basic-navbar-nav'>
           <span className="navbar-toggle-icon"></span>
         </BootstrapNavbar.Toggle>

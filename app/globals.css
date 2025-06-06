@@ -219,11 +219,6 @@ span.navbar-text {
     hue-rotate(346deg) brightness(95%) contrast(86%);
 }
 
-.navbar-logo {
-  height: 200px;
-  width: 250px;
-}
-
 .navbar-text button {
   font-weight: 700;
   color: #fff;
@@ -733,10 +728,6 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   font-weight: 500;
   letter-spacing: 0.5px;
   border-radius: 18px;
-}
-
-.footer img {
-  width: 26%;
 }
 
 .footer p {
