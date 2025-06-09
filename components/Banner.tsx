@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import { BsArrowRightCircle } from 'react-icons/bs';
 
@@ -17,20 +17,10 @@ const Banner = () => {
     const [delta, setDelta] = useState(200 - Math.random() * 100);
     const period = 2000;
 
-    useEffect(() => {
-        let ticker = setInterval(() => {
-            tick();
-        }, delta)
-
-        return () => {
-            clearInterval(ticker)
-        }
-    }, [text])
-
-    const tick = () => {
-        let i = loopNum % toRotate.length;
-        let fullText = toRotate[i];
-        let updatedText = isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1);
+    const tick = useCallback(() => {
+        const i = loopNum % toRotate.length;
+        const fullText = toRotate[i];
+        const updatedText = isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1);
         setText(updatedText);
 
         if (isDeleting) {
@@ -47,7 +37,17 @@ const Banner = () => {
             setLoopNum(loopNum + 1);
             setDelta(200 - Math.random() * 100);
         }
-    }
+    }, [isDeleting, loopNum, text]);
+
+    useEffect(() => {
+        const ticker = setInterval(() => {
+            tick();
+        }, delta)
+
+        return () => {
+            clearInterval(ticker)
+        }
+    }, [delta, tick])
 
     return (
         <section className='banner' id='home'>
@@ -69,7 +69,7 @@ const Banner = () => {
                                     </div>
                                     <p className='mt-[50px]'>My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi.</p>
                                     <button>
-                                        <Link className='connect-btn' href="#connect">Let's Connect</Link>
+                                        <Link className='connect-btn' href="#connect">Let&apos;s Connect</Link>
                                         <BsArrowRightCircle size={25} />
                                     </button>
                                 </div>

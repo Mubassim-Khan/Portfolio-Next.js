@@ -76,7 +76,7 @@ const Navbar = () => {
 
             <span>
               <Link href="#connect">
-                <button className="vvd">Let's Connect</button>
+                <button className="vvd">Let&apos;s Connect</button>
               </Link>
             </span>
           </div>

@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import emailjs from "@emailjs/browser";
 import { Col, Container, Row } from 'react-bootstrap';
 import contactImg from "@/assets/images/contact-img.svg";
+import Image from "next/image";
 
 const Contact = () => {
   const formInitialDetails = {
@@ -29,7 +30,7 @@ const Contact = () => {
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { firstName, lastName, email, phone, message } = formDetails;
+    const { firstName, email, message } = formDetails;
     if (!firstName || !email || !message) {
       toast.error("Please fill out all required fields!");
       return;
@@ -66,7 +67,7 @@ const Contact = () => {
         <div className="gradient-effect-5"></div>
         <Row className="align-items-center">
           <Col md={6}>
-            <img src={contactImg.src} alt="Contact Us" />
+            <Image src={contactImg} alt="Contact Us" width={400} height={400} />
           </Col>
           <Col md={6}>
             <h2>Get in touch with me!</h2>
