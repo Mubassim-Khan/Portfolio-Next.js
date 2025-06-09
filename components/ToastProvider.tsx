@@ -11,8 +11,8 @@ export const ToasterProvider = ({ children }: ToasterProviderProps) => {
                 position='top-center'
                 toastOptions={{
                     style: {
-                        background: "#000",
-                        color: "#fff",
+                        background: "#fff",
+                        color: "#000",
                     },
                 }}
             />
