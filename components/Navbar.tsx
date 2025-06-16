@@ -1,22 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Container, Navbar as BootstrapNavbar, Nav } from "react-bootstrap";
 import Link from "next/link";
-import Image from "next/image";
 
-import { SocialLinks } from "@/PortfolioData";
 import Logo from "@/assets/images/logo.png";
 
 const Navbar = () => {
-  const [activeLink, setActiveLink] = useState("home");
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const navRef = useRef<HTMLDivElement | null>(null);
-
-  const updateActiveLink = (value: string) => {
-    setActiveLink(value);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
