@@ -4,20 +4,36 @@ import { BsArrowRightCircle } from "react-icons/bs";
 interface ButtonProps {
   Url: string;
   text: string;
+  containerClass?: string;
 }
 
-const CustomButton = ({ Url, text }: ButtonProps) => {
+const CustomButton = ({ Url, text, containerClass }: ButtonProps) => {
   return (
-    <Link
-      href={Url}
-      className="group inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-2 px-4 rounded transition-colors duration-300 ease-in-out no-underline gap-2"
-      target="_blank"
-      rel="noopener noreferrer"
+    <button
+      className={`group relative z-10 w-fit cursor-pointer overflow-hidden rounded-full bg-indigo-600 hover:bg-indigo-700 px-3 py-1 text-black ${containerClass}`}
     >
-      <BsArrowRightCircle className="text-lg transition-transform duration-300 ease-in-out group-hover:translate-x-1" size={20} />
-      {text}
-    </Link>
-  )
-}
+      <Link
+        href={Url}
+        className="group inline-flex items-center text-white text-sm font-medium py-2 px-4 rounded transition-colors duration-300 ease-in-out no-underline gap-2"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span className="relative inline-flex overflow-hidden font-general text-xs uppercase">
+          <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
+            {text}
+          </div>
 
-export default CustomButton
+          <div className="absolute translate-y-[164%] skew-y-12 transition duration-500 group-hover:translate-y-0 group-hover:skew-y-0">
+            {text}
+          </div>
+        </span>
+        <BsArrowRightCircle
+          className="text-lg transition-transform duration-300 ease-in-out group-hover:translate-x-1"
+          size={20}
+        />
+      </Link>
+    </button>
+  );
+};
+
+export default CustomButton;
