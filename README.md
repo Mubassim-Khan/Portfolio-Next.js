@@ -1,6 +1,6 @@
 # Personal Portfolio
 
-![Preview Image](https://github.com/Mubassim-Khan/Portfolio-Next/blob/main/assets/images/preview.png)
+![Preview Image](https://github.com/Mubassim-Khan/Portfolio-Next.js/blob/main/assets/images/preview.png)
 
 <div align="center">
     <img src="https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="next" />
