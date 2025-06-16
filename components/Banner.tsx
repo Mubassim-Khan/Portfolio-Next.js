@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { BsArrowRightCircle } from "react-icons/bs";
 import TrackVisibility from "react-on-screen";
@@ -14,14 +14,15 @@ const Banner = () => {
   const [text, setText] = useState("");
   const [loopNum, setLoopNum] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const toRotate = [
+  const [delta, setDelta] = useState(200 - Math.random() * 100);
+  const period = 2000;
+
+  const toRotate = useMemo(() => [
     "MERN Stack Developer",
     "Student",
     "Gen AI Enthusiast",
     "Web Developer",
-  ];
-  const [delta, setDelta] = useState(200 - Math.random() * 100);
-  const period = 2000;
+  ], []);
 
   const tick = useCallback(() => {
     const i = loopNum % toRotate.length;
