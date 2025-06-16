@@ -5,7 +5,6 @@ import {
   Container,
   Navbar as BootstrapNavbar,
   Nav,
-  Col,
 } from "react-bootstrap";
 import Link from "next/link";
 import Image from "next/image";
