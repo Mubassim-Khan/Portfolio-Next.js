@@ -311,6 +311,13 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   border-color: transparent;
 }
 
+.floating-nav nav.navbar {
+  background: rgba(0, 0, 0, 0.85) !important;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.15);
+  backdrop-filter: blur(8px);
+  transition: background 0.3s ease;
+}
+
 /************ Banner Css ************/
 .banner {
   margin-top: 0;

@@ -1,14 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import React, { useCallback, useEffect, useState, useMemo } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { BsArrowRightCircle } from "react-icons/bs";
-import TrackVisibility from "react-on-screen";
-import Image from "next/image";
+import Link from 'next/link';
+import React, { useCallback, useEffect, useState } from 'react'
+import { Col, Container, Row } from 'react-bootstrap';
+import { BsArrowRightCircle } from 'react-icons/bs';
+import { motion } from "framer-motion";
+import Image from 'next/image';
 
-import headerImg from "@/assets/images/header-img.svg";
-import ShinyText from './ShinyText';
+import headerImg from "@/assets/images/header-img.svg"
 
 const Banner = () => {
   const [text, setText] = useState("");
@@ -58,63 +57,45 @@ const Banner = () => {
     };
   }, [delta, tick]);
 
-  return (
-    <section className="banner" id="home">
-      <Container>
-        <Row className="align-items-center">
-          <Col xs={12} md={6} xl={7}>
-            <TrackVisibility>
-              {({ isVisible }) => (
-                <div
-                  className={
-                    isVisible ? "animate__animated animate__fadeIn" : ""
-                  }
-                >
-                  <span className="tagLine">Welcome to my Portfolio</span>
-                  <div className="pb-12 mt-2 mb-[150px] relative h-[100px]">
-                    <h1 className="font-bold mb-[125px] h-full">
-                      {`Hi, I'm a `}
-                      <span className="inline-block min-h-[50px]">
-                        {text}
-                        <span className="inline-block animate-blink">|</span>
-                      </span>
-                    </h1>
-                  </div>
-                  <div className="mt-[50px]">
-                    <ShinyText
-                      text="My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi."
-                      disabled={false}
-                      speed={3}
-                      className="text-[20px] font-medium"
-                    />
-                  </div>
-                  <button>
-                    <Link className="connect-btn" href="#connect">
-                      Let&apos;s Connect
-                    </Link>
-                    <BsArrowRightCircle size={25} />
-                  </button>
-                </div>
-              )}
-            </TrackVisibility>
-          </Col>
-          <Col xs={12} md={6} xl={5}>
-            <TrackVisibility>
-              {({ isVisible }) => (
-                <div
-                  className={
-                    isVisible ? "animate__animated animate__fadeIn" : ""
-                  }
-                >
-                  <Image src={headerImg} alt="Header Image" />
-                </div>
-              )}
-            </TrackVisibility>
-          </Col>
-        </Row>
-      </Container>
-    </section>
-  );
-};
+    return (
+        <section className='banner' id='home'>
+            <Container>
+                <Row className='align-items-center'>
+                    <Col xs={12} md={6} xl={7}>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 1.5 }}
+                        >                                    <span className='tagLine'>Welcome to my Portfolio</span>
+                            <div className="pb-12 mt-2 mb-[150px] relative h-[100px]">
+                                <h1 className="font-bold mb-[125px] h-full">
+                                    {`Hi, I'm a `}
+                                    <span className="inline-block min-h-[50px]">
+                                        {text}
+                                        <span className="inline-block animate-blink">|</span>
+                                    </span>
+                                </h1>
+                            </div>
+                            <p className='mt-[50px]'>My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi.</p>
+                            <button>
+                                <Link className='connect-btn' href="#connect">Let&apos;s Connect</Link>
+                                <BsArrowRightCircle size={25} />
+                            </button>
+                        </motion.div>
+                    </Col>
+                    <Col xs={12} md={6} xl={5}>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 1.5 }}
+                        >
+                            <Image src={headerImg} alt="Header Image" />
+                        </motion.div>
+                    </Col>
+                </Row>
+            </Container>
+        </section>
+    )
+}
 
 export default Banner;
