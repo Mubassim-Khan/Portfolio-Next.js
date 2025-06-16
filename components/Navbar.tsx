@@ -1,9 +1,13 @@
-"use client"
+"use client";
 
-import React, { useEffect, useRef, useState } from 'react'
-import { Container, Navbar as BootstrapNavbar, Nav } from 'react-bootstrap';
-import Link from 'next/link';
-import Image from 'next/image';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Container,
+  Navbar as BootstrapNavbar,
+  Nav,
+} from "react-bootstrap";
+import Link from "next/link";
+import Image from "next/image";
 
 import { SocialLinks } from "@/PortfolioData";
 import Logo from "@/assets/images/logo.png";
@@ -16,7 +20,7 @@ const Navbar = () => {
 
   const updateActiveLink = (value: string) => {
     setActiveLink(value);
-  }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,9 +48,12 @@ const Navbar = () => {
   // Animate navbar visibility
   useEffect(() => {
     if (navRef.current) {
-      navRef.current.style.transform = isNavVisible ? "translateY(0)" : "translateY(-100%)";
+      navRef.current.style.transform = isNavVisible
+        ? "translateY(0)"
+        : "translateY(-100%)";
       navRef.current.style.opacity = isNavVisible ? "1" : "0";
-      navRef.current.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+      navRef.current.style.transition =
+        "transform 0.3s ease, opacity 0.3s ease";
     }
   }, [isNavVisible]);
 
@@ -54,8 +61,8 @@ const Navbar = () => {
     { id: "home", label: "Home" },
     { id: "skills", label: "Skills" },
     { id: "project", label: "Projects" },
-    { id: "certifications", label: "Certifications" }
-  ]
+    { id: "certifications", label: "Certifications" },
+  ];
 
   return (
     <div
@@ -65,19 +72,28 @@ const Navbar = () => {
     >
       <BootstrapNavbar expand="md" className="bg-transparent">
         <Container>
-          <BootstrapNavbar.Brand href="#home">
-            <img className="w-[100%] h-[50px] mr-3" src={Logo.src} alt="Logo" />
+          <BootstrapNavbar.Brand href="#home" className="flex items-center">
+            <img
+              className="h-10 w-auto max-w-[120px] object-contain"
+              src={Logo.src}
+              alt="Logo"
+            />
           </BootstrapNavbar.Brand>
-          <BootstrapNavbar.Toggle aria-controls='basic-navbar-nav'>
+          <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav">
             <span className="navbar-toggle-icon"></span>
           </BootstrapNavbar.Toggle>
-          <BootstrapNavbar.Collapse id='basic-navbar-nav' className='justify-content-between'>
+          <BootstrapNavbar.Collapse
+            id="basic-navbar-nav"
+            className="justify-content-between"
+          >
             <Nav className="me-auto">
               {NavData.map(({ id, label }) => (
                 <Nav.Link
                   key={id}
                   href={`#${id}`}
-                  className={activeLink === id ? "active navbar-link" : "navbar-link"}
+                  className={
+                    activeLink === id ? "active navbar-link" : "navbar-link"
+                  }
                   onClick={() => updateActiveLink(id)}
                 >
                   {label}
@@ -97,7 +113,7 @@ const Navbar = () => {
                     >
                       <Image src={link.icon} alt={link.alt} />
                     </Link>
-                  )
+                  );
                 })}
               </div>
 
@@ -111,7 +127,7 @@ const Navbar = () => {
         </Container>
       </BootstrapNavbar>
     </div>
-  )
-}
+  );
+};
 
 export default Navbar;
