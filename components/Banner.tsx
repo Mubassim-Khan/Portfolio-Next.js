@@ -7,6 +7,7 @@ import { BsArrowRightCircle } from "react-icons/bs";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
+import ShinyText from "./ShinyText";
 import headerImg from "@/assets/images/header-img.svg";
 
 const Banner = () => {
