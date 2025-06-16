@@ -184,7 +184,7 @@ export const ProjectsData = [
     id: 2,
     title: "CarHub",
     description:
-      "CarHub is a Next.js based car rental app, which provides you multiple features for searching prefered car depending upon your choice.",
+      "CarHub is a Next.js car rental app that lets you easily search and find cars based on your preferences.",
     imgURL:
       "https://raw.githubusercontent.com/Mubassim-Khan/CarHub/master/public/Preview.png",
     webURL: "https://car-hub-gray-seven.vercel.app/",
@@ -194,7 +194,7 @@ export const ProjectsData = [
     id: 3,
     title: "Spotify Clone",
     description:
-      "Spotify Clone is made using Next.js, Typescript, Tailwind CSS & Supabase which allows user to play different songs and much more.",
+      "Spotify Clone lets users play and explore music, built with Next.js and Supabase.",
     imgURL:
       "https://raw.githubusercontent.com/Mubassim-Khan/Spotify-Clone-Next.js/master/assets/Preview.png",
     webURL: "https://spotify-clone-ivory-sigma.vercel.app",
@@ -204,7 +204,7 @@ export const ProjectsData = [
     id: 4,
     title: "Imaginify AI",
     description:
-      "A powerful AI SaaS platform made using Next.js, Stripe, Clerk, MongoDB Atlas, Tailwind CSS which allows user to manipulate the images.",
+      "An AI SaaS platform built with Next.js that lets users manipulate images.",
     imgURL:
       "https://raw.githubusercontent.com/Mubassim-Khan/Imaginify-AI/refs/heads/master/public/assets/images/Preview.png",
     webURL: "https://imaginify-ai-eight.vercel.app/",
@@ -224,7 +224,7 @@ export const ProjectsData = [
     id: 6,
     title: "Zentry",
     description:
-      "Zentry is an award-winning landing page, recognized in 2024 for its modern design and exceptional user experience made using React.js, Tailwind CSS, & GSAP.",
+      "Zentry is a 2024 award-winning landing page built with React.js and Tailwind CSS.",
     imgURL:
       "https://raw.githubusercontent.com/Mubassim-Khan/Zentry/refs/heads/main/public/img/Preview.png",
     webURL: "https://zentry-eight-weld.vercel.app/",

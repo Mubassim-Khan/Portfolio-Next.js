@@ -11,24 +11,40 @@ interface ProjectCardProps {
   webURL: string;
 }
 
-const ProjectCard = ({ title, description, imgURL, githubURL, webURL }: ProjectCardProps) => {
+const ProjectCard = ({
+  title,
+  description,
+  imgURL,
+  githubURL,
+  webURL,
+}: ProjectCardProps) => {
   return (
     <Col sm={6} md={4}>
       <div className="proj-imgbx">
-        <Image src={imgURL ? imgURL : noImage} alt={title} width={300} height={200} className="proj-img" />
+        <Image
+          src={imgURL ? imgURL : noImage}
+          alt={title}
+          width={300}
+          height={200}
+          className="proj-img"
+        />
         <div className="proj-txtx">
-          <h4 className="mt-1">{title}</h4>
-          <span className="text-[16px] text-gray-100 pl-2 pr-2">{description}</span>
+          <h4 className="mt-1 text-[25px] font-bold tracking-[0.8px] leading-[1.1em]">
+            {title}
+          </h4>
+          <div className="w-full flex justify-center">
+            <span className="text-[14px] text-gray-100 px-2 italic font-normal tracking-[0.8px] text-wrap">
+              {description}
+            </span>
+          </div>
           <div className="flex flex-col items-center justify-center mt-2 mb-1 gap-2">
-            {webURL && (
-              <CustomButton Url={webURL} text="Live Site" />
-            )}
+            {webURL && <CustomButton Url={webURL} text="Live Site" />}
             <CustomButton Url={githubURL} text="GitHub Repository" />
           </div>
         </div>
       </div>
     </Col>
-  )
-}
+  );
+};
 
-export default ProjectCard
+export default ProjectCard;
