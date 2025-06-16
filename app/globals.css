@@ -30,6 +30,16 @@
   --font-centra3: var(--font-centra-medium);
 }
 
+@layer utilities {
+  .nav-hover-btn {
+    @apply relative ms-10 text-sm uppercase text-blue-50 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-neutral-800 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.65_0.05_0.36_1)] hover:after:origin-bottom-left hover:after:scale-x-100 dark:after:bg-white cursor-pointer;
+  }
+
+  .floating-nav {
+    @apply bg-black rounded-lg border;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -313,7 +323,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 
 .floating-nav nav.navbar {
   background: rgba(0, 0, 0, 0.85) !important;
-  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.15);
+  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(8px);
   transition: background 0.3s ease;
 }
