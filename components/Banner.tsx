@@ -1,94 +1,119 @@
-"use client"
+"use client";
 
-import Link from 'next/link';
-import React, { useCallback, useEffect, useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap';
-import { BsArrowRightCircle } from 'react-icons/bs';
+import Link from "next/link";
+import React, { useCallback, useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import { BsArrowRightCircle } from "react-icons/bs";
+import TrackVisibility from "react-on-screen";
+import Image from "next/image";
 
-import headerImg from "@/assets/images/header-img.svg"
-import TrackVisibility from 'react-on-screen';
-import Image from 'next/image';
+import headerImg from "@/assets/images/header-img.svg";
+import ShinyText from './ShinyText';
 
 const Banner = () => {
-    const [text, setText] = useState("");
-    const [loopNum, setLoopNum] = useState(0);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const toRotate = ["MERN Stack Developer", "Student", "Gen AI Enthusiast", "Web Developer"];
-    const [delta, setDelta] = useState(200 - Math.random() * 100);
-    const period = 2000;
+  const [text, setText] = useState("");
+  const [loopNum, setLoopNum] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const toRotate = [
+    "MERN Stack Developer",
+    "Student",
+    "Gen AI Enthusiast",
+    "Web Developer",
+  ];
+  const [delta, setDelta] = useState(200 - Math.random() * 100);
+  const period = 2000;
 
-    const tick = useCallback(() => {
-        const i = loopNum % toRotate.length;
-        const fullText = toRotate[i];
-        const updatedText = isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1);
-        setText(updatedText);
+  const tick = useCallback(() => {
+    const i = loopNum % toRotate.length;
+    const fullText = toRotate[i];
+    const updatedText = isDeleting
+      ? fullText.substring(0, text.length - 1)
+      : fullText.substring(0, text.length + 1);
+    setText(updatedText);
 
-        if (isDeleting) {
-            setDelta(100);
-        } else {
-            setDelta(200 - Math.random() * 100);
-        }
+    if (isDeleting) {
+      setDelta(100);
+    } else {
+      setDelta(200 - Math.random() * 100);
+    }
 
-        if (!isDeleting && updatedText === fullText) {
-            setIsDeleting(true);
-            setDelta(period);
-        } else if (isDeleting && updatedText === "") {
-            setIsDeleting(false);
-            setLoopNum(loopNum + 1);
-            setDelta(200 - Math.random() * 100);
-        }
-    }, [isDeleting, loopNum, text]);
+    if (!isDeleting && updatedText === fullText) {
+      setIsDeleting(true);
+      setDelta(period);
+    } else if (isDeleting && updatedText === "") {
+      setIsDeleting(false);
+      setLoopNum(loopNum + 1);
+      setDelta(200 - Math.random() * 100);
+    }
+  }, [isDeleting, loopNum, text]);
 
-    useEffect(() => {
-        const ticker = setInterval(() => {
-            tick();
-        }, delta)
+  useEffect(() => {
+    const ticker = setInterval(() => {
+      tick();
+    }, delta);
 
-        return () => {
-            clearInterval(ticker)
-        }
-    }, [delta, tick])
+    return () => {
+      clearInterval(ticker);
+    };
+  }, [delta, tick]);
 
-    return (
-        <section className='banner' id='home'>
-            <Container>
-                <Row className='align-items-center'>
-                    <Col xs={12} md={6} xl={7}>
-                        <TrackVisibility>
-                            {({ isVisible }) =>
-                                <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                                    <span className='tagLine'>Welcome to my Portfolio</span>
-                                    <div className="pb-12 mt-2 mb-[150px] relative h-[100px]">
-                                        <h1 className="font-bold mb-[125px] h-full">
-                                            {`Hi, I'm a `}
-                                            <span className="inline-block min-h-[50px]">
-                                                {text}
-                                                <span className="inline-block animate-blink">|</span>
-                                            </span>
-                                        </h1>
-                                    </div>
-                                    <p className='mt-[50px]'>My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi.</p>
-                                    <button>
-                                        <Link className='connect-btn' href="#connect">Let&apos;s Connect</Link>
-                                        <BsArrowRightCircle size={25} />
-                                    </button>
-                                </div>
-                            }
-                        </TrackVisibility>
-                    </Col>
-                    <Col xs={12} md={6} xl={5}>
-                        <TrackVisibility>
-                            {({ isVisible }) =>
-                                <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                                    <Image src={headerImg} alt="Header Image" />
-                                </div>
-                            }
-                        </TrackVisibility>
-                    </Col>
-                </Row>
-            </Container>
-        </section>
-    )
-}
+  return (
+    <section className="banner" id="home">
+      <Container>
+        <Row className="align-items-center">
+          <Col xs={12} md={6} xl={7}>
+            <TrackVisibility>
+              {({ isVisible }) => (
+                <div
+                  className={
+                    isVisible ? "animate__animated animate__fadeIn" : ""
+                  }
+                >
+                  <span className="tagLine">Welcome to my Portfolio</span>
+                  <div className="pb-12 mt-2 mb-[150px] relative h-[100px]">
+                    <h1 className="font-bold mb-[125px] h-full">
+                      {`Hi, I'm a `}
+                      <span className="inline-block min-h-[50px]">
+                        {text}
+                        <span className="inline-block animate-blink">|</span>
+                      </span>
+                    </h1>
+                  </div>
+                  <div className="mt-[50px]">
+                    <ShinyText
+                      text="My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi."
+                      disabled={false}
+                      speed={3}
+                      className="text-[20px] font-medium"
+                    />
+                  </div>
+                  <button>
+                    <Link className="connect-btn" href="#connect">
+                      Let&apos;s Connect
+                    </Link>
+                    <BsArrowRightCircle size={25} />
+                  </button>
+                </div>
+              )}
+            </TrackVisibility>
+          </Col>
+          <Col xs={12} md={6} xl={5}>
+            <TrackVisibility>
+              {({ isVisible }) => (
+                <div
+                  className={
+                    isVisible ? "animate__animated animate__fadeIn" : ""
+                  }
+                >
+                  <Image src={headerImg} alt="Header Image" />
+                </div>
+              )}
+            </TrackVisibility>
+          </Col>
+        </Row>
+      </Container>
+    </section>
+  );
+};
 
 export default Banner;
