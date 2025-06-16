@@ -622,7 +622,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   padding: 14px 48px;
   font-size: 18px;
   margin-top: 25px;
-  border-radius: 0;
+  border-radius: 15px;
   position: relative;
   transition: 0.3s ease-in-out;
 }
@@ -642,6 +642,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   width: 0;
   height: 100%;
   position: absolute;
+  border-radius: 15px;
   top: 0;
   left: 0;
   z-index: 0;
