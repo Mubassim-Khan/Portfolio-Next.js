@@ -214,10 +214,10 @@ export const ProjectsData = [
     id: 5,
     title: "zNotebook",
     description:
-      "zNotebook is a cloud notebook website, made using React.js, MySQL, Node.js, Bootstrap etc.",
+      "zNotebook is a cloud notebook website, made using MERN Stack, Tailwind CSS & Framer Motion etc.",
     imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/zNotebook/main/src/assets/images/Preview%203.png",
-    webURL: "",
+      "https://raw.githubusercontent.com/Mubassim-Khan/zNotebook/main/frontend/src/assets/images/Preview.png",
+    webURL: "https://znotebook.vercel.app/",
     githubURL: "https://github.com/Mubassim-Khan/zNotebook",
   },
   {
