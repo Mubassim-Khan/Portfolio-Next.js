@@ -45,7 +45,7 @@ export const SocialLinks = [
   },
 ];
 
-// Skills Data consisting of various programming languages, frameworks, libraries, and tools 
+// Skills Data consisting of various programming languages, frameworks, libraries, and tools
 export const LanguageSkills = [
   // Langauges
   {
@@ -168,17 +168,17 @@ export const CertificateData = [
   },
 ];
 
-// Project Data 
+// Project Data
 export const ProjectsData = [
   {
     id: 1,
-    title: "QuizMaster AI",
+    title: "Clypp",
     description:
-      "An AI based quiz generating app made using GPT-4o, Streamlit, LangChain & Python.",
+      "A Netflix-inspired streaming UI built with Next.js, TypeScript, Tailwind CSS, and GSAP for smooth animations.",
     imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/QuizMaster-AI/refs/heads/master/data/Preview.png",
-    webURL: "https://quizmaster-ai.streamlit.app/",
-    githubURL: "https://github.com/Mubassim-Khan/QuizMaster-AI",
+      "https://raw.githubusercontent.com/Mubassim-Khan/Clypp/refs/heads/main/public/images/Preview_1.png",
+    webURL: "https://clypp.vercel.app/",
+    githubURL: "https://github.com/Mubassim-Khan/Clypp",
   },
   {
     id: 2,
