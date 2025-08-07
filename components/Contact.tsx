@@ -2,9 +2,10 @@
 
 import React, { useRef, useState } from 'react'
 import toast from 'react-hot-toast';
-import { Col, Container, Row } from 'react-bootstrap';
 import Image from "next/image";
+import { Col, Container, Row } from 'react-bootstrap';
 
+import BlurText from "./BlurText";
 import contactImg from "@/assets/images/contact-img.svg";
 import { sendFormEmail } from '@/lib/email/sendEmail';
 
@@ -19,7 +20,10 @@ const Contact = () => {
 
   const [formDetails, setFormDetails] = useState(formInitialDetails);
 
-  const onFormUpdate = (category: keyof typeof formInitialDetails, value: string) => {
+  const onFormUpdate = (
+    category: keyof typeof formInitialDetails,
+    value: string
+  ) => {
     setFormDetails({
       ...formDetails,
       [category]: value,
@@ -51,7 +55,15 @@ const Contact = () => {
             <Image src={contactImg} alt="Contact Us" width={400} height={400} />
           </Col>
           <Col md={6}>
-            <h2>Get in touch with me!</h2>
+            <h2>
+              <BlurText
+                text="Get in touch with me!"
+                delay={250}
+                animateBy="words"
+                direction="top"
+                className="text-[50px] font-bold text-center"
+              />
+            </h2>
             <form onSubmit={sendContactEmail} ref={form}>
               <Row>
                 <Col sm={6} className="px-1">
@@ -61,7 +73,8 @@ const Contact = () => {
                     name="first_name"
                     placeholder="*First name"
                     onChange={(e) => onFormUpdate("firstName", e.target.value)}
-                    minLength={3} required
+                    minLength={3}
+                    required
                   />
                 </Col>
                 <Col sm={6} className="px-1">
@@ -100,7 +113,8 @@ const Contact = () => {
                     name="message"
                     placeholder="*Leave your message"
                     onChange={(e) => onFormUpdate("message", e.target.value)}
-                    minLength={5} required
+                    minLength={5}
+                    required
                   ></textarea>
                   <button type="submit" value="send">
                     <span>Send</span>
@@ -112,7 +126,7 @@ const Contact = () => {
         </Row>
       </Container>
     </section>
-  )
-}
+  );
+};
 
 export default Contact;

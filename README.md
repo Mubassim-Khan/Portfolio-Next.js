@@ -1,13 +1,11 @@
 # Personal Portfolio
 
-![Preview Image](https://github.com/Mubassim-Khan/Portfolio-Next/blob/main/assets/images/preview.png)
+![Preview Image](https://github.com/Mubassim-Khan/Portfolio-Next.js/blob/main/assets/images/preview.png)
 
 <div align="center">
     <img src="https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="next" />
     <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white" alt="bootstrap" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="tailwindcss" />
-    <!-- <img src="https://img.shields.io/badge/Material%20UI-007FFF?style=for-the-badge&logo=mui&logoColor=white" alt="material-ui" /> -->
-    <!-- <img src="https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white" alt="netlify" /> -->
 </div>
 
 ## 📋 <a name="table">Table of Contents</a>
@@ -45,10 +43,9 @@ This repository contains the code of a Portfolio using Next.js, Bootstrap, and a
 
 - [Next.js](https://nextjs.org/) - React Framework
 - [Bootstrap 5](https://getbootstrap.com/) - CSS Framework
-- [Tailwind ](https://getbootstrap.com/) - CSS Framework
-- [Prettier](https://prettier.io/) - Code Formatter
+- [Tailwind CSS](https://getbootstrap.com/) - CSS Framework
 - [Email JS](https://www.emailjs.com/) - Mailing Server
-- [Animate.css](https://animate.style/) - Animations
+- [Framer Motion](https://motion.dev/) - Web Animations
 
 ## <a name="#quick-start">Getting Started</a>
 
@@ -57,7 +54,7 @@ To get started with this project, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Mubassim-Khan/Portfolio-Next.git
+git clone https://github.com/Mubassim-Khan/Portfolio-Next.js.git
 ```
 
 2. Open the project in your preferred code editor.
