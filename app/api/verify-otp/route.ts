@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
   const storedTimestamp = cookieStore.get("otp_timestamp")?.value;
 
   if (!storedOtp || !storedTimestamp) {
-    return Response.json(
+    return NextResponse.json(
       { success: false, message: "OTP expired or missing" },
       { status: 400 }
     );
@@ -20,22 +20,41 @@ export async function POST(req: NextRequest) {
   const isExpired = Date.now() - parseInt(storedTimestamp) > otpValidDuration;
 
   if (isExpired) {
-    return Response.json(
+    return NextResponse.json(
       { success: false, message: "OTP has expired" },
       { status: 400 }
     );
   }
 
   if (enteredOtp !== storedOtp) {
-    return Response.json(
+    return NextResponse.json(
       { success: false, message: "Invalid OTP" },
       { status: 401 }
     );
   }
 
-  // Optionally clear OTP after successful verification
+  // Clear OTP cookies after successful verification
   cookieStore.set("otp", "", { maxAge: 0 });
   cookieStore.set("otp_timestamp", "", { maxAge: 0 });
 
-  return Response.json({ success: true, message: "OTP verified" });
+  // Create and return a NextResponse with the session cookie set
+  const response = NextResponse.json({
+    success: true,
+    message: "OTP verified",
+  });
+
+  const sessionData = {
+    createdAt: Date.now(),
+    lastActive: Date.now(),
+  };
+
+  response.cookies.set("session", JSON.stringify(sessionData), {
+    httpOnly: true,
+    path: "/",
+    maxAge: 60 * 60 * 12, // 12 hours
+    secure: true,
+    sameSite: "lax",
+  });
+
+  return response;
 }
