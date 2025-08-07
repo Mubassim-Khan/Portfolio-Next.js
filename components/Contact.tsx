@@ -2,10 +2,11 @@
 
 import React, { useRef, useState } from 'react'
 import toast from 'react-hot-toast';
-import emailjs from "@emailjs/browser";
 import { Col, Container, Row } from 'react-bootstrap';
-import contactImg from "@/assets/images/contact-img.svg";
 import Image from "next/image";
+
+import contactImg from "@/assets/images/contact-img.svg";
+import { sendFormEmail } from '@/lib/email/sendEmail';
 
 const Contact = () => {
   const formInitialDetails = {
@@ -27,40 +28,20 @@ const Contact = () => {
 
   const form = useRef<HTMLFormElement | null>(null);
 
-  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+  const sendContactEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { firstName, email, message } = formDetails;
-    if (!firstName || !email || !message) {
-      toast.error("Please fill out all required fields!");
-      return;
-    }
+    if (!form.current) return toast.error("Form ref missing!");
 
-    if (!form.current) {
-      toast.error("Form reference is not available!");
-      return;
+    const result = await sendFormEmail(process.env.NEXT_PUBLIC_TEMPLATE_ID!, form.current);
+    if (result.success) {
+      toast.success("Message sent successfully");
+      setFormDetails(formInitialDetails);
+    } else {
+      toast.error("Failed to send message.");
     }
-
-    emailjs
-      .sendForm(
-        process.env.NEXT_PUBLIC_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_TEMPLATE_ID!,
-        form.current,
-        {
-          publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY!,
-        }
-      )
-      .then(
-        () => {
-          toast.success("Message sent successfully");
-        },
-        (error) => {
-          toast.error("Something went wrong");
-          console.log(error);
-        }
-      );
-    setFormDetails(formInitialDetails);
   };
+
   return (
     <section className="contact relative p-6 text-center" id="connect">
       <Container>
@@ -71,7 +52,7 @@ const Contact = () => {
           </Col>
           <Col md={6}>
             <h2>Get in touch with me!</h2>
-            <form onSubmit={sendEmail} ref={form}>
+            <form onSubmit={sendContactEmail} ref={form}>
               <Row>
                 <Col sm={6} className="px-1">
                   <input
