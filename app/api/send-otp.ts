@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { generateOTP } from "@/lib/utils/generateOTP";
 import { sendEmail } from "@/lib/email/sendEmail";
 
@@ -8,6 +9,19 @@ export async function POST(req: Request) {
 
   await sendEmail(email, "otp-template", { otp });
 
-  // Store OTP securely (e.g., encrypted cookie, DB, or memory)
-  return Response.json({ success: true, timestamp });
+  const cookieStore = await cookies();
+  cookieStore.set("otp", otp, {
+    httpOnly: true,
+    secure: true,
+    path: "/",
+    maxAge: 60 * 60 * 2, // 2 hours
+  });
+  cookieStore.set("otp_timestamp", timestamp.toString(), {
+    httpOnly: true,
+    secure: true,
+    path: "/",
+    maxAge: 60 * 60 * 2,
+  });
+
+  return Response.json({ success: true });
 }
