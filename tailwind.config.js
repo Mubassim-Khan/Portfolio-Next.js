@@ -10,17 +10,25 @@ export default {
 		extend: {
 			keyframes: {
 				blink: {
-					"0%, 100%": { opacity: "1" },
-					"50%": { opacity: "0" },
+					'0%, 100%': {
+						opacity: '1'
+					},
+					'50%': {
+						opacity: '0'
+					}
 				},
 				shine: {
-					"0%": { "background-position": "100%" },
-					"100%": { "background-position": "-100%" },
-				},
+					'0%': {
+						'background-position': '100%'
+					},
+					'100%': {
+						'background-position': '-100%'
+					}
+				}
 			},
 			animation: {
 				blink: 'blink 1s step-start infinite',
-				shine: 'shine 2s linear infinite',
+				shine: 'shine 2s linear infinite'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -67,6 +75,16 @@ export default {
 					'3': 'hsl(var(--chart-3))',
 					'4': 'hsl(var(--chart-4))',
 					'5': 'hsl(var(--chart-5))'
+				},
+				sidebar: {
+					DEFAULT: 'hsl(var(--sidebar-background))',
+					foreground: 'hsl(var(--sidebar-foreground))',
+					primary: 'hsl(var(--sidebar-primary))',
+					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+					accent: 'hsl(var(--sidebar-accent))',
+					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+					border: 'hsl(var(--sidebar-border))',
+					ring: 'hsl(var(--sidebar-ring))'
 				}
 			}
 		}
