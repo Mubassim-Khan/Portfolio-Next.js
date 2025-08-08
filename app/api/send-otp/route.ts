@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { generateOTP } from "@/lib/utils/generateOTP";
 import bcrypt from "bcrypt"; // Import bcrypt
 
-export async function POST(req: Request) {
+export async function POST() {
   const otp = generateOTP();
   const timestamp = Date.now();
 
