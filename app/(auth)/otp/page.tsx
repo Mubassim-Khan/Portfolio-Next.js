@@ -34,18 +34,8 @@ const OTPPage = () => {
         const res = await fetch('/api/send-otp', { method: 'POST' });
         const data = await res.json();
 
-        if (data.success && data.otp) {
-          await emailjs.send(
-            process.env.NEXT_PUBLIC_SERVICE_ID!,
-            process.env.NEXT_PUBLIC_OTP_TEMPLATE_ID!,
-            {
-              to_email: process.env.NEXT_PUBLIC_MY_EMAIL!,
-              otp: data.otp,
-            },
-            process.env.NEXT_PUBLIC_PUBLIC_KEY!
-          );
-        } else {
-          throw new Error('Failed to generate OTP');
+        if (!data.success) {
+          throw new Error(data.message || 'Failed to generate OTP');
         }
       })(),
       {
