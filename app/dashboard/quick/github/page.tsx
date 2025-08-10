@@ -1,9 +1,14 @@
-import React from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-const QuickGithub = () => {
+export default function GithubPage() {
   return (
-    <div>QuickGithub</div>
+    <Card>
+      <CardHeader>
+        <CardTitle>GitHub Integration</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>Manage and view connected GitHub repositories here.</p>
+      </CardContent>
+    </Card>
   )
 }
-
-export default QuickGithub;

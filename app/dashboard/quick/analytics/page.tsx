@@ -1,9 +1,14 @@
-import React from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-const QuickAnalytics = () => {
+export default function AnalyticsPage() {
   return (
-    <div>QuickAnalytics</div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Analytics Overview</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>Welcome to the analytics dashboard. Select a subpage for detailed metrics.</p>
+      </CardContent>
+    </Card>
   )
 }
-
-export default QuickAnalytics;

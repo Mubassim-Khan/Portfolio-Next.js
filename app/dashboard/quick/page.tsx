@@ -1,9 +1,14 @@
-import React from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-const QuickHome = () => {
+export default function VercelPage() {
   return (
-    <div>Quick Actions Home Page</div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Vercel Deployments</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>Monitor and manage your Vercel deployments.</p>
+      </CardContent>
+    </Card>
   )
 }
-
-export default QuickHome
