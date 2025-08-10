@@ -22,7 +22,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         return () => window.removeEventListener('keydown', handleKey);
     }, []);
 
-    const hideLayout = pathname === '/dashboard' || pathname === '/otp';
+    const hideLayout = pathname.startsWith('/dashboard') || pathname === '/otp';
 
     return (
         <ToasterProvider>
