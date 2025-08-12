@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_CONNECTION_STRING")
+}
+
+model Project {
+  id          String      @id @default(uuid())
+  name        String
+  url         String
+  description String? 
+  createdAt   DateTime    @default(now())
+  logs        UptimeLog[]
+}
+
+model UptimeLog {
+  id           String   @id @default(uuid())
+  status       Boolean
+  checkedAt    DateTime @default(now())
+  responseTime Int?     // ms
+  project      Project  @relation(fields: [projectId], references: [id])
+  projectId    String
+}
