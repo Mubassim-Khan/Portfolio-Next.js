@@ -7,7 +7,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 
 import BlurText from "./BlurText";
 import contactImg from "@/assets/images/contact-img.svg";
-import { sendFormEmail } from '@/lib/email/sendEmail';
+import { sendFormEmail } from '@/lib/email/sendFormEmail';
 
 const Contact = () => {
   const formInitialDetails = {

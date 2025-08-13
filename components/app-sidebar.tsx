@@ -28,42 +28,42 @@ const data = {
   navMain: [
     {
       title: "Projects",
-      url: "#",
+      url: "/dashboard/projects/status",
       icon: SquareTerminal,
       isActive: true,
       items: [
-        { title: "Status Overview", url: "#" },   // Uptime, last deployment, version
-        { title: "Manage Projects", url: "#" },   // Add, edit, delete
-        { title: "Deployments", url: "#" },       // Vercel / GitHub commits
+        { title: "Status Overview", url: "/dashboard/projects/status" },
+        { title: "Manage Projects", url: "/dashboard/projects/manage" },
+        { title: "Deployments", url: "/dashboard/projects/deployments" },
       ],
     },
     {
       title: "Analytics",
-      url: "#",
+      url: "/dashboard/analytics/traffic",
       icon: ChartColumn,
       items: [
-        { title: "Traffic Reports", url: "#" },   // Plausible/Umami/Vercel Analytics
-        { title: "Top Referrers", url: "#" },     // From analytics API
-        { title: "Visitor Map", url: "#" },       // Country breakdown
+        { title: "Traffic Reports", url: "/dashboard/analytics/traffic" },
+        { title: "Top Referrers", url: "/dashboard/analytics/referrers" },
+        { title: "Visitor Map", url: "/dashboard/analytics/visitors" },
       ],
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/dashboard/settings/general",
       icon: Settings2,
       items: [
-        { title: "General Settings", url: "#" },  // Basic config
-        { title: "Integrations", url: "#" },      // GitHub, Vercel APIs
+        { title: "General Settings", url: "/dashboard/settings/general" },
+        { title: "Integrations", url: "/dashboard/settings/integrations" },
       ],
     },
     {
       title: "Quick Actions",
-      url: "#",
+      url: "/dashboard/quick/github",
       icon: Frame,
       items: [
-        { title: "GitHub Repos", url: "#" },
-        { title: "Vercel Dashboard", url: "#" },
-        { title: "Analytics Panel", url: "#" },
+        { title: "GitHub Repos", url: "/dashboard/quick/github" },
+        { title: "Vercel Dashboard", url: "/dashboard/quick/vercel" },
+        { title: "Analytics Panel", url: "/dashboard/quick/analytics" },
       ],
     },
   ],

@@ -1,7 +1,9 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import bcrypt from "bcrypt";
+
 import { generateOTP } from "@/lib/utils/generateOTP";
-import bcrypt from "bcrypt"; // Import bcrypt
+import { sendOTPEmail } from "@/lib/email/sendOTPEmail";
 
 export async function POST() {
   const otp = generateOTP();
@@ -12,7 +14,7 @@ export async function POST() {
   const hashedOtp = await bcrypt.hash(otp, saltRounds);
 
   const cookieStore = await cookies();
-  const otpValidDuration = 1000 * 60 * 5; // Set a shorter, more secure duration (e.g., 5 minutes)
+  const otpValidDuration = 1000 * 60 * 60 * 2; // 2 hours
 
   // Store the HASHED OTP and its timestamp in secure, HttpOnly cookies
   cookieStore.set("otp_hash", hashedOtp, {
@@ -28,9 +30,18 @@ export async function POST() {
     maxAge: otpValidDuration / 1000,
   });
 
+  // Send OTP via Nodemailer
+  const emailResult = await sendOTPEmail(process.env.MY_EMAIL!, otp);
+
+  if (!emailResult.success) {
+    return NextResponse.json(
+      { success: false, message: "Failed to send OTP" },
+      { status: 500 }
+    );
+  }
+
   return NextResponse.json({
     success: true,
-    otp,
     message: "OTP sent successfully.",
   });
 }
