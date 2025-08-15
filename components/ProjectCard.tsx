@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Col } from "react-bootstrap";
+
 import noImage from "@/assets/images/no-preview-img.jpg";
 import CustomButton from "./Button";
 
@@ -19,21 +19,21 @@ const ProjectCard = ({
   webURL,
 }: ProjectCardProps) => {
   return (
-    <Col sm={6} md={4}>
-      <div className="proj-imgbx">
+    <div className="w-full sm:w-1/2 md:w-1/3 px-2 mb-6">
+      <div className="proj-imgbx relative overflow-hidden rounded-lg shadow-md bg-gray-800 flex flex-col  ">
         <Image
-          src={imgURL ? imgURL : noImage}
+          src={imgURL || noImage}
           alt={title}
           width={300}
           height={200}
           className="proj-img"
         />
-        <div className="proj-txtx">
-          <h4 className="mt-1 text-[25px] font-bold tracking-[0.8px] leading-[1.1em]">
+        <div className="proj-txtx p-4">
+          <h4 className="mt-1 text-[25px] font-bold tracking-[0.8px] leading-[1.1em] text-white">
             {title}
           </h4>
           <div className="w-full flex justify-center">
-            <span className="text-[14px] text-gray-100 px-2 italic font-normal tracking-[0.8px] text-wrap">
+            <span className="text-[14px] text-gray-300 px-2 italic font-normal tracking-[0.8px] break-words text-center">
               {description}
             </span>
           </div>
@@ -43,7 +43,7 @@ const ProjectCard = ({
           </div>
         </div>
       </div>
-    </Col>
+    </div>
   );
 };
 
