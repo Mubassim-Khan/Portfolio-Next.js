@@ -13,7 +13,7 @@ export async function checkProjectsStatus() {
 
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 5000); // 5s timeout
+      const timeout = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
       const res = await fetch(project.url, {
         method: "GET",
@@ -31,18 +31,27 @@ export async function checkProjectsStatus() {
       errorMessage = error.name === "AbortError" ? "Timeout" : error.message;
     }
 
+    // Get last status
+    const lastLog = await prisma.uptimeLog.findFirst({
+      where: { projectId: project.id },
+      orderBy: { checkedAt: "desc" },
+    });
+
+    // Save new log
     await prisma.uptimeLog.create({
       data: {
         projectId: project.id,
         status: isUp,
         responseTime,
+        httpStatus,
         errorMessage,
       },
     });
 
-    if (!isUp) {
+    // Send alert if status changed
+    if ((!lastLog || lastLog.status !== isUp) && !isUp) {
       await sendStatusAlert(
-        "your@email.com",
+        process.env.MY_EMAIL!,
         project.name,
         isUp,
         errorMessage ?? undefined
@@ -50,5 +59,5 @@ export async function checkProjectsStatus() {
     }
   }
 
-  console.log("Project statuses checked and logged with details.");
+  console.log("Project statuses checked and logged.");
 }
