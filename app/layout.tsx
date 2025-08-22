@@ -15,7 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Mubassim Ahmed Khan | Personal Portfolio",
-  description: "Portfolio of Mubassim Ahmed Khan – showcasing MERN projects, certifications, skills in AI, and web development expertise.",
+  description:
+    "Portfolio of Mubassim Ahmed Khan – showcasing MERN projects, certifications, skills in AI, and web development expertise.",
   keywords: [
     "Mubassim Ahmed Khan",
     "MERN Developer",
@@ -29,12 +30,15 @@ export const metadata: Metadata = {
     "Web Development",
     "Next.js",
   ],
-  authors: [{ name: "Mubassim Ahmed Khan", url: "https://mubassim.vercel.app" }],
+  authors: [
+    { name: "Mubassim Ahmed Khan", url: "https://mubassim.vercel.app" },
+  ],
   creator: "Mubassim Ahmed Khan",
   metadataBase: new URL("https://mubassim.vercel.app"),
   openGraph: {
     title: "Mubassim Ahmed Khan | MERN Stack Developer",
-    description: "Explore projects, certifications, and skills of Mubassim – a full-stack developer & GenAI enthusiast.",
+    description:
+      "Explore projects, certifications, and skills of Mubassim – a full-stack developer & GenAI enthusiast.",
     url: "https://mubassim.vercel.app",
     siteName: "Mubassim's Portfolio",
     images: [
@@ -55,15 +59,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ClientLayout>
-          {children}
-        </ClientLayout>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
