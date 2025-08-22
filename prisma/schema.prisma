@@ -8,11 +8,12 @@ datasource db {
 }
 
 model Project {
-  id          String      @id @default(uuid())
+  id          String       @id @default(cuid())
   name        String
-  url         String
-  description String? 
-  createdAt   DateTime    @default(now())
+  url         String       @unique
+  coverImage  String?
+  description String?
+  createdAt   DateTime     @default(now())
   logs        UptimeLog[]
 }
 
