@@ -21,6 +21,8 @@ model UptimeLog {
   status       Boolean
   checkedAt    DateTime @default(now())
   responseTime Int?     // ms
+  httpStatus   Int?
+  errorMessage String?
   project      Project  @relation(fields: [projectId], references: [id])
   projectId    String
 }
