@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import ProjectUptimeChart from "@/components/ProjectUptimeChart";
 import {
   Dialog,
@@ -13,18 +13,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Loader2 } from "lucide-react";
 
 export default function StatusPage() {
   const [projects, setProjects] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<"all" | "up" | "down">(
+    "all"
+  );
 
   async function fetchStatus() {
     setLoading(true);
-    const res = await fetch("/api/status");
-    const data = await res.json();
-    setProjects(data);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/status");
+      const data = await res.json();
+      setProjects(data);
+    } catch (err) {
+      console.error("Failed to fetch status:", err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function refreshStatus() {
@@ -38,20 +54,54 @@ export default function StatusPage() {
     fetchStatus();
   }, []);
 
+  const filteredProjects = projects.filter((p) => {
+    const isUp = p.logs?.[0]?.status;
+    if (statusFilter === "up") return isUp;
+    if (statusFilter === "down") return !isUp;
+    return true;
+  });
+
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between gap-2 sm:items-center">
         <h1 className="text-xl font-semibold">Project Status Overview</h1>
-        <Button onClick={refreshStatus} disabled={refreshing}>
-          {refreshing ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Checking...
-            </>
-          ) : (
-            "Refresh Status"
-          )}
-        </Button>
+
+        {/* Filter */}
+        <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-gray-400 text-sm">Filter Status:</span>
+            <div className="border-gray-500 border rounded-xl">
+              <Select
+                value={statusFilter}
+                onValueChange={(v: any) => setStatusFilter(v)}
+              >
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="up">UP</SelectItem>
+                  <SelectItem value="down">DOWN</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <Button
+            onClick={refreshStatus}
+            className="rounded-[10px]"
+            disabled={refreshing}
+          >
+            {refreshing ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Checking...
+              </>
+            ) : (
+              "Refresh Status"
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Project Cards */}
@@ -61,14 +111,22 @@ export default function StatusPage() {
         </CardHeader>
         <CardContent className="divide-y divide-border">
           {loading ? (
-            <div className="flex items-center justify-center py-6">
-              <Loader2 className="h-6 w-6 animate-spin" />
-              <span className="ml-2">Loading...</span>
+            <div className="space-y-4 py-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex justify-between items-center">
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[150px]" />
+                    <Skeleton className="h-3 w-[100px]" />
+                    <Skeleton className="h-3 w-[80px]" />
+                  </div>
+                  <Skeleton className="h-6 w-[80px]" />
+                </div>
+              ))}
             </div>
-          ) : projects.length === 0 ? (
+          ) : filteredProjects.length === 0 ? (
             <p className="text-muted-foreground text-sm">No projects found.</p>
           ) : (
-            projects.map((p) => {
+            filteredProjects.map((p) => {
               const log = p.logs?.[0];
               const isUp = log?.status;
               const lastCheck = log?.checkedAt
@@ -106,7 +164,6 @@ export default function StatusPage() {
                   {/* Status & View Graph */}
                   <div className="flex items-center gap-2">
                     <Badge
-                      variant={isUp ? "secondary" : "destructive"}
                       className={
                         isUp
                           ? "bg-green-500 text-white hover:bg-green-600"
