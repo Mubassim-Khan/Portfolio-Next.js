@@ -9,6 +9,10 @@ export async function POST() {
   const otp = generateOTP();
   const timestamp = Date.now();
 
+  if (process.env.NODE_ENV === "development") {
+      console.log(otp)
+    }
+
   // Hash the OTP before storing it
   const saltRounds = 10;
   const hashedOtp = await bcrypt.hash(otp, saltRounds);

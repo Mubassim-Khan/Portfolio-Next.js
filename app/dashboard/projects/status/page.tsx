@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2 } from "lucide-react";
+import { Loader2, RefreshCw } from "lucide-react";
 
 export default function StatusPage() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -64,8 +64,8 @@ export default function StatusPage() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between gap-2 sm:items-center">
-        <h1 className="text-xl font-semibold">Project Status Overview</h1>
+      <div className="flex flex-col pt-6 sm:flex-row justify-between gap-2 sm:items-center">
+        <h1 className="text-xl font-semibold">Status Overview</h1>
 
         {/* Filter */}
         <div className="flex gap-2">
@@ -93,6 +93,7 @@ export default function StatusPage() {
             className="rounded-[10px]"
             disabled={refreshing}
           >
+            <RefreshCw className="w-4 h-4" /> 
             {refreshing ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Checking...
@@ -175,7 +176,7 @@ export default function StatusPage() {
 
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="outline" size="sm">
+                        <Button variant="default" size="sm">
                           View Graph
                         </Button>
                       </DialogTrigger>

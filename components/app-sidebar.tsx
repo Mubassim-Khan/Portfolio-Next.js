@@ -1,24 +1,25 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import {
-  ChartColumn,
-  Frame,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
+import * as React from "react";
+import { ChartColumn, Frame, Settings2, SquareTerminal } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
-// This is sample data.
 const data = {
   user: {
     name: "Mubassim Ahmed Khan",
@@ -61,33 +62,61 @@ const data = {
       url: "/dashboard/quick/github",
       icon: Frame,
       items: [
-        { title: "GitHub Repos", url: "/dashboard/quick/github" },
-        { title: "Vercel Dashboard", url: "/dashboard/quick/vercel" },
-        { title: "Analytics Panel", url: "/dashboard/quick/analytics" },
+        { title: "GitHub Repos", url: "https://github.com/Mubassim-Khan?tab=repositories" },
+        { title: "Vercel Dashboard", url: "https://vercel.com/dashboard" },
+        { title: "Analytics Panel", url: "https://umami.com/stats" },
       ],
     },
   ],
-
-  projects: [
-    { name: "Portfolio Website", url: "#" },
-    { name: "AI Quiz Generator", url: "#" },
-    { name: "Image Manipulation SaaS", url: "#" },
-    { name: "F1 Race Predictor", url: "#" },
-  ]
-
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [open, setOpen] = React.useState(false);
+  const [targetUrl, setTargetUrl] = React.useState("");
+
+  const handleQuickActionClick = (url: string) => {
+    setTargetUrl(url);
+    setOpen(true);
+  };
+
+  const confirmNavigation = () => {
+    setOpen(false);
+    window.open(targetUrl, "_blank");
+  };
+
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
-  )
+    <>
+      <Sidebar collapsible="icon" {...props}>
+        <SidebarContent>
+          {/* Pass click handler to NavMain so only Quick Actions trigger dialog */}
+          <NavMain
+            items={data.navMain}
+            onQuickActionClick={handleQuickActionClick}
+          />
+        </SidebarContent>
+        <SidebarFooter>
+          <NavUser user={data.user} />
+        </SidebarFooter>
+        <SidebarRail />
+      </Sidebar>
+
+      {/* Shadcn Confirmation Dialog */}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Leave Dashboard?</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-gray-600">
+            Are you sure you want to leave and open this external link?
+          </p>
+          <DialogFooter className="mt-4 flex gap-2">
+            <Button onClick={confirmNavigation}>Yes, Continue</Button>
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 }
