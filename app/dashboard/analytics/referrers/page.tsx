@@ -64,7 +64,7 @@ export default function ReferrersPage() {
     <div className="space-y-4">
       <Card className="w-full">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-xl font-semibold">Top Referrers</CardTitle>
+          <CardTitle className="text-xl font-bold">Top Referrers</CardTitle>
 
           {/* Filter Range */}
           <div className="flex gap-2">
