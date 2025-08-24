@@ -2,6 +2,9 @@
 
 import * as React from "react";
 import { ChartColumn, Frame, Settings2, SquareTerminal } from "lucide-react";
+import { useRouter } from "next/navigation";
+// import { signOut } from "next-auth/react";
+import toast from "react-hot-toast";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -62,7 +65,10 @@ const data = {
       url: "/dashboard/quick/github",
       icon: Frame,
       items: [
-        { title: "GitHub Repos", url: "https://github.com/Mubassim-Khan?tab=repositories" },
+        {
+          title: "GitHub Repos",
+          url: "https://github.com/Mubassim-Khan?tab=repositories",
+        },
         { title: "Vercel Dashboard", url: "https://vercel.com/dashboard" },
         { title: "Analytics Panel", url: "https://umami.com/stats" },
       ],
@@ -73,6 +79,13 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [open, setOpen] = React.useState(false);
   const [targetUrl, setTargetUrl] = React.useState("");
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch("/api/signout", { method: "POST" });
+    toast.success("Logged out successfully");
+    router.push("/");
+  };
 
   const handleQuickActionClick = (url: string) => {
     setTargetUrl(url);
@@ -95,7 +108,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           />
         </SidebarContent>
         <SidebarFooter>
-          <NavUser user={data.user} />
+          <NavUser
+            user={data.user}
+            onProfileClick={() => router.push("/dashboard/profile")}
+            onSettingsClick={() => router.push("/dashboard/settings/general")}
+            onLogout={handleLogout}
+          />
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
