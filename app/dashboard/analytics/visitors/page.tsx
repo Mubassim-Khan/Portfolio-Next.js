@@ -15,7 +15,7 @@ export default function VisitorsPage() {
   useEffect(() => {
     setTimeout(() => {
       setVisitorsData([
-        { country: "United States", visitors: 1200 },
+        { country: "United States of America", visitors: 1200 },
         { country: "Pakistan", visitors: 800 },
         { country: "India", visitors: 950 },
         { country: "Germany", visitors: 400 },
@@ -25,20 +25,22 @@ export default function VisitorsPage() {
   }, []);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      {/* Map */}
       <Card className="w-full">
-        <CardHeader className="flex flex-row items-center justify-between gap-2">
-          <CardTitle className="text-xl font-bold ">Visitors Map</CardTitle>
+        <CardHeader>
+          <CardTitle className="text-xl font-bold">Visitors Map</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent>
           {loading ? (
-            <Skeleton className="w-full h-24rounded-lg" />
+            <Skeleton className="w-full h-[400px] rounded-lg" />
           ) : (
-            <VisitorsMap />
+            <VisitorsMap visitorsData={visitorsData} />
           )}
         </CardContent>
       </Card>
 
+      {/* Stats */}
       <Card>
         <CardHeader>
           <CardTitle>Visitor Stats</CardTitle>
@@ -55,10 +57,10 @@ export default function VisitorsPage() {
             visitorsData.map((v) => (
               <div
                 key={v.country}
-                className={`flex justify-between items-center p-2 rounded-lg cursor-pointer ${
+                className={`flex justify-between items-center p-2 rounded-xl cursor-pointer ${
                   selectedCountry === v.country
-                    ? "bg-gray-200"
-                    : "hover:bg-gray-700"
+                    ? "bg-gray-500"
+                    : "hover:bg-gray-900"
                 }`}
                 onClick={() => setSelectedCountry(v.country)}
               >
