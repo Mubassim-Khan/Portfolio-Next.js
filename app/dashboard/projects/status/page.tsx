@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 
 export default function StatusPage() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -93,14 +93,10 @@ export default function StatusPage() {
             className="rounded-[10px]"
             disabled={refreshing}
           >
-            <RefreshCw className="w-4 h-4" /> 
-            {refreshing ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Checking...
-              </>
-            ) : (
-              "Refresh Status"
-            )}
+            <RefreshCw
+              className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`}
+            />
+            {refreshing ? "Refreshing..." : "Refresh Status"}
           </Button>
         </div>
       </div>

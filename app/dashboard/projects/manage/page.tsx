@@ -1,185 +1,273 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import CountUp from "react-countup"; // npm i react-countup
-
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Loader2, Plus, Search } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+type Project = { id: string; name: string; url: string; description: string };
 
-export default function StatusPage() {
+export default function ManageProjectsPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [wakaData, setWakaData] = useState<any>(null);
-  const [range, setRange] = useState("all_time");
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/wakatime?range=${range}`);
-      const data = await res.json();
-      setWakaData(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [name, setName] = useState("");
+  const [url, setUrl] = useState("");
+  const [description, setDescription] = useState("");
+  const [editId, setEditId] = useState<string | null>(null);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetchData();
-  }, [range]);
+    fetchProjects();
+  }, []);
 
-  if (loading) {
-    return (
-      <div className="space-y-6">
-        {/* Header skeleton */}
-        <div className="flex justify-between items-center">
-          <Skeleton className="h-8 w-40" />
-          <div className="flex gap-4">
-            <Skeleton className="h-10 w-40" />
-            <Skeleton className="h-10 w-24" />
-          </div>
-        </div>
-
-        {/* Overview skeleton */}
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-24" />
-          </CardHeader>
-          <CardContent className="grid grid-cols-3 gap-4">
-            {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-20 w-full rounded-xl" />
-            ))}
-          </CardContent>
-        </Card>
-
-        {/* Chart skeleton */}
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-32" />
-          </CardHeader>
-          <CardContent>
-            <Skeleton className="h-[300px] w-full rounded-xl" />
-          </CardContent>
-        </Card>
-      </div>
-    );
+  async function fetchProjects() {
+    setLoading(true);
+    const res = await fetch("/api/projects");
+    const data = await res.json();
+    setProjects(data);
+    setLoading(false);
   }
 
-  if (!wakaData) return <div>No data available</div>;
+  async function handleSave() {
+    setSaving(true);
+    const payload = { name, url, description };
 
-  // ---- Extract values ----
-  const totalTime = wakaData?.human_readable_total ?? "0 hrs";
-  const dailyAverage = wakaData?.human_readable_daily_average ?? "0 hrs";
+    if (editId) {
+      await fetch(`/api/projects/${editId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } else {
+      await fetch("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    }
 
-  const categories =
-    wakaData?.categories?.filter((c: any) =>
-      ["Coding", "Writing Docs", "AI Coding"].includes(c.name)
-    ) ?? [];
+    setSaving(false);
+    setDialogOpen(false);
+    resetForm();
+    fetchProjects();
+  }
 
-  const topLangs = (wakaData?.languages ?? [])
-    .sort((a: any, b: any) => b.total_seconds - a.total_seconds)
-    .slice(0, 10);
+  async function handleDelete() {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    await fetch(`/api/projects/${deleteTarget}`, { method: "DELETE" });
+    setDeleting(false);
+    setDeleteDialogOpen(false);
+    setDeleteTarget(null);
+    fetchProjects();
+  }
 
-  const chartData = {
-    labels: topLangs.map((l: any) => l.name),
-    datasets: [
-      {
-        label: "Hours",
-        data: topLangs.map((l: any) =>
-          (l.total_seconds / 3600).toFixed(1)
-        ),
-        backgroundColor: "rgba(59, 130, 246, 0.6)",
-      },
-    ],
-  };
+  function openEditDialog(project: Project) {
+    setName(project.name);
+    setUrl(project.url);
+    setDescription(project.description);
+    setEditId(project.id);
+    setDialogOpen(true);
+  }
+
+  function resetForm() {
+    setName("");
+    setUrl("");
+    setDescription("");
+    setEditId(null);
+  }
+
+  const filteredProjects = projects.filter(
+    (p) =>
+      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.url.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">WakaTime Stats</h1>
-        <div className="flex items-center gap-4">
-          <Select value={range} onValueChange={setRange}>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Select range" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="last_7_days">Last 7 days</SelectItem>
-              <SelectItem value="last_30_days">Last 30 Days</SelectItem>
-              <SelectItem value="last_6_months">Last 6 Months</SelectItem>
-              <SelectItem value="last_year">Last Year</SelectItem>
-              <SelectItem value="all_time">All Time</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button onClick={fetchData} className="rounded-[10px]">
-            Refresh
-          </Button>
-        </div>
-      </div>
-
-      {/* Overview */}
+    <div className="space-y-4">
       <Card>
-        <CardHeader>
-          <CardTitle>Overview</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 bg-blue-50 rounded-xl text-center">
-              <p className="text-sm text-muted-foreground">Total Time</p>
-              <h2 className="text-xl font-bold text-blue-600">
-                <CountUp end={parseFloat(totalTime)} duration={2} /> hrs
-              </h2>
+        <CardContent className="pt-6 space-y-4">
+          {/* Header Row */}
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-bold w-1/3">Manage Projects</h2>
+
+            {/* Search bar */}
+            <div className="w-1/3 flex justify-center relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Input
+                placeholder="Search by name or URL..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full max-w-sm pl-9 rounded-xl"
+              />
             </div>
-            {categories.map((cat: any) => (
-              <div
-                key={cat.name}
-                className="p-4 bg-green-50 rounded-xl text-center"
+
+            {/* Add project button */}
+            <div className="w-1/3 flex justify-end">
+              <Button
+                onClick={() => {
+                  resetForm();
+                  setDialogOpen(true);
+                }}
+                className="rounded-[10px] flex items-center gap-2"
               >
-                <p className="text-sm text-muted-foreground">{cat.name}</p>
-                <h2 className="text-xl font-bold text-green-600">
-                  {cat.text}
-                </h2>
-              </div>
-            ))}
-            <div className="p-4 bg-purple-50 rounded-xl text-center">
-              <p className="text-sm text-muted-foreground">Daily Average</p>
-              <h2 className="text-xl font-bold text-purple-600">
-                <CountUp end={parseFloat(dailyAverage)} duration={2} /> hrs
-              </h2>
+                <Plus className="w-4 h-4" />
+                Add Project
+              </Button>
             </div>
           </div>
-        </CardContent>
-      </Card>
 
-      {/* Languages */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Top 10 Languages</CardTitle>
-        </CardHeader>
-        <CardContent className="flex justify-center">
-          <div className="w-full max-w-3xl">
-            <Bar data={chartData} />
-          </div>
+          {/* Loading State */}
+          {loading ? (
+            <div className="space-y-2">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="w-full h-6" />
+              ))}
+            </div>
+          ) : filteredProjects.length === 0 ? (
+            <p className="text-sm text-muted-foreground text-center">
+              No projects found.
+            </p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Project</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredProjects.map((p) => (
+                  <TableRow key={p.id}>
+                    <TableCell>
+                      <div className="flex flex-col">
+                        <span className="font-medium">{p.name}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {p.url}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          className="rounded-[5px]"
+                          onClick={() => openEditDialog(p)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          className="rounded-[5px]"
+                          onClick={() => {
+                            setDeleteTarget(p.id);
+                            setDeleteDialogOpen(true);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+
+          {/* Add/Edit Project Dialog */}
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogContent className="max-w-lg">
+              <DialogHeader>
+                <DialogTitle>
+                  {editId ? "Edit Project" : "Add New Project"}
+                </DialogTitle>
+              </DialogHeader>
+
+              <div className="space-y-3">
+                <Input
+                  placeholder="Project name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <Input
+                  placeholder="Project URL"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                />
+                <Textarea
+                  placeholder="Project description"
+                  value={description || ""}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="min-h-[120px]"
+                />
+              </div>
+
+              <DialogFooter>
+                <Button onClick={handleSave} disabled={saving}>
+                  {saving ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : null}
+                  {editId ? "Save Changes" : "Add Project"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          {/* Delete Confirmation Dialog */}
+          <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Delete Project</DialogTitle>
+              </DialogHeader>
+              <p>Are you sure you want to delete this project?</p>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setDeleteDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={handleDelete}
+                  disabled={deleting}
+                >
+                  {deleting ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : null}
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </CardContent>
       </Card>
     </div>

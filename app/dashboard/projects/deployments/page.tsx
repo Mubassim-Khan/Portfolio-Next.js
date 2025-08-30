@@ -108,15 +108,12 @@ export default function DeploymentsPage() {
               className="rounded-[10px]"
               disabled={refreshingDeployments}
             >
-              <RefreshCw className="w-4 h-4" />
-              {refreshingDeployments ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
-                  Refreshing...
-                </>
-              ) : (
-                "Refresh Deployments"
-              )}
+              <RefreshCw
+                className={`w-4 h-4 ${
+                  refreshingDeployments ? "animate-spin" : ""
+                }`}
+              />
+              {refreshingDeployments ? "Refreshing..." : "Refresh Deployments"}
             </Button>
           </div>
 

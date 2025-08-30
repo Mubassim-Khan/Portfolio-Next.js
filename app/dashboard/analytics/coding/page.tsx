@@ -11,7 +11,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import CountUp from "react-countup"; // npm i react-countup
+import CountUp from "react-countup";
+import { RefreshCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +24,6 @@ import {
 } from "@/components/ui/select";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Loader2, RefreshCw } from "lucide-react";
 
 ChartJS.register(
   CategoryScale,
@@ -81,10 +81,10 @@ export default function StatusPage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header (always visible) */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Coding Analytics</h1>
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex flex-col pt-6 sm:flex-row justify-between gap-2 sm:items-center">
+        <h1 className="text-xl mx-6 font-semibold">Coding Analytics</h1>
 
         {/* Filter */}
         <div className="flex items-center gap-4">
@@ -108,17 +108,11 @@ export default function StatusPage() {
 
           <Button
             onClick={fetchData}
-            className="rounded-[10px]
-           disabled={loading}"
+            className="rounded-[10px]"
+            disabled={loading}
           >
-            <RefreshCw className="w-4 h-4" />
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Checking...
-              </>
-            ) : (
-              "Refresh"
-            )}
+            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+            {loading ? "Refreshing..." : "Refresh"}
           </Button>
         </div>
       </div>
