@@ -18,6 +18,8 @@ export async function POST(req: Request) {
     .find((c) => c.startsWith("session="))
     ?.split("=")[1];
 
+  console.log("Raw session cookie value:", sessionCookie);
+
   if (!isSessionValid(sessionCookie)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -25,8 +27,10 @@ export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get("file") as File;
 
-  if (!file) return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
-  if (file.size > 2 * 1024 * 1024) return NextResponse.json({ error: "File too large" }, { status: 400 });
+  if (!file)
+    return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+  if (file.size > 2 * 1024 * 1024)
+    return NextResponse.json({ error: "File too large" }, { status: 400 });
 
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);

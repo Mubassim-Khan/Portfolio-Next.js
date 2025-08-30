@@ -35,7 +35,8 @@ model User {
   contact       String?
   profilePhoto  String?  // URL to uploaded image
   github        String?
-  twitter       String?
+  instagram     String?
+  portfolio     String?
   linkedin      String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt

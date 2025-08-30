@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { ChartColumn, Frame, Settings2, SquareTerminal } from "lucide-react";
+import {
+  ChartColumn,
+  Frame,
+  Loader2,
+  Settings2,
+  SquareTerminal,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 // import { signOut } from "next-auth/react";
 import toast from "react-hot-toast";
@@ -24,11 +30,6 @@ import {
 import { Button } from "@/components/ui/button";
 
 const data = {
-  user: {
-    name: "Mubassim Ahmed Khan",
-    email: "mubassimkhan@gmail.com",
-    avatar: "https://avatars.githubusercontent.com/u/113042537?v=4",
-  },
   navMain: [
     {
       title: "Projects",
@@ -80,7 +81,36 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [open, setOpen] = React.useState(false);
   const [targetUrl, setTargetUrl] = React.useState("");
+  const [user, setUser] = React.useState<{
+    name: string;
+    email: string;
+    profilePhoto: string;
+  } | null>(null);
   const router = useRouter();
+
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        let retries = 2;
+        while (retries--) {
+          const res = await fetch("/api/user", { cache: "no-store" });
+          if (res.ok) {
+            const data = await res.json();
+            if (data) {
+              setUser(data);
+              return;
+            }
+          }
+          await new Promise((r) => setTimeout(r, 500)); // small retry delay
+        }
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  if (!user) return null;
 
   const handleLogout = async () => {
     await fetch("/api/signout", { method: "POST" });
@@ -110,7 +140,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarContent>
         <SidebarFooter>
           <NavUser
-            user={data.user}
+            user={user}
             onProfileClick={() => router.push("/dashboard/profile")}
             onSettingsClick={() => router.push("/dashboard/settings/general")}
             onLogout={handleLogout}

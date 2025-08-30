@@ -1,7 +1,14 @@
 export function isSessionValid(sessionStr: string | undefined): boolean {
   if (!sessionStr) return false;
   try {
-    const session = JSON.parse(sessionStr);
+    const raw = sessionStr.startsWith("session=")
+      ? sessionStr.replace("session=", "")
+      : sessionStr;
+
+    // Decode URI component -> JSON
+    const decoded = decodeURIComponent(raw);
+    const session = JSON.parse(decoded);
+
     const now = Date.now();
     const SESSION_DURATION = 12 * 60 * 60 * 1000; // 12 hours
     const INACTIVITY_LIMIT = 15 * 60 * 1000; // 15 mins
@@ -14,7 +21,8 @@ export function isSessionValid(sessionStr: string | undefined): boolean {
       now - session.createdAt <= SESSION_DURATION &&
       now - session.lastActive <= INACTIVITY_LIMIT
     );
-  } catch {
+  } catch (err) {
+    console.error("Session parse failed:", err);
     return false;
   }
 }

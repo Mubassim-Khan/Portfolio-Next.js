@@ -3,18 +3,27 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
-
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "@/components/ui/label";
+import {
+  Copy,
+  Check,
+  Github,
+  Twitter,
+  Linkedin,
+  Instagram,
+  Globe,
+} from "lucide-react";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>("");
+  const [copiedField, setCopiedField] = useState<string | null>(null);
 
   // Fetch user data
   useEffect(() => {
@@ -22,7 +31,7 @@ export default function ProfilePage() {
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
-        setPreview(data?.profilePhoto || "/default-avatar.png");
+        setPreview(data?.profilePhoto);
         setLoading(false);
       });
   }, []);
@@ -62,8 +71,27 @@ export default function ProfilePage() {
     }
   };
 
-  if (loading)
-    return <Skeleton className="w-full h-[300px] rounded-lg my-6" />;
+  const handleCopy = (value: string, field: string) => {
+    navigator.clipboard.writeText(value);
+    setCopiedField(field);
+    toast.success("Copied!");
+    setTimeout(() => setCopiedField(null), 2000); // reset after 2s
+  };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center space-y-4 my-6">
+        {/* Image placeholder */}
+        <Skeleton className="w-[250px] h-[180px] rounded-xl shadow-md" />
+
+        {/* Title placeholder */}
+        <Skeleton className="w-[180px] h-6 rounded-md" />
+
+        {/* Subtitle/text placeholder */}
+        <Skeleton className="w-[140px] h-4 rounded-md" />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6">
@@ -103,9 +131,94 @@ export default function ProfilePage() {
             <Input value={user?.name || ""} readOnly placeholder="Name" />
             <Input value={user?.email || ""} readOnly placeholder="Email" />
             <Input value={user?.contact || ""} readOnly placeholder="Contact" />
-            <Input value={user?.github || ""} readOnly placeholder="GitHub" />
-            <Input value={user?.twitter || ""} readOnly placeholder="Twitter" />
-            <Input value={user?.linkedin || ""} readOnly placeholder="LinkedIn" />
+
+            {/* GitHub */}
+            <div className="flex items-center gap-2">
+              <Github className="w-5 h-5 text-gray-600" />
+              <Input value={user?.github || ""} readOnly placeholder="GitHub" />
+              {user?.github && (
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => handleCopy(user.github, "github")}
+                >
+                  {copiedField === "github" ? (
+                    <Check className="w-4 h-4 text-green-600" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                </Button>
+              )}
+            </div>
+
+            {/* LinkedIn */}
+            <div className="flex items-center gap-2">
+              <Linkedin className="w-5 h-5 text-blue-700" />
+              <Input
+                value={user?.linkedin || ""}
+                readOnly
+                placeholder="LinkedIn"
+              />
+              {user?.linkedin && (
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => handleCopy(user.linkedin, "linkedin")}
+                >
+                  {copiedField === "linkedin" ? (
+                    <Check className="w-4 h-4 text-green-600" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                </Button>
+              )}
+            </div>
+
+            {/* Instagram */}
+            <div className="flex items-center gap-2">
+              <Instagram className="w-5 h-5 text-pink-500" />
+              <Input
+                value={user?.instagram || ""}
+                readOnly
+                placeholder="instagram"
+              />
+              {user?.instagram && (
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => handleCopy(user.instagram, "instagram")}
+                >
+                  {copiedField === "instagram" ? (
+                    <Check className="w-4 h-4 text-green-600" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                </Button>
+              )}
+            </div>
+
+            {/* Portfolio */}
+            <div className="flex items-center gap-2">
+              <Globe className="w-5 h-5 text-blue-100" />
+              <Input
+                value={user?.portfolio || ""}
+                readOnly
+                placeholder="portfolio"
+              />
+              {user?.portfolio && (
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => handleCopy(user.portfolio, "portfolio")}
+                >
+                  {copiedField === "portfolio" ? (
+                    <Check className="w-4 h-4 text-green-600" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                </Button>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
