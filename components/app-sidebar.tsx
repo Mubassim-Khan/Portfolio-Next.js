@@ -49,6 +49,7 @@ const data = {
         { title: "Traffic Reports", url: "/dashboard/analytics/traffic" },
         { title: "Top Referrers", url: "/dashboard/analytics/referrers" },
         { title: "Visitor Map", url: "/dashboard/analytics/visitors" },
+        { title: "Coding Analytics", url: "/dashboard/analytics/coding" },
       ],
     },
     {
