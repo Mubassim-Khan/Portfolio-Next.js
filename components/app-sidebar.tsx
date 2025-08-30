@@ -1,30 +1,33 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ChartColumn,
   Frame,
   Settings2,
   SquareTerminal,
-} from "lucide-react"
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
-// This is sample data.
 const data = {
-  user: {
-    name: "Mubassim Ahmed Khan",
-    email: "mubassimkhan@gmail.com",
-    avatar: "https://avatars.githubusercontent.com/u/113042537?v=4",
-  },
   navMain: [
     {
       title: "Projects",
@@ -45,6 +48,7 @@ const data = {
         { title: "Traffic Reports", url: "/dashboard/analytics/traffic" },
         { title: "Top Referrers", url: "/dashboard/analytics/referrers" },
         { title: "Visitor Map", url: "/dashboard/analytics/visitors" },
+        { title: "Coding Analytics", url: "/dashboard/analytics/coding" },
       ],
     },
     {
@@ -61,33 +65,105 @@ const data = {
       url: "/dashboard/quick/github",
       icon: Frame,
       items: [
-        { title: "GitHub Repos", url: "/dashboard/quick/github" },
-        { title: "Vercel Dashboard", url: "/dashboard/quick/vercel" },
-        { title: "Analytics Panel", url: "/dashboard/quick/analytics" },
+        {
+          title: "GitHub Repos",
+          url: "https://github.com/Mubassim-Khan?tab=repositories",
+        },
+        { title: "Vercel Dashboard", url: "https://vercel.com/dashboard" },
+        { title: "Analytics Panel", url: "https://umami.com/stats" },
       ],
     },
   ],
-
-  projects: [
-    { name: "Portfolio Website", url: "#" },
-    { name: "AI Quiz Generator", url: "#" },
-    { name: "Image Manipulation SaaS", url: "#" },
-    { name: "F1 Race Predictor", url: "#" },
-  ]
-
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [open, setOpen] = React.useState(false);
+  const [targetUrl, setTargetUrl] = React.useState("");
+  const [user, setUser] = React.useState<{
+    name: string;
+    email: string;
+    profilePhoto: string;
+  } | null>(null);
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        let retries = 2;
+        while (retries--) {
+          const res = await fetch("/api/user", { cache: "no-store" });
+          if (res.ok) {
+            const data = await res.json();
+            if (data) {
+              setUser(data);
+              return;
+            }
+          }
+          await new Promise((r) => setTimeout(r, 500)); // small retry delay
+        }
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  if (!user) return null;
+
+  const handleLogout = async () => {
+    await fetch("/api/signout", { method: "POST" });
+    toast.success("Logged out successfully");
+    router.push("/");
+  };
+
+  const handleQuickActionClick = (url: string) => {
+    setTargetUrl(url);
+    setOpen(true);
+  };
+
+  const confirmNavigation = () => {
+    setOpen(false);
+    window.open(targetUrl, "_blank");
+  };
+
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
-  )
+    <>
+      <Sidebar collapsible="icon" {...props}>
+        <SidebarContent>
+          {/* Pass click handler to NavMain so only Quick Actions trigger dialog */}
+          <NavMain
+            items={data.navMain}
+            onQuickActionClick={handleQuickActionClick}
+          />
+        </SidebarContent>
+        <SidebarFooter>
+          <NavUser
+            user={user}
+            onProfileClick={() => router.push("/dashboard/profile")}
+            onSettingsClick={() => router.push("/dashboard/settings/general")}
+            onLogout={handleLogout}
+          />
+        </SidebarFooter>
+        <SidebarRail />
+      </Sidebar>
+
+      {/* Shadcn Confirmation Dialog */}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Leave Dashboard?</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-gray-600">
+            Are you sure you want to leave and open this external link?
+          </p>
+          <DialogFooter className="mt-4 flex gap-2">
+            <Button onClick={confirmNavigation}>Yes, Continue</Button>
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 }

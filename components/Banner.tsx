@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import React, { useCallback, useEffect, useState, useMemo } from "react";
-import { Col, Container, Row } from "react-bootstrap";
 import { BsArrowRightCircle } from "react-icons/bs";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -63,15 +62,17 @@ const Banner = () => {
 
   return (
     <section className="banner" id="home">
-      <Container>
-        <Row className="align-items-center">
-          <Col xs={12} md={6} xl={7}>
+      {/* Container equivalent */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Row equivalent */}
+        <div className="flex flex-wrap items-center">
+          {/* Col xs={12} md={6} xl={7} */}
+          <div className="w-full md:w-1/2 xl:w-7/12">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 1.5 }}
             >
-              {" "}
               <span className="tagLine">Welcome to my Portfolio</span>
               <div className="pb-12 mt-2 mb-[150px] relative h-[100px]">
                 <h1 className="font-bold mb-[125px] h-full">
@@ -89,7 +90,7 @@ const Banner = () => {
                   speed={3}
                   className="text-[20px] font-medium"
                 />
-              </div>{" "}
+              </div>
               <button>
                 <Link className="connect-btn" href="#connect">
                   Let&apos;s Connect
@@ -97,8 +98,10 @@ const Banner = () => {
                 <BsArrowRightCircle size={25} />
               </button>
             </motion.div>
-          </Col>
-          <Col xs={12} md={6} xl={5}>
+          </div>
+
+          {/* Col xs={12} md={6} xl={5} */}
+          <div className="w-full md:w-1/2 xl:w-5/12">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -106,9 +109,9 @@ const Banner = () => {
             >
               <Image src={headerImg} alt="Header Image" />
             </motion.div>
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
