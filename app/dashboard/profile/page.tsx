@@ -12,14 +12,24 @@ import {
   Copy,
   Check,
   Github,
-  Twitter,
   Linkedin,
   Instagram,
   Globe,
 } from "lucide-react";
 
+type User = {
+  name?: string;
+  email?: string;
+  contact?: string;
+  profilePhoto?: string;
+  github?: string;
+  linkedin?: string;
+  instagram?: string;
+  portfolio?: string;
+};
+
 export default function ProfilePage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>("");
@@ -62,11 +72,11 @@ export default function ProfilePage() {
       const data = await res.json();
       if (data.success) {
         toast.success("Profile photo updated!");
-        setUser((prev: any) => ({ ...prev, profilePhoto: data.url }));
+  setUser((prev: User | null) => (prev ? { ...prev, profilePhoto: data.url } : null));
       } else {
         toast.error(data.error || "Upload failed");
       }
-    } catch (err) {
+  } catch {
       toast.error("Upload error");
     }
   };
@@ -140,7 +150,7 @@ export default function ProfilePage() {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => handleCopy(user.github, "github")}
+                  onClick={() => handleCopy(user.github!, "github")}
                 >
                   {copiedField === "github" ? (
                     <Check className="w-4 h-4 text-green-600" />
@@ -163,7 +173,7 @@ export default function ProfilePage() {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => handleCopy(user.linkedin, "linkedin")}
+                  onClick={() => handleCopy(user.linkedin!, "linkedin")}
                 >
                   {copiedField === "linkedin" ? (
                     <Check className="w-4 h-4 text-green-600" />
@@ -186,7 +196,7 @@ export default function ProfilePage() {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => handleCopy(user.instagram, "instagram")}
+                  onClick={() => handleCopy(user.instagram!, "instagram")}
                 >
                   {copiedField === "instagram" ? (
                     <Check className="w-4 h-4 text-green-600" />
@@ -209,7 +219,7 @@ export default function ProfilePage() {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => handleCopy(user.portfolio, "portfolio")}
+                  onClick={() => handleCopy(user.portfolio!, "portfolio")}
                 >
                   {copiedField === "portfolio" ? (
                     <Check className="w-4 h-4 text-green-600" />

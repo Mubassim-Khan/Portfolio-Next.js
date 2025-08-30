@@ -28,7 +28,12 @@ export default function ProjectUptimeChart({
 }: {
   projectId: string;
 }) {
-  const [logs, setLogs] = useState<any[]>([]);
+  type Log = {
+    checkedAt: string | number;
+    status: boolean;
+    responseTime?: number;
+  };
+  const [logs, setLogs] = useState<Log[]>([]);
 
   useEffect(() => {
     fetch(`/api/logs/${projectId}`)

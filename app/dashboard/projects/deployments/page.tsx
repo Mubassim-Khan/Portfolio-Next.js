@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Info, Loader2, RefreshCw } from "lucide-react";
+import { Info, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type Deployment = {

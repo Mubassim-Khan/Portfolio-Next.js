@@ -28,26 +28,35 @@ export async function GET() {
 
     // Fetch deployments for each project
     const deploymentsData = await Promise.all(
-      projects.map(async (project: any) => {
-        const res = await fetch(
-          `https://api.vercel.com/v6/deployments?projectId=${project.id}&limit=3`,
-          { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
-        );
+      projects.map(
+        async (project: {
+          id: string;
+          name: string;
+          createdAt?: number;
+          readyState?: string;
+        }) => {
+          const res = await fetch(
+            `https://api.vercel.com/v6/deployments?projectId=${project.id}&limit=3`,
+            { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" }
+          );
 
-        if (!res.ok) return [];
-        const { deployments } = await res.json();
+          if (!res.ok) return [];
+          const { deployments } = await res.json();
 
-        return deployments.map((d: any) => ({
-          project: project.name,
-          date: new Date(d.createdAt).toLocaleString(),
-          status:
-            d.readyState === "READY"
-              ? "Success"
-              : d.readyState === "ERROR"
-              ? "Failed"
-              : "Building",
-        }));
-      })
+          return deployments.map(
+            (d: { id: string; createdAt: number; readyState: string }) => ({
+              project: project.name,
+              date: new Date(d.createdAt).toLocaleString(),
+              status:
+                d.readyState === "READY"
+                  ? "Success"
+                  : d.readyState === "ERROR"
+                  ? "Failed"
+                  : "Building",
+            })
+          );
+        }
+      )
     );
 
     // Flatten and sort by date (newest first)

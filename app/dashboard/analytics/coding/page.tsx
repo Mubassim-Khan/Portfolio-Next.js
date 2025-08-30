@@ -34,9 +34,27 @@ ChartJS.register(
   Legend
 );
 
+type Category = {
+  name: string;
+  text: string;
+  total_seconds: number;
+};
+
+type Language = {
+  name: string;
+  total_seconds: number;
+};
+
+type WakaData = {
+  human_readable_total: string;
+  human_readable_daily_average: string;
+  categories: Category[];
+  languages: Language[];
+};
+
 export default function StatusPage() {
   const [loading, setLoading] = useState(true);
-  const [wakaData, setWakaData] = useState<any>(null);
+  const [wakaData, setWakaData] = useState<WakaData | null>(null);
   const [range, setRange] = useState("all_time");
 
   const fetchData = async () => {
@@ -61,20 +79,22 @@ export default function StatusPage() {
   const dailyAverage = wakaData?.human_readable_daily_average ?? "0 hrs";
 
   const categories =
-    wakaData?.categories?.filter((c: any) =>
+    wakaData?.categories?.filter((c: Category) =>
       ["Coding", "Writing Docs", "AI Coding"].includes(c.name)
     ) ?? [];
 
   const topLangs = (wakaData?.languages ?? [])
-    .sort((a: any, b: any) => b.total_seconds - a.total_seconds)
+    .sort((a: Language, b: Language) => b.total_seconds - a.total_seconds)
     .slice(0, 10);
 
   const chartData = {
-    labels: topLangs.map((l: any) => l.name),
+    labels: topLangs.map((l: Language) => l.name),
     datasets: [
       {
         label: "Hours",
-        data: topLangs.map((l: any) => (l.total_seconds / 3600).toFixed(1)),
+        data: topLangs.map((l: Language) =>
+          (l.total_seconds / 3600).toFixed(1)
+        ),
         backgroundColor: "rgba(59, 130, 246, 0.6)",
       },
     ],
@@ -162,7 +182,7 @@ export default function StatusPage() {
                 <Skeleton className="h-20 w-full rounded-xl" />
               </>
             ) : (
-              categories.map((cat: any) => (
+              categories.map((cat: Category) => (
                 <div
                   key={cat.name}
                   className="p-4 bg-green-50 rounded-xl text-center"

@@ -4,12 +4,10 @@ import * as React from "react";
 import {
   ChartColumn,
   Frame,
-  Loader2,
   Settings2,
   SquareTerminal,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-// import { signOut } from "next-auth/react";
 import toast from "react-hot-toast";
 
 import { NavMain } from "@/components/nav-main";

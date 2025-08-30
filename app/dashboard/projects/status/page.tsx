@@ -22,8 +22,21 @@ import {
 } from "@/components/ui/select";
 import { RefreshCw } from "lucide-react";
 
+// Define ProjectStatus type
+type ProjectStatus = {
+  id: string;
+  name: string;
+  logs?: {
+    status: boolean;
+    checkedAt?: string;
+    httpStatus?: number;
+    responseTime?: number;
+    errorMessage?: string;
+  }[];
+};
+
 export default function StatusPage() {
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<ProjectStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [statusFilter, setStatusFilter] = useState<"all" | "up" | "down">(
@@ -74,7 +87,7 @@ export default function StatusPage() {
             <div className="border-gray-500 border rounded-xl">
               <Select
                 value={statusFilter}
-                onValueChange={(v: any) => setStatusFilter(v)}
+                onValueChange={(v: "all" | "up" | "down") => setStatusFilter(v)}
               >
                 <SelectTrigger className="w-[150px]">
                   <SelectValue placeholder="Select" />

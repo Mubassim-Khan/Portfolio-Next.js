@@ -25,10 +25,20 @@ export async function checkProjectsStatus() {
       httpStatus = res.status;
       responseTime = Date.now() - start;
       isUp = res.ok;
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       isUp = false;
       responseTime = null;
-      errorMessage = error.name === "AbortError" ? "Timeout" : error.message;
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "name" in error &&
+        "message" in error
+      ) {
+        const err = error as { name: string; message: string };
+        errorMessage = err.name === "AbortError" ? "Timeout" : err.message;
+      } else {
+        errorMessage = "Unknown error";
+      }
     }
 
     // Get last status

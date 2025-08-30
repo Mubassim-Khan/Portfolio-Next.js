@@ -36,17 +36,20 @@ export async function POST(req: Request) {
   const buffer = Buffer.from(arrayBuffer);
 
   try {
-    const result = await new Promise<any>((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: "profile_pics", resource_type: "image" },
-        (error, result) => {
-          if (error) return reject(error);
-          if (!result) return reject(new Error("No result from Cloudinary"));
-          resolve(result);
-        }
-      );
-      uploadStream.end(buffer);
-    });
+    const result = await new Promise<{ secure_url: string }>(
+      (resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: "profile_pics", resource_type: "image" },
+          (error, result) => {
+            if (error) return reject(error);
+            if (!result || !result.secure_url)
+              return reject(new Error("No secure_url from Cloudinary"));
+            resolve({ secure_url: result.secure_url });
+          }
+        );
+        uploadStream.end(buffer);
+      }
+    );
 
     // Update the only user
     await prisma.user.updateMany({
@@ -54,7 +57,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true, url: result.secure_url });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
 }

@@ -68,19 +68,19 @@ export async function GET(
     const { data } = await res.json();
 
     if (metric === "referrers") {
-      return NextResponse.json(
-        (data || []).map((r: any) => ({
-          source: r.x || "Direct / None",
-          visitors: r.y || 0,
-        }))
-      );
+        return NextResponse.json(
+          (data || []).map((r: { x?: string; y?: number }) => ({
+            source: r.x || "Direct / None",
+            visitors: r.y || 0,
+          }))
+        );
     }
 
     // For traffic/pageviews
-    const total = data.reduce((sum: number, d: any) => sum + d.y, 0);
-    return NextResponse.json({ total, breakdown: data });
-  } catch (err: any) {
-    console.error("Umami API error:", err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+      const total = data.reduce((sum: number, d: { y: number }) => sum + d.y, 0);
+      return NextResponse.json({ total, breakdown: data });
+  } catch (err: unknown) {
+      console.error("Umami API error:", (err as Error).message);
+      return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
 }
