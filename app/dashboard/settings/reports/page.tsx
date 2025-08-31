@@ -5,7 +5,7 @@ export default function IntegrationsSettingsPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Integrations</CardTitle>
+        <CardTitle>Reports & Export</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex justify-between items-center">
