@@ -122,7 +122,7 @@ export default function ReportGenerator() {
                 <Checkbox
                   checked={includeEverything}
                   onCheckedChange={(val) => setIncludeEverything(!!val)}
-                  className="border border-white text-white data-[state=checked]:bg-white data-[state=checked]:text-black"
+                  className="border border-white bg-transparent text-white data-[state=checked]:bg-white data-[state=checked]:text-black  data-[state=unchecked]:bg-gray-800 data-[state=unchecked]:border-white"
                 />
                 <Label className="font-medium">Include Everything</Label>
               </div>
@@ -134,6 +134,7 @@ export default function ReportGenerator() {
                     <div key={opt} className="flex items-center space-x-2">
                       <Checkbox
                         checked={selectedOptions.includes(opt)}
+                        className="border border-white bg-transparent text-white data-[state=checked]:bg-white data-[state=checked]:text-black  data-[state=unchecked]:bg-gray-800 data-[state=unchecked]:border-white"
                         onCheckedChange={() => handleOptionToggle(opt)}
                       />
                       <Label>{opt}</Label>
