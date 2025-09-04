@@ -147,14 +147,16 @@ export default function ApiKeysPage() {
   };
 
   return (
-    <div className="space-y-4 pt-6">
+    <div className="space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between gap-2 sm:items-center">
-        <h1 className="text-xl font-semibold">API Keys</h1>
-      </div>
-
-      {/* API Keys Card */}
       <Card>
+        <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <CardTitle className="text-xl font-bold">API Keys</CardTitle>
+          </div>
+        </CardHeader>
+
+        {/* API Keys Card */}
         <CardHeader>
           <CardTitle>Manage your API Keys</CardTitle>
         </CardHeader>

@@ -26,6 +26,7 @@
     "@radix-ui/react-tooltip": "^1.2.7",
     "bcrypt": "^6.0.0",
     "bootstrap": "^5.3.6",
+    "canvas": "^3.2.0",
     "chart.js": "^4.5.0",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.7.0",

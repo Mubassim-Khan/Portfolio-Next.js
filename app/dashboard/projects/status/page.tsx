@@ -75,7 +75,7 @@ export default function StatusPage() {
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 ml-5">
       {/* Header */}
       <div className="flex flex-col pt-6 sm:flex-row justify-between gap-2 sm:items-center">
         <h1 className="text-xl font-semibold">Status Overview</h1>
