@@ -38,6 +38,7 @@ export default function ReferrersPage() {
       try {
         const res = await fetch(`/api/analytics/referrers?range=${range}`);
         const json = await res.json();
+        console.log(json);
         setData(json);
       } catch (error) {
         console.error("Error fetching referrers:", error);
