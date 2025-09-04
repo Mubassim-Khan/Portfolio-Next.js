@@ -1,6 +1,46 @@
 import { Parser } from "json2csv";
 
-export async function generateReportCSV(reportData: any): Promise<Buffer> {
+interface ReportData {
+  id: string;
+  title: string;
+  recipients: string[];
+  date: string;
+  generatedAt: string;
+  range: {
+    start: string;
+    end: string;
+  };
+  projects: {
+    projectId: string;
+    projectName: string;
+    logs: {
+      checkedAt: string;
+      status: boolean;
+      responseTime?: number;
+      httpStatus?: number;
+      errorMessage?: string;
+    }[];
+  }[];
+  totals: {
+    projects: number;
+    totalChecks: number;
+    overallUptime: number | null;
+  };
+}
+
+interface LogCSVRow {
+  projectId: string;
+  projectName: string;
+  checkedAt: string;
+  status: string;
+  responseTime?: string | number;
+  httpStatus?: string | number;
+  errorMessage?: string;
+}
+
+export async function generateReportCSV(
+  reportData: ReportData
+): Promise<Buffer> {
   // For CSV, we will create two CSVs: summary and logs (flattened) and join them
   const summary = {
     generatedAt: reportData.generatedAt,
@@ -12,7 +52,7 @@ export async function generateReportCSV(reportData: any): Promise<Buffer> {
   };
 
   // Flatten logs for CSV
-  const logsRows: any[] = [];
+  const logsRows: LogCSVRow[] = [];
   for (const p of reportData.projects) {
     for (const l of p.logs) {
       logsRows.push({

@@ -16,7 +16,7 @@ export interface SendReportMailOptions {
 
 export const sendReportMail = async (
   opts: SendReportMailOptions
-): Promise<{ success: boolean; error?: any }> => {
+): Promise<{ success: boolean; error?: unknown }> => {
   try {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST!,

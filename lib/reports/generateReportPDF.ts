@@ -1,64 +1,110 @@
 import PDFDocument from "pdfkit";
 import path from "path";
 import { createCanvas } from "canvas";
+import { ChartConfiguration } from "chart.js";
 const Chart = (await import("chart.js/auto")).default;
 
+interface Incident {
+  checkedAt: string;
+  errorMessage?: string;
+  httpStatus?: number;
+}
 
-export async function generateReportPDF(reportData: any): Promise<Buffer> {
+interface Log {
+  checkedAt: string;
+  status: boolean;
+  responseTime?: number;
+  httpStatus?: number;
+  errorMessage?: string;
+}
+
+interface ProjectReport {
+  projectId: string;
+  projectName: string;
+  url: string;
+  logs: Log[];
+  totalChecks: number;
+  upCount: number;
+  downCount: number;
+  uptimePct?: number;
+  avgResponse?: number;
+  incidents?: Incident[];
+}
+
+interface Totals {
+  projects: number;
+  totalChecks: number;
+  overallUptime: number | null;
+}
+
+interface ReportData {
+  id: string;
+  title: string;
+  recipients: string[];
+  date: string;
+  generatedAt: string;
+  url: string;
+  options: {
+    includeRawLogs: boolean;
+  };
+  range: {
+    start: string;
+    end: string;
+  };
+  projects: ProjectReport[];
+  totals: Totals;
+  p: ProjectReport;
+}
+
+export async function generateReportPDF(
+  reportData: ReportData
+): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     try {
       const canvas = createCanvas(600, 300);
-      
-      const labels: string[] = reportData.projects.map(
-        (p: any) => p.projectName
-      );
+
+      const labels: string[] = reportData.projects.map((p) => p.projectName);
       const dataPoints: number[] = reportData.projects.map(
-        (p: any) => p.uptimePct ?? 0
+        (p) => p.uptimePct ?? 0
       );
 
       const fontPath = path.join(
         process.cwd(),
-        "public",
+        "assets",
+        "fonts",
         "CentraNo2-Medium.ttf"
       );
       const logoPath = path.join(process.cwd(), "assets", "images", "logo.png");
 
       const doc = new PDFDocument({ size: "A4", margin: 50, font: fontPath });
-
       const chunks: Buffer[] = [];
 
-      // Force font at doc creation
       doc.registerFont("Custom", fontPath);
-      doc.font("Custom"); // ⬅️ immediately set it so Helvetica never gets used
+      doc.font("Custom");
 
       doc.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
       doc.on("end", () => resolve(Buffer.concat(chunks)));
       doc.on("error", (err) => reject(err));
 
       // ==========================
-      //  PAGE 1: COVER PAGE
+      // Cover Page
       // ==========================
-      // Logo
       try {
         doc.image(logoPath, doc.page.width / 2 - 40, 50, { width: 80 });
-      } catch (err) {
+      } catch {
         console.warn("Logo not found, skipping...");
       }
 
-      // Title
       doc.moveDown(6);
-      doc.fontSize(25).text("Portfolio Dashboard | Monitoring Report", {
-        align: "center",
-      });
-
+      doc
+        .fontSize(25)
+        .text("Portfolio Dashboard | Monitoring Report", { align: "center" });
       doc.moveDown(2);
       doc
         .fontSize(12)
         .text(
           `Generated on: ${new Date(reportData.generatedAt).toLocaleString()}`,
-          {
-            align: "center",
-          }
+          { align: "center" }
         );
 
       const r = reportData.range;
@@ -75,7 +121,7 @@ export async function generateReportPDF(reportData: any): Promise<Buffer> {
       doc.addPage();
 
       // ==========================
-      //  PAGE 2: TABLE OF CONTENTS
+      // Table of Contents
       // ==========================
       doc
         .fontSize(23)
@@ -91,7 +137,6 @@ export async function generateReportPDF(reportData: any): Promise<Buffer> {
       ];
 
       tocEntries.forEach((entry) => {
-        const y = doc.y;
         doc
           .fontSize(12)
           .fillColor("black")
@@ -106,10 +151,8 @@ export async function generateReportPDF(reportData: any): Promise<Buffer> {
       doc.addPage();
 
       // ==========================
-      //  PAGE 3+: CONTENT
+      // Summary
       // ==========================
-
-      // ---- Summary ----
       doc.addNamedDestination("summary");
       doc
         .fontSize(23)
@@ -129,7 +172,9 @@ export async function generateReportPDF(reportData: any): Promise<Buffer> {
         ]);
       doc.moveDown();
 
-      // ---- Projects ----
+      // ==========================
+      // Projects
+      // ==========================
       doc.addNamedDestination("projects");
       doc.fontSize(23).text("Projects", { underline: true, align: "center" });
       doc.moveDown(0.5);
@@ -159,26 +204,24 @@ export async function generateReportPDF(reportData: any): Promise<Buffer> {
             `Avg response (ms): ${p.avgResponse ?? "N/A"}`,
           ]);
 
-        // ---- Incidents ----
         if (p.incidents?.length) {
           doc.addNamedDestination("incidents");
           doc.moveDown(0.5).fontSize(11).text("Recent Incidents:");
-          p.incidents.slice(0, 5).forEach((inc: any, i: number) => {
+          p.incidents.slice(0, 5).forEach((inc, i) => {
             doc
               .fontSize(9)
               .text(
                 `${i + 1}. ${new Date(inc.checkedAt).toLocaleString()} — ${
-                  inc.errorMessage || `HTTP ${inc.httpStatus || "-"}`
+                  inc.errorMessage ?? `HTTP ${inc.httpStatus ?? "-"}`
                 }`
               );
           });
         }
 
-        // ---- Logs ----
         if (reportData.options.includeRawLogs && p.logs?.length) {
           doc.addNamedDestination("logs");
           doc.moveDown(0.5).fontSize(11).text("Logs (latest):");
-          p.logs.slice(0, 20).forEach((l: any) => {
+          p.logs.slice(0, 20).forEach((l) => {
             doc
               .fontSize(8)
               .text(
@@ -192,7 +235,9 @@ export async function generateReportPDF(reportData: any): Promise<Buffer> {
         }
       }
 
-      // ---- Visuals ----
+      // ==========================
+      // Visuals
+      // ==========================
       doc.addPage();
       doc.addNamedDestination("visuals");
       doc
@@ -200,8 +245,7 @@ export async function generateReportPDF(reportData: any): Promise<Buffer> {
         .text("Visuals & Graphs", { underline: true, align: "center" });
       doc.moveDown(0.5);
 
-      // Chart.js
-      new Chart(canvas as any, {
+      const config: ChartConfiguration<"bar"> = {
         type: "bar",
         data: {
           labels,
@@ -216,7 +260,9 @@ export async function generateReportPDF(reportData: any): Promise<Buffer> {
           ],
         },
         options: { scales: { y: { beginAtZero: true, max: 100 } } },
-      });
+      };
+
+      new Chart(canvas as unknown as HTMLCanvasElement, config);
 
       const chartImg = canvas.toBuffer("image/png");
       doc.image(chartImg, { fit: [500, 250], align: "center" });
