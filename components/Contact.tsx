@@ -2,11 +2,11 @@
 
 import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import emailjs from "@emailjs/browser";
 import Image from "next/image";
 
 import BlurText from "./BlurText";
 import contactImg from "@/assets/images/contact-img.svg";
+import { sendFormEmail } from '@/lib/email/sendFormEmail';
 
 const Contact = () => {
   const formInitialDetails = {
@@ -31,7 +31,7 @@ const Contact = () => {
 
   const form = useRef<HTMLFormElement | null>(null);
 
-  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+  const sendContactEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { firstName, email, message } = formDetails;
@@ -45,25 +45,13 @@ const Contact = () => {
       return;
     }
 
-    emailjs
-      .sendForm(
-        process.env.NEXT_PUBLIC_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_TEMPLATE_ID!,
-        form.current,
-        {
-          publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY!,
-        }
-      )
-      .then(
-        () => {
-          toast.success("Message sent successfully");
-        },
-        (error) => {
-          toast.error("Something went wrong");
-          console.log(error);
-        }
-      );
-    setFormDetails(formInitialDetails);
+    const result = await sendFormEmail(process.env.NEXT_PUBLIC_TEMPLATE_ID!, form.current);
+    if (result.success) {
+      toast.success("Message sent successfully");
+      setFormDetails(formInitialDetails);
+    } else {
+      toast.error("Failed to send message.");
+    }
   };
 
   return (
@@ -94,7 +82,7 @@ const Contact = () => {
               />
             </h2>
 
-            <form onSubmit={sendEmail} ref={form} className="mt-6">
+            <form onSubmit={sendContactEmail} ref={form} className="mt-6">
               {/* Name fields */}
               <div className="flex flex-wrap -mx-1">
                 <div className="w-full sm:w-1/2 px-1 mb-4">

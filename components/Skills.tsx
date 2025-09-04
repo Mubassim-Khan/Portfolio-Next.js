@@ -22,10 +22,10 @@ const Skills = () => {
               delay={250}
               animateBy="words"
               direction="top"
-              className="!text-[50px] font-bold text-center mb-3 !text-[#fff]"
+              className="!text-[50px] font-bold text-center !text-[#fff] !mb-[0px]"
             />
           </div>
-          <div className="text-center font-[500] text-[#B8B8B8] text-[18px] tracking-[0.8px] leading-[1.5em] my-[14px] mt-[15px] mb-[75px]">
+          <div className="text-center font-[500] text-[#B8B8B8] text-[18px] tracking-[0.8px] leading-[1.5em] my-[14px] mt-[5px] mb-[75px]">
             <ShinyText
               text="A versatile blend of languages, frameworks, and tools that power my development journey"
               disabled={false}
