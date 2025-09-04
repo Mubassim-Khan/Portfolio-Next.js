@@ -14,7 +14,7 @@ export async function PUT(
       data: body,
     });
     return NextResponse.json(updated);
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: "Failed to update" }, { status: 500 });
   }
 }
@@ -28,7 +28,7 @@ export async function DELETE(
   try {
     await prisma.apiKey.delete({ where: { id } });
     return NextResponse.json({ success: true });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: "Failed to delete" }, { status: 500 });
   }
 }

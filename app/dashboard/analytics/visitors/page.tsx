@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function VisitorsPage() {
   const [loading, setLoading] = useState(true);
 
-  const [visitorsData, setVisitorsData] = useState<
+  const [visitorsData] = useState<
     { country: string; visitors: number }[]
   >([]);
 
