@@ -18,7 +18,7 @@ import { BarChart3, Code, Clock } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// ✅ Register Chart.js components
+// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -117,8 +117,10 @@ const DashboardHome = () => {
           </CardHeader>
           <CardContent>
             <p className="text-2xl font-bold">
-              {projects?.filter((p: any) => p.logs[0]?.status === true)
-                .length ?? 0}
+              {projects?.filter(
+                (p: { logs: { status: boolean }[] }) =>
+                  p.logs[0]?.status === true
+              ).length ?? 0}
             </p>
             <p className="text-sm text-gray-400">active projects</p>
           </CardContent>

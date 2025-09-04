@@ -1,10 +1,10 @@
 import { Parser } from "json2csv";
 
 interface ReportData {
-  id: string;
-  title: string;
-  recipients: string[];
-  date: string;
+  id?: string;
+  title?: string;
+  recipients?: string[];
+  date?: string;
   generatedAt: string;
   range: {
     start: string;
@@ -13,25 +13,37 @@ interface ReportData {
   projects: {
     projectId: string;
     projectName: string;
+    url: string;
+    totalChecks: number;
+    upCount: number;
+    downCount: number;
+    uptimePct: number | null;
+    avgResponse: number | null;
+    incidents: {
+      checkedAt: Date | string;
+      httpStatus: number | null;
+      responseTime: number | null;
+      errorMessage: string | null;
+    }[];
     logs: {
-      checkedAt: string;
+      checkedAt: Date | string;
       status: boolean;
-      responseTime?: number;
-      httpStatus?: number;
-      errorMessage?: string;
+      httpStatus: number | null;
+      responseTime: number | null;
+      errorMessage: string | null;
     }[];
   }[];
   totals: {
     projects: number;
     totalChecks: number;
     overallUptime: number | null;
-  };
+  }; // since you’re passing it
 }
 
 interface LogCSVRow {
   projectId: string;
   projectName: string;
-  checkedAt: string;
+  checkedAt: Date | string;
   status: string;
   responseTime?: string | number;
   httpStatus?: string | number;

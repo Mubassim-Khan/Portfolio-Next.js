@@ -27,8 +27,10 @@ export default function ApiKeysPage() {
         const res = await fetch("/api/api-keys");
         if (!res.ok) throw new Error("Failed");
         const data = await res.json();
-        setKeys(data.map((k: any) => ({ ...k, visible: false })));
-      } catch (err) {
+        setKeys(
+          data.map((k: Record<string, unknown>) => ({ ...k, visible: false }))
+        );
+      } catch {
         toast.error("Failed to load API keys.");
       } finally {
         setLoading(false);

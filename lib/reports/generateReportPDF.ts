@@ -4,56 +4,66 @@ import { createCanvas } from "canvas";
 import { ChartConfiguration } from "chart.js";
 const Chart = (await import("chart.js/auto")).default;
 
-interface Incident {
-  checkedAt: string;
-  errorMessage?: string;
-  httpStatus?: number;
+export interface ReportOptions {
+  includeEverything?: boolean;
+  includeSummary?: boolean;
+  includeCharts?: boolean;
+  includeRawLogs?: boolean;
+  includeTables?: boolean;
+
+  // range
+  range: {
+    start: string;
+    end: string;
+    type?: "day" | "week" | "month" | "year";
+  };
+
+  // other config
+  format?: "pdf" | "csv";
+  maxLogs?: number;
+  projectId?: string | null;
 }
 
-interface Log {
-  checkedAt: string;
-  status: boolean;
-  responseTime?: number;
-  httpStatus?: number;
-  errorMessage?: string;
-}
-
-interface ProjectReport {
-  projectId: string;
-  projectName: string;
-  url: string;
-  logs: Log[];
-  totalChecks: number;
-  upCount: number;
-  downCount: number;
-  uptimePct?: number;
-  avgResponse?: number;
-  incidents?: Incident[];
-}
-
-interface Totals {
-  projects: number;
-  totalChecks: number;
-  overallUptime: number | null;
-}
-
-interface ReportData {
+// The actual dataset we feed to the PDF/CSV generator
+export interface ReportData {
   id: string;
   title: string;
   recipients: string[];
   date: string;
   generatedAt: string;
-  url: string;
+  range: { start: string; end: string; type?: string };
+
   options: {
-    includeRawLogs: boolean;
+    includeRawLogs?: boolean;
   };
-  range: {
-    start: string;
-    end: string;
+  projects: {
+    projectId: string;
+    projectName: string;
+    url: string;
+    totalChecks: number;
+    upCount: number;
+    downCount: number;
+    uptimePct: number | null;
+    avgResponse: number | null;
+    incidents: {
+      checkedAt: string;
+      errorMessage?: string;
+      httpStatus?: number;
+    }[];
+    logs: {
+      checkedAt: string;
+      status: boolean;
+      responseTime?: number;
+      httpStatus?: number;
+      errorMessage?: string;
+    }[];
+  }[];
+
+  totals: {
+    projects: number;
+    totalChecks: number;
+    overallUptime: number | null;
   };
-  projects: ProjectReport[];
-  totals: Totals;
-  p: ProjectReport;
 }
 
 export async function generateReportPDF(
