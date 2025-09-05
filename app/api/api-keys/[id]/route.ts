@@ -5,7 +5,7 @@ export async function PUT(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await context.params; // ✅ await params
+  const { id } = await context.params;
   const body = await req.json();
 
   try {
@@ -23,7 +23,7 @@ export async function DELETE(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await context.params; // ✅ await params
+  const { id } = await context.params;
 
   try {
     await prisma.apiKey.delete({ where: { id } });
