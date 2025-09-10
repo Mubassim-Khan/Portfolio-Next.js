@@ -12,30 +12,35 @@ export const SocialLinks = [
     icon: LinkedInIcon,
     url: "https://www.linkedin.com/in/mubassim",
     alt: "LinkedIn",
+    username: "Mubassim Ahmed Khan",
   },
   {
     id: 2,
     icon: GitHubIcon,
     url: "https://www.github.com/Mubassim-Khan",
     alt: "GitHub",
+    username: "Mubassim-Khan",
   },
   {
     id: 3,
     icon: DiscordIcon,
     url: "https://discord.com/users/732681893484691518",
     alt: "Discord",
+    username: "mubassimkhan_08",
   },
   {
     id: 4,
     icon: GmailIcon,
     url: "mailto:mubassimkhan@gmail.com",
     alt: "Gmail",
+    username: "mubassimkhan@gmail.com",
   },
   {
     id: 5,
     icon: ResumeIcon,
     url: "https://drive.google.com/file/d/1320m3Q7mjxfDCdG4tFqEP7_D1cJwUWaq/view",
     alt: "Resume",
+    username: "Resume",
   },
   {
     id: 4,
@@ -182,13 +187,13 @@ export const ProjectsData = [
   },
   {
     id: 2,
-    title: "CarHub",
+    title: "DocTools",
     description:
-      "CarHub is a Next.js car rental app that lets you easily search and find cars based on your preferences.",
+      "DocTools is an all-in-one document utility for file conversion, OCR, AI summaries & QR code generation, built with FastAPI and React.",
     imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/CarHub/master/public/Preview.png",
-    webURL: "https://car-hub-gray-seven.vercel.app/",
-    githubURL: "https://github.com/Mubassim-Khan/CarHub",
+      "https://raw.githubusercontent.com/Mubassim-Khan/DocTools/refs/heads/master/frontend/src/assets/Preview.png",
+    webURL: "https://m-doctools.vercel.app",
+    githubURL: "https://github.com/Mubassim-Khan/DocTools",
   },
   {
     id: 3,
@@ -214,7 +219,7 @@ export const ProjectsData = [
     id: 5,
     title: "zNotebook",
     description:
-      "zNotebook is a cloud notebook website, made using MERN Stack, Tailwind CSS & Framer Motion etc.",
+      "zNotebook is a cloud notebook website, made using MERN Stack, Tailwind CSS & Framer Motion.",
     imgURL:
       "https://raw.githubusercontent.com/Mubassim-Khan/zNotebook/main/frontend/src/assets/images/Preview.png",
     webURL: "https://znotebook.vercel.app/",
@@ -222,12 +227,12 @@ export const ProjectsData = [
   },
   {
     id: 6,
-    title: "Zentry",
+    title: "F1 Prediction App",
     description:
-      "Zentry is a 2024 award-winning landing page built with React.js and Tailwind CSS.",
+      "Predicts lap times and race outcomes with ML models on FastF1 telemetry, built with Flask, JavaScript, HTML & CSS.",
     imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/Zentry/refs/heads/main/public/img/Preview.png",
-    webURL: "https://zentry-eight-weld.vercel.app/",
-    githubURL: "https://github.com/Mubassim-Khan/Zentry",
+      "https://raw.githubusercontent.com/Mubassim-Khan/F1-Predictor/refs/heads/main/static/images/preview.png",
+    webURL: "",
+    githubURL: "https://github.com/Mubassim-Khan/F1-Predictor",
   },
 ];
