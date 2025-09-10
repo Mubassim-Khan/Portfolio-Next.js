@@ -71,7 +71,7 @@
   }
 
   .floating-nav {
-    @apply bg-black rounded-lg border;
+    @apply bg-black/30 backdrop-blur-md rounded-2xl border;
   }
 }
 
