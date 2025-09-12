@@ -5,11 +5,11 @@ export async function PUT(req: Request) {
   const { pathname } = new URL(req.url);
   const id = pathname.split("/").pop() ?? "";
 
-  const { name, url, description } = await req.json();
+  const body = await req.json();
 
   const updated = await prisma.project.update({
     where: { id },
-    data: { name, url, description },
+    data: body,
   });
 
   return NextResponse.json(updated);

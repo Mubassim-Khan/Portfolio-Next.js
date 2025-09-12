@@ -15,6 +15,9 @@ model Project {
   description String?
   createdAt   DateTime     @default(now())
   logs        UptimeLog[]
+  featured    Boolean      @default(false)
+  githubURL   String?
+  order       Int?
   reports Report[]
 }
 
@@ -65,4 +68,13 @@ model ApiKey {
   variable  String   
   secret    String   
   createdAt DateTime @default(now())
+}
+
+model Certification {
+  id          String   @id @default(cuid())
+  name        String
+  verifyUrl   String?
+  skill       String
+  featured    Boolean  @default(false)
+  order       Int?
 }
