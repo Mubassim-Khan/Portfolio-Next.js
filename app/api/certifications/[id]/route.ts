@@ -21,25 +21,28 @@ export async function GET(req: NextRequest) {
 }
 
 // PUT update certification
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: NextRequest) {
+  const { pathname } = new URL(req.url);
+  const id = pathname.split("/").pop() ?? "";
+
   const body = await req.json();
+
   const cert = await prisma.certification.update({
-    where: { id: params.id },
+    where: { id },
     data: body,
   });
+
   return NextResponse.json(cert);
 }
 
 // DELETE certification
-export async function DELETE(
-  _: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest) {
+  const { pathname } = new URL(req.url);
+  const id = pathname.split("/").pop() ?? "";
+
   await prisma.certification.delete({
-    where: { id: params.id },
+    where: { id },
   });
+
   return NextResponse.json({ message: "Certification deleted" });
 }
