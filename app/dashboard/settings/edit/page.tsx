@@ -23,6 +23,7 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Pencil, Trash, Plus, ArrowUp, ArrowDown, Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 type Project = {
   id: string;
@@ -149,7 +150,7 @@ export default function PortfolioEditor() {
   async function saveProject() {
     // basic validation
     if (!pName.trim()) {
-      alert("Project name is required.");
+      toast.error("Project name is required.");
       return;
     }
 
@@ -181,10 +182,11 @@ export default function PortfolioEditor() {
       }
 
       setProjectDialogOpen(false);
+      toast.success("Project saved.");
       fetchFeaturedProjects();
     } catch (err) {
       console.error(err);
-      alert("Failed to save project.");
+      toast.error("Failed to save project.");
     } finally {
       setProjectSaving(false);
     }
@@ -201,9 +203,10 @@ export default function PortfolioEditor() {
       await fetch(`/api/projects/${deleteProjectId}`, { method: "DELETE" });
       setDeleteProjectId(null);
       fetchFeaturedProjects();
+      toast.success("Project deleted.");
     } catch (err) {
       console.error(err);
-      alert("Failed to delete project.");
+      toast.error("Failed to delete project.");
     } finally {
       setDeletingProject(false);
     }
@@ -234,9 +237,10 @@ export default function PortfolioEditor() {
         }),
       ]);
       await fetchFeaturedProjects();
+      toast.success("Project order updated.");
     } catch (err) {
       console.error("Failed to swap order", err);
-      alert("Failed to reorder projects");
+      toast.error("Failed to reorder projects");
     }
   }
 
@@ -248,9 +252,10 @@ export default function PortfolioEditor() {
         body: JSON.stringify({ order: newOrder }),
       });
       await fetchFeaturedProjects();
+      toast.success("Project order updated.");
     } catch (err) {
       console.error(err);
-      alert("Failed to update order");
+      toast.error("Failed to update order");
     }
   }
 
@@ -277,7 +282,7 @@ export default function PortfolioEditor() {
 
   async function saveCertification() {
     if (!cName.trim()) {
-      alert("Certification name is required.");
+      toast.error("Certification name is required.");
       return;
     }
     setCertSaving(true);
@@ -306,9 +311,10 @@ export default function PortfolioEditor() {
 
       setCertDialogOpen(false);
       fetchCertifications();
+      toast.success("Certification saved.");
     } catch (err) {
       console.error(err);
-      alert("Failed to save certification.");
+      toast.error("Failed to save certification.");
     } finally {
       setCertSaving(false);
     }
@@ -325,9 +331,10 @@ export default function PortfolioEditor() {
       await fetch(`/api/certifications/${deleteCertId}`, { method: "DELETE" });
       setDeleteCertId(null);
       fetchCertifications();
+      toast.success("Certification deleted.");
     } catch (err) {
       console.error(err);
-      alert("Failed to delete certification.");
+      toast.error("Failed to delete certification.");
     } finally {
       setDeletingCert(false);
     }
@@ -354,15 +361,11 @@ export default function PortfolioEditor() {
     <div className="space-y-4 p-6">
       <Card>
         <CardContent className="pt-6 space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold w-1/3">Portfolio Editor</h2>
+          <Tabs defaultValue="projects" className="w-full rounded-2xl">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold w-1/3">Portfolio Editor</h2>
 
-            {/* Centered tabs */}
-            <div className="w-1/3 flex justify-center mb-2">
-              <Tabs
-                defaultValue="projects"
-                className="w-full max-w-md rounded-2xl"
-              >
+              <div className="w-1/3 flex justify-center mb-2">
                 <TabsList className="mx-auto rounded-xl p-5">
                   <TabsTrigger
                     value="projects"
@@ -377,58 +380,56 @@ export default function PortfolioEditor() {
                     Certifications
                   </TabsTrigger>
                 </TabsList>
-              </Tabs>
+              </div>
+
+              <div className="w-1/3 flex justify-end"></div>
             </div>
 
-            <div className="w-1/3 flex justify-end"></div>
-          </div>
+            {/* ALERTS */}
+            {hasIncompleteProjects && (
+              <Alert variant="destructive">
+                <AlertTitle>Incomplete data</AlertTitle>
+                <AlertDescription>
+                  {incompleteProjects.length} project(s) are missing required
+                  fields (description, GitHub URL, cover image URL, or website
+                  URL).
+                </AlertDescription>
+              </Alert>
+            )}
 
-          {/* ALERTS */}
-          {hasIncompleteProjects && (
-            <Alert variant="destructive">
-              <AlertTitle>Incomplete data</AlertTitle>
-              <AlertDescription>
-                {incompleteProjects.length} project(s) are missing required
-                fields (description, GitHub URL, cover image URL, or website
-                URL).
-              </AlertDescription>
-            </Alert>
-          )}
+            {notExactlySixProjects && (
+              <Alert variant="destructive">
+                <AlertTitle>Portfolio requires exactly 6 projects</AlertTitle>
+                <AlertDescription>
+                  You currently have {projectsCount} project(s). The portfolio
+                  grid expects exactly 6.
+                </AlertDescription>
+              </Alert>
+            )}
 
-          {notExactlySixProjects && (
-            <Alert variant="destructive">
-              <AlertTitle>Portfolio requires exactly 6 projects</AlertTitle>
-              <AlertDescription>
-                You currently have {projectsCount} project(s). The portfolio
-                grid expects exactly 6.
-              </AlertDescription>
-            </Alert>
-          )}
+            {hasIncompleteCertifications && (
+              <Alert variant="destructive">
+                <AlertTitle>Incomplete data</AlertTitle>
+                <AlertDescription>
+                  {incompleteCertifications.length} certification(s) are missing
+                  required fields (name, issuer, issue date, or certificate
+                  URL).
+                </AlertDescription>
+              </Alert>
+            )}
 
-          {hasIncompleteCertifications && (
-            <Alert variant="destructive">
-              <AlertTitle>Incomplete data</AlertTitle>
-              <AlertDescription>
-                {incompleteCertifications.length} certification(s) are missing
-                required fields (name, issuer, issue date, or certificate URL).
-              </AlertDescription>
-            </Alert>
-          )}
+            {notExactlyFourCertifications && (
+              <Alert variant="destructive">
+                <AlertTitle>
+                  Portfolio requires exactly 6 certifications
+                </AlertTitle>
+                <AlertDescription>
+                  You currently have {certificationsCount} certification(s). The
+                  portfolio grid expects exactly 6.
+                </AlertDescription>
+              </Alert>
+            )}
 
-          {notExactlyFourCertifications && (
-            <Alert variant="destructive">
-              <AlertTitle>
-                Portfolio requires exactly 6 certifications
-              </AlertTitle>
-              <AlertDescription>
-                You currently have {certificationsCount} certification(s). The
-                portfolio grid expects exactly 6.
-              </AlertDescription>
-            </Alert>
-          )}
-
-          {/* TABS CONTENT */}
-          <Tabs defaultValue="projects">
             {/* Projects Tab */}
             <TabsContent value="projects">
               <Card>
@@ -454,7 +455,9 @@ export default function PortfolioEditor() {
                 <CardContent className="space-y-4">
                   <div className="flex flex-col gap-3">
                     {loadingProjects ? (
-                      <Loader2 />
+                      <div className="w-full flex justify-center py-10">
+    <Loader2 className="animate-spin h-6 w-6 text-gray-500" />
+  </div>
                     ) : projects.length === 0 ? (
                       <p className="text-sm text-muted-foreground text-center">
                         No featured projects found.
@@ -573,7 +576,9 @@ export default function PortfolioEditor() {
 
                 <CardContent className="space-y-4">
                   {loadingCerts ? (
-                    <Loader2 />
+                    <div className="w-full flex justify-center py-10">
+    <Loader2 className="animate-spin h-6 w-6 text-gray-500" />
+  </div>
                   ) : certifications.length === 0 ? (
                     <p className="text-sm text-muted-foreground text-center">
                       No certifications
@@ -677,8 +682,8 @@ export default function PortfolioEditor() {
             <Button onClick={saveProject} disabled={projectSaving}>
               {projectSaving ? (
                 <div className="flex items-center gap-2">
-                  <span>Saving...</span>
                   <Loader2 className="animate-spin h-4 w-4" />
+                  <span>Saving...</span>
                 </div>
               ) : editProjectId ? (
                 "Save changes"
@@ -711,8 +716,8 @@ export default function PortfolioEditor() {
             >
               {deletingProject ? (
                 <div className="flex items-center gap-2">
-                  <span>Deleting...</span>
                   <Loader2 className="animate-spin h-4 w-4" />
+                  <span>Deleting...</span>
                 </div>
               ) : (
                 "Delete"
@@ -771,8 +776,8 @@ export default function PortfolioEditor() {
             <Button onClick={saveCertification} disabled={certSaving}>
               {certSaving ? (
                 <div className="flex items-center gap-2">
-                  <span>Saving...</span>
                   <Loader2 className="animate-spin h-4 w-4" />
+                  <span>Saving...</span>
                 </div>
               ) : editCertId ? (
                 "Save changes"
@@ -805,8 +810,8 @@ export default function PortfolioEditor() {
             >
               {deletingCert ? (
                 <div className="flex items-center gap-2">
-                  <span>Deleting...</span>
                   <Loader2 className="animate-spin h-4 w-4" />
+                  <span>Deleting...</span>
                 </div>
               ) : (
                 "Delete"

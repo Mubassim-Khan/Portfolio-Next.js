@@ -1,9 +1,43 @@
-import { ProjectsData } from "@/PortfolioData";
+"use client";
+
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
+
 import ProjectCard from "./ProjectCard";
 import ShinyText from "./ShinyText";
 import BlurText from "./BlurText";
+import toast from "react-hot-toast";
+
+type Project = {
+  id: string;
+  name: string;
+  description: string;
+  url?: string;
+  githubURL: string;
+  coverImage: string;
+};
 
 const Projects = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/portfolio/projects");
+        if (!res.ok) toast.error("Failed to fetch projects");
+        const data = await res.json();
+        setProjects(data);
+      } catch (err) {
+        console.error("Error fetching projects:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
+
   return (
     <section className="project py-12" id="project">
       <div className="max-w-[1140px] mx-auto px-4">
@@ -27,9 +61,19 @@ const Projects = () => {
         </div>
 
         <div className="flex flex-wrap -mx-2">
-          {ProjectsData.map((project, id) => (
-            <ProjectCard key={id} {...project} />
-          ))}
+          {loading ? (
+            <div className="w-full flex justify-center py-10">
+              <Loader2 className="animate-spin h-6 w-6 text-gray-500" />
+            </div>
+          ) : projects.length === 0 ? (
+            <p className="w-full text-center text-gray-500">
+              No projects found.
+            </p>
+          ) : (
+            projects.map((project) => (
+              <ProjectCard key={project.id} {...project} />
+            ))
+          )}
         </div>
       </div>
     </section>

@@ -4,25 +4,25 @@ import noImage from "@/assets/images/no-preview-img.jpg";
 import CustomButton from "./Button";
 
 interface ProjectCardProps {
-  title: string;
+  name: string;
   description: string;
-  imgURL: string;
+  coverImage: string;
   githubURL: string;
-  webURL: string;
+  url?: string;
 }
 
 const ProjectCard = ({
-  title,
+  name: title,
   description,
-  imgURL,
+  coverImage,
   githubURL,
-  webURL,
+  url: webURL,
 }: ProjectCardProps) => {
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 px-2 mb-6">
       <div className="proj-imgbx relative overflow-hidden rounded-lg shadow-md bg-gray-800 flex flex-col  ">
         <Image
-          src={imgURL || noImage}
+          src={coverImage || noImage}
           alt={title}
           width={300}
           height={200}

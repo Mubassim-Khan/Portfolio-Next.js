@@ -1,11 +1,40 @@
-import React from "react";
+"use client";
+
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 import CertificateCard from "./CertificateCard";
-import { CertificateData } from "@/PortfolioData";
 import ShinyText from "./ShinyText";
 import BlurText from "./BlurText";
+import toast from "react-hot-toast";
+
+type Certification = {
+  id: string;
+  name: string;
+  verifyUrl: string;
+  skill: string;
+};
 
 const Certifications = () => {
+  const [certification, setCertification] = useState<Certification[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCertifications = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/certifications");
+        if (!res.ok) toast.error("Failed to fetch certifications");
+        const data = await res.json();
+        setCertification(data);
+      } catch (err) {
+        console.error("Error fetching certifications:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCertifications();
+  }, []);
   return (
     <section id="certifications" className="certifications">
       <div className="max-w-7xl mx-auto px-4">
@@ -30,14 +59,19 @@ const Certifications = () => {
               />
             </div>
             <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
-              {CertificateData.map((cert, idx) => (
-                <CertificateCard
-                  key={idx}
-                  title={cert.title}
-                  skill={cert.skill}
-                  verifyLink={cert.verifyLink}
-                />
-              ))}
+              {loading ? (
+                <div className="w-full flex justify-center py-10">
+                  <Loader2 className="animate-spin h-6 w-6 text-gray-500" />
+                </div>
+              ) : certification.length === 0 ? (
+                <p className="w-full text-center text-gray-500">
+                  No projects found.
+                </p>
+              ) : (
+                certification.map((certificate) => (
+                  <CertificateCard key={certificate.id} {...certificate} />
+                ))
+              )}
             </div>
           </div>
         </div>
