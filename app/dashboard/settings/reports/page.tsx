@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon, Download, Send, Loader } from "lucide-react";
 import toast from "react-hot-toast";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ReportGenerator() {
   const [includeEverything, setIncludeEverything] = useState(true);
