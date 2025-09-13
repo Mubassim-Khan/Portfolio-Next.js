@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { GitBranch, Loader2, Plus, Search } from "lucide-react";
+import { Loader2, Plus, Search } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -45,7 +45,7 @@ export default function ManageProjectsPage() {
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [githubURL, setGithubURL] = useState("");
-  const [order, setOrder] = useState<number | null>(null);
+  const [order] = useState<number | null>(null);
   const [coverImage, setCoverImage] = useState("");
   const [featured, setFeatured] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);

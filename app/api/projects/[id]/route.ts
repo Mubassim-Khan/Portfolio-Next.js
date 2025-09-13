@@ -1,18 +1,19 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function PUT(req: Request) {
+export async function GET(req: NextRequest) {
   const { pathname } = new URL(req.url);
   const id = pathname.split("/").pop() ?? "";
 
-  const body = await req.json();
-
-  const updated = await prisma.project.update({
+  const cert = await prisma.certification.findUnique({
     where: { id },
-    data: body,
   });
 
-  return NextResponse.json(updated);
+  if (!cert) {
+    return NextResponse.json({ error: "Certification not found" }, { status: 404 });
+  }
+
+  return NextResponse.json(cert);
 }
 
 export async function DELETE(req: Request) {

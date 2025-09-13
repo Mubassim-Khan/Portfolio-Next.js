@@ -45,6 +45,24 @@ type Certification = {
   order?: number | null;
 };
 
+interface ProjectPayload {
+  name: string;
+  url: string | null;
+  description: string | null;
+  githubURL: string | null;
+  coverImage: string | null;
+  featured: boolean;
+  order?: number;  // optional because you set undefined
+}
+
+interface CertificatePayload {
+  name: string;
+  skill: string | null;
+  verifyUrl: string | null;
+  featured: boolean;
+  order?: number;  // optional because you set undefined
+}
+
 export default function PortfolioEditor() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [certifications, setCertifications] = useState<Certification[]>([]);
@@ -90,7 +108,7 @@ export default function PortfolioEditor() {
   async function fetchFeaturedProjects() {
     setLoadingProjects(true);
     try {
-      let res = await fetch("/api/portfolio/projects");
+      const res = await fetch("/api/portfolio/projects");
       const data = await res.json();
       // ensure sorted by order asc
       data.sort((a: Project, b: Project) => {
@@ -157,7 +175,7 @@ export default function PortfolioEditor() {
     setProjectSaving(true);
 
     try {
-      const payload: any = {
+      const payload: ProjectPayload = {
         name: pName,
         url: pUrl || null,
         description: pDescription || null,
@@ -287,7 +305,7 @@ export default function PortfolioEditor() {
     }
     setCertSaving(true);
     try {
-      const payload: any = {
+      const payload: CertificatePayload = {
         name: cName,
         skill: cSkill || null,
         verifyUrl: cUrl || null,
