@@ -164,7 +164,7 @@ export const CertificateData = [
   {
     title: "DevOps for Web Development - Google Developer Student Clubs",
     skill: "DevOps for Web Development",
-    verifyLink: "https://cert.devtown.in/verify/Z2oRtPz",
+    verifyLink: " ",
   },
   {
     title: "Introduction to Software Engineering - IBM",

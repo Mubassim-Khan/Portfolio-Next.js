@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Plus, Search } from "lucide-react";
+import { GitBranch, Loader2, Plus, Search } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -22,8 +22,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 
-type Project = { id: string; name: string; url: string; description: string };
+type Project = {
+  id: string;
+  name: string;
+  url: string;
+  description: string;
+  coverImage: string;
+  order: number | null;
+  featured: boolean;
+  githubURL: string | null;
+};
 
 export default function ManageProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -32,6 +44,10 @@ export default function ManageProjectsPage() {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
+  const [githubURL, setGithubURL] = useState("");
+  const [order, setOrder] = useState<number | null>(null);
+  const [coverImage, setCoverImage] = useState("");
+  const [featured, setFeatured] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -56,7 +72,15 @@ export default function ManageProjectsPage() {
 
   async function handleSave() {
     setSaving(true);
-    const payload = { name, url, description };
+    const payload = {
+      name,
+      url,
+      description,
+      coverImage,
+      featured,
+      order,
+      githubURL,
+    };
 
     if (editId) {
       await fetch(`/api/projects/${editId}`, {
@@ -167,7 +191,14 @@ export default function ManageProjectsPage() {
                   <TableRow key={p.id}>
                     <TableCell>
                       <div className="flex flex-col">
-                        <span className="font-medium">{p.name}</span>
+                        <span className="font-medium flex items-center gap-2">
+                          {p.name}
+                          {p.featured && (
+                            <Badge className="bg-green-100 ml-3 rounded-xl text-green-800 hover:bg-green-100">
+                              Featured
+                            </Badge>
+                          )}
+                        </span>
                         <span className="text-xs text-muted-foreground">
                           {p.url}
                         </span>
@@ -222,12 +253,35 @@ export default function ManageProjectsPage() {
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                 />
+                <Input
+                  placeholder="Cover Image URL"
+                  value={coverImage}
+                  onChange={(e) => setCoverImage(e.target.value)}
+                />
+                <Input
+                  placeholder="GitHub Repository URL"
+                  value={githubURL}
+                  onChange={(e) => setGithubURL(e.target.value)}
+                />
                 <Textarea
                   placeholder="Project description"
                   value={description || ""}
                   onChange={(e) => setDescription(e.target.value)}
                   className="min-h-[120px]"
                 />
+                {/* Featured toggle */}
+                <div className="flex items-center justify-between p-3">
+                  <Label htmlFor="featured" className="text-sm font-medium">
+                    Show on portfolio
+                  </Label>
+                  <Switch
+                    id="featured"
+                    checked={featured}
+                    onCheckedChange={(val) => {
+                      setFeatured(val);
+                    }}
+                  />
+                </div>
               </div>
 
               <DialogFooter>
