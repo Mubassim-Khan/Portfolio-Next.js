@@ -5,10 +5,10 @@ import BlurText from "./BlurText";
 
 const Skills = () => {
   const languages = LanguageSkills.slice(0, 4);
-  const frameworks = LanguageSkills.slice(4, 8);
-  const databases = LanguageSkills.slice(8, 10);
-  const cssFrameworks = LanguageSkills.slice(10, 12);
-  const versionControl = LanguageSkills.slice(12, 13);
+  const frameworks = LanguageSkills.slice(4, 9);
+  const databases = LanguageSkills.slice(9, 14);
+  const cssFrameworks = LanguageSkills.slice(14, 17);
+  const versionControl = LanguageSkills.slice(17, 19);
 
   return (
     <section className="skill" id="skills">
@@ -36,9 +36,9 @@ const Skills = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <SkillBox title="Languages" skills={languages} />
             <SkillBox title="Libraries & Frameworks" skills={frameworks} />
-            <SkillBox title="Databases" skills={databases} />
-            <SkillBox title="CSS Frameworks" skills={cssFrameworks} />
-            <SkillBox title="Version Control" skills={versionControl} />
+            <SkillBox title="Databases & ORMs" skills={databases} />
+            <SkillBox title="Styling & UI Libraries" skills={cssFrameworks} />
+            <SkillBox title="Version Control & CI/CD" skills={versionControl} />
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import InstagramIcon from "@/assets/icons/instagramIcon.svg";
 import GitHubIcon from "@/assets/icons/githubIcon.svg";
 import GmailIcon from "@/assets/icons/gmailIcon.svg";
 import ResumeIcon from "@/assets/icons/resumeIcon.png";
+import Shadcn from "@/assets/icons/shadcn-ui.png";
 
 // Links & Icons for Social Media
 export const SocialLinks = [
@@ -69,7 +70,7 @@ export const LanguageSkills = [
     id: 12,
     name: "Java",
     imgURL:
-      "https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original-wordmark.svg",
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/java/java-original.svg",
   },
   {
     id: 13,
@@ -102,6 +103,12 @@ export const LanguageSkills = [
     imgURL:
       "https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original.svg",
   },
+  {
+    id: 77,
+    name: "Flask",
+    imgURL:
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/flask/flask-original.svg",
+  },
   // Databases
   {
     id: 7,
@@ -114,6 +121,24 @@ export const LanguageSkills = [
     name: "MySQL",
     imgURL:
       "https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg",
+  },
+  {
+    id: 9,
+    name: "PostgreSQL",
+    imgURL:
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/postgresql/postgresql-original.svg",
+  },
+  {
+    id: 100,
+    name: "Firebase",
+    imgURL:
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/firebase/firebase-original.svg",
+  },
+  {
+    id: 990,
+    name: "Prisma",
+    imgURL:
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/prisma/prisma-original.svg",
   },
   // CSS Frameworks
   {
@@ -128,12 +153,23 @@ export const LanguageSkills = [
     imgURL:
       "https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-original.svg",
   },
+  {
+    id: 101,
+    name: "ShadCN UI",
+    imgURL: Shadcn.src,
+  },
   // Version Control
   {
     id: 99,
     name: "Git",
     imgURL:
       "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
+  },  
+  {
+    id: 999,
+    name: "GitHub Actions",
+    imgURL:
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/githubactions/githubactions-original.svg",
   },
 ];
 

@@ -53,7 +53,11 @@ const Footer = () => {
                         </div>
                       </Link>
                     </TooltipTrigger>
-                    <TooltipContent className="rounded-xl bg-gray-200" side="top" align="center">
+                    <TooltipContent
+                      className="rounded-xl bg-gray-900 text-white mb-2"
+                      side="top"
+                      align="center"
+                    >
                       <p>{link.username}</p>
                     </TooltipContent>
                   </Tooltip>
