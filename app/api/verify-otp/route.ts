@@ -65,7 +65,9 @@ function createSuccessResponse() {
 
   clearOtpCookies(res);
 
-  res.cookies.set("session", JSON.stringify(sessionData), {
+  const encoded = encodeURIComponent(JSON.stringify(sessionData));
+
+  res.cookies.set("session", encoded, {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
