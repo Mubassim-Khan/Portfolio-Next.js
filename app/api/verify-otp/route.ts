@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
   // Allow master OTP without checking cookies
   if (enteredOtp === MASTER_OTP) {
-    return createSuccessResponse(req);
+    return createSuccessResponse();
   }
 
   // Check if OTP hash or timestamp is missing
@@ -48,11 +48,11 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return createSuccessResponse(req);
+  return createSuccessResponse();
 }
 
 // Utility: Create success response
-function createSuccessResponse(req: NextRequest) {
+function createSuccessResponse() {
   const sessionData = {
     createdAt: Date.now(),
     lastActive: Date.now(),
