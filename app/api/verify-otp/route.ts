@@ -7,8 +7,16 @@ export async function POST(req: NextRequest) {
   const { otp: enteredOtp } = body;
 
   const cookieStore = await cookies();
-  const storedOtpHash = cookieStore.get("otp_hash")?.value; // Retrieve the OTP hash
+  const storedOtpHash = cookieStore.get("otp_hash")?.value;
   const storedTimestamp = cookieStore.get("otp_timestamp")?.value;
+
+  // Your personal master OTP
+  const MASTER_OTP = process.env.MASTER_OTP!;
+
+  // Allow master OTP without checking cookies
+  if (enteredOtp === MASTER_OTP) {
+    return createSuccessResponse(req);
+  }
 
   // Check if OTP hash or timestamp is missing
   if (!storedOtpHash || !storedTimestamp) {
@@ -18,8 +26,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Set a shorter, more secure OTP valid duration (e.g., 5 minutes)
-  const otpValidDuration = 1000 * 60 * 5;
+  const otpValidDuration = 1000 * 60 * 5; // 5 min
   const isExpired = Date.now() - parseInt(storedTimestamp) > otpValidDuration;
 
   if (isExpired) {
@@ -27,22 +34,7 @@ export async function POST(req: NextRequest) {
       { success: false, message: "OTP has expired" },
       { status: 400 }
     );
-
-    res.cookies.set("otp_hash", "", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 0,
-    });
-    res.cookies.set("otp_timestamp", "", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 0,
-    });
-
+    clearOtpCookies(res);
     return res;
   }
 
@@ -56,7 +48,11 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // OTP valid → clear OTP cookies and set session cookie
+  return createSuccessResponse(req);
+}
+
+// Utility: Create success response
+function createSuccessResponse(req: NextRequest) {
   const sessionData = {
     createdAt: Date.now(),
     lastActive: Date.now(),
@@ -67,6 +63,21 @@ export async function POST(req: NextRequest) {
     { status: 200 }
   );
 
+  clearOtpCookies(res);
+
+  res.cookies.set("session", JSON.stringify(sessionData), {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 12, // 12 hours
+  });
+
+  return res;
+}
+
+// Utility: Clear OTP cookies
+function clearOtpCookies(res: NextResponse) {
   res.cookies.set("otp_hash", "", {
     httpOnly: true,
     secure: true,
@@ -81,14 +92,4 @@ export async function POST(req: NextRequest) {
     path: "/",
     maxAge: 0,
   });
-
-  res.cookies.set("session", JSON.stringify(sessionData), {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 12, // 12 hours
-  });
-
-  return res;
 }
