@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcrypt"; // Import bcrypt
+import bcrypt from "bcrypt";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -23,13 +23,27 @@ export async function POST(req: NextRequest) {
   const isExpired = Date.now() - parseInt(storedTimestamp) > otpValidDuration;
 
   if (isExpired) {
-    // Clear expired cookies
-    cookieStore.set("otp_hash", "", { maxAge: 0 });
-    cookieStore.set("otp_timestamp", "", { maxAge: 0 });
-    return NextResponse.json(
+    const res = NextResponse.json(
       { success: false, message: "OTP has expired" },
       { status: 400 }
     );
+
+    res.cookies.set("otp_hash", "", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+    });
+    res.cookies.set("otp_timestamp", "", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+    });
+
+    return res;
   }
 
   // Compare the entered OTP with the stored HASH
@@ -42,27 +56,39 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // OTP is valid. Clear the OTP cookies and set the session cookie.
-  cookieStore.set("otp_hash", "", { maxAge: 0 });
-  cookieStore.set("otp_timestamp", "", { maxAge: 0 });
-
-  const response = NextResponse.json({
-    success: true,
-    message: "OTP verified",
-  });
-
+  // OTP valid → clear OTP cookies and set session cookie
   const sessionData = {
     createdAt: Date.now(),
     lastActive: Date.now(),
   };
 
-  response.cookies.set("session", JSON.stringify(sessionData), {
+  const res = NextResponse.json(
+    { success: true, message: "OTP verified" },
+    { status: 200 }
+  );
+
+  res.cookies.set("otp_hash", "", {
     httpOnly: true,
-    path: "/",
-    maxAge: 60 * 60 * 12, // 12 hours
     secure: true,
     sameSite: "lax",
+    path: "/",
+    maxAge: 0,
+  });
+  res.cookies.set("otp_timestamp", "", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0,
   });
 
-  return response;
+  res.cookies.set("session", JSON.stringify(sessionData), {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 12, // 12 hours
+  });
+
+  return res;
 }

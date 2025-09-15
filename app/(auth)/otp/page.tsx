@@ -62,7 +62,7 @@ const OTPPage = () => {
           body: JSON.stringify({ otp: value }),
         }).then(async (res) => {
           const data = await res.json();
-          if (!res.ok) throw new Error(data.message || 'Invalid OTP');
+          if (!res.ok) toast.error(data.message || 'Invalid OTP');
           router.push('/dashboard');
         }),
         {
