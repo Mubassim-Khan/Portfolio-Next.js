@@ -75,7 +75,7 @@ const Banner = () => {
           Welcome to my Portfolio
         </span>
 
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-8 text-white py-8 w-full">
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-8 text-white py-8 ">
           {`Hi, I'm a `}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400">
             {text}

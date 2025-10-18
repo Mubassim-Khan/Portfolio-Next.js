@@ -41,9 +41,7 @@ const Projects = () => {
   return (
     <section className="project py-12" id="project">
       <div className="max-w-[1140px] mx-auto px-4">
-        {/* <div className="hidden md:block absolute top-[10rem] right-[-200px] w-[700px] h-[700px] opacity-40 bg-[#628c94] rounded-full blur-3xl -z-10 animate-pulse"></div> */}
         <div className="hidden md:block absolute top-[10rem] right-[-200px] w-[700px] h-[700px] opacity-40 bg-gradient-to-bl from-[#236b8e] to-[#0b1d3a] rounded-full blur-3xl -z-10 animate-pulse"></div>
-
         <div className="text-[45px] font-bold text-center">
           <BlurText
             text="Projects"
