@@ -3,6 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
   :root {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -839,171 +848,4 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   object-fit: contain;
   height: 100%;
   width: 100%;
-}
-
-/* Gradient Effect */
-.gradient-effect-1 {
-  position: absolute;
-  top: -2rem;
-  right: 8rem;
-  width: 31.25rem;
-  height: 31.25rem;
-  background: rgb(90, 81, 194); /* Dark muted purple */
-  border-radius: 50%;
-  filter: blur(12rem);
-  z-index: -30;
-}
-
-.gradient-effect-2 {
-  position: absolute;
-  top: 25rem;
-  left: -25rem;
-  width: 68.75rem;
-  height: 31.25rem;
-  background: #946263; /* Dark muted red */
-  border-radius: 50%;
-  filter: blur(8rem);
-  z-index: -30;
-}
-
-.gradient-effect-3 {
-  position: absolute;
-  bottom: 25rem;
-  right: 5rem;
-  width: 35rem;
-  height: 35rem;
-  background: #628c94; /* Muted Teal */
-  border-radius: 50%;
-  filter: blur(10rem);
-  z-index: -1;
-  transform: translateY(80%); /* Push it deeper dynamically */
-}
-
-.gradient-effect-4 {
-  position: absolute;
-  bottom: 70rem;
-  left: -25rem;
-  width: 60rem;
-  height: 30rem;
-  background: #947a62; /* Muted Warm Brown */
-  border-radius: 50%;
-  filter: blur(10rem);
-  z-index: -1;
-  transform: translateY(80%); /* Push it deeper dynamically */
-}
-
-.gradient-effect-5 {
-  position: absolute;
-  bottom: 25rem;
-  right: 3rem;
-  width: 35rem;
-  height: 35rem;
-  background: #236b8e; /* Deep Space Blue */
-  border-radius: 50%;
-  filter: blur(10rem);
-  z-index: -1;
-  transform: translateY(80%); /* Push it deeper dynamically */
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .gradient-effect-1 {
-    top: -3rem;
-    right: 5rem;
-    width: 18rem; /* Reduce size */
-    height: 18rem;
-    filter: blur(6rem); /* Reduce blur */
-  }
-
-  .gradient-effect-2 {
-    top: -2rem;
-    left: -20rem;
-    width: 40rem;
-    height: 20rem;
-    filter: blur(6rem);
-  }
-
-  .gradient-effect-3 {
-    bottom: 10rem;
-    right: 2rem;
-    width: 18rem;
-    height: 18rem;
-    filter: blur(6rem);
-    transform: translateY(40%);
-  }
-
-  .gradient-effect-4 {
-    bottom: 20rem;
-    left: -8rem;
-    width: 28rem;
-    height: 12rem;
-    filter: blur(6rem);
-    transform: translateY(40%);
-  }
-
-  .gradient-effect-5 {
-    bottom: 6rem;
-    right: 1rem;
-    width: 14rem;
-    height: 14rem;
-    filter: blur(6rem);
-    transform: translateY(40%);
-  }
-}
-
-@media (max-width: 480px) {
-  .gradient-effect-1 {
-    top: -2rem;
-    right: 2rem;
-    width: 12rem;
-    height: 12rem;
-    filter: blur(4rem);
-  }
-
-  .gradient-effect-2 {
-    top: 0;
-    left: -10rem;
-    width: 25rem;
-    height: 15rem;
-    filter: blur(4rem);
-  }
-
-  .gradient-effect-3 {
-    bottom: 2rem;
-    right: 1rem;
-    width: 10rem;
-    height: 10rem;
-    filter: blur(3rem);
-    transform: translateY(20%);
-  }
-
-  .gradient-effect-4 {
-    bottom: 6rem;
-    left: -4rem;
-    width: 14rem;
-    height: 7rem;
-    filter: blur(3rem);
-    transform: translateY(20%);
-  }
-
-  .gradient-effect-5 {
-    bottom: 2rem;
-    right: 0.5rem;
-    width: 7rem;
-    height: 7rem;
-    filter: blur(2rem);
-    transform: translateY(10%);
-  }
-}
-
-/* 
----break--- */
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 }

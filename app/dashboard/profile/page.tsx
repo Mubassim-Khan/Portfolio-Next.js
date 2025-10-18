@@ -15,6 +15,7 @@ import {
   Linkedin,
   Instagram,
   Globe,
+  Loader,
 } from "lucide-react";
 
 type User = {
@@ -34,6 +35,7 @@ export default function ProfilePage() {
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>("");
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   // Fetch user data
   useEffect(() => {
@@ -61,6 +63,7 @@ export default function ProfilePage() {
   // Upload to Cloudinary
   const uploadImage = async () => {
     if (!image) return;
+    setUploading(true);
     const formData = new FormData();
     formData.append("file", image);
 
@@ -69,15 +72,22 @@ export default function ProfilePage() {
         method: "POST",
         body: formData,
       });
+
       const data = await res.json();
+
       if (data.success) {
         toast.success("Profile photo updated!");
-  setUser((prev: User | null) => (prev ? { ...prev, profilePhoto: data.url } : null));
+        setUser((prev: User | null) =>
+          prev ? { ...prev, profilePhoto: data.url } : null
+        );
       } else {
         toast.error(data.error || "Upload failed");
       }
-  } catch {
+    } catch {
       toast.error("Upload error");
+    } finally {
+      setUploading(false);
+      setImage(null);
     }
   };
 
@@ -129,8 +139,19 @@ export default function ProfilePage() {
                 onChange={handleImageChange}
               />
               {image && (
-                <Button onClick={uploadImage} className="mt-2">
-                  Upload
+                <Button
+                  onClick={uploadImage}
+                  className="mt-2 flex items-center gap-2"
+                  disabled={uploading} // ✅ disable during upload
+                >
+                  {uploading ? (
+                    <>
+                      <Loader className="w-4 h-4 animate-spin" />
+                      Uploading...
+                    </>
+                  ) : (
+                    "Upload"
+                  )}
                 </Button>
               )}
             </div>

@@ -14,10 +14,9 @@ export function middleware(req: NextRequest) {
       const session = JSON.parse(decoded);
 
       session.lastActive = Date.now();
-      const encoded = encodeURIComponent(JSON.stringify(session));
 
       const res = NextResponse.next();
-      res.cookies.set("session", encoded, {
+      res.cookies.set("session", JSON.stringify(session), {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",

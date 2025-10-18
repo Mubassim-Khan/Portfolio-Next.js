@@ -13,8 +13,7 @@ const Skills = () => {
   return (
     <section className="skill" id="skills">
       <div className="max-w-[1140px] mx-auto px-4">
-        <div className="gradient-effect-1"></div>
-        <div className="gradient-effect-2"></div>
+        <div className="hidden md:block absolute top-[25rem] left-[-150px] w-[600px] h-[600px] bg-gradient-to-tr from-[#946263] to-[#6b5b95] rounded-full blur-3xl opacity-40 -z-10 animate-pulse"></div>
         <div className="skill-bx">
           <div className="text-[50px] font-bold text-center">
             <BlurText

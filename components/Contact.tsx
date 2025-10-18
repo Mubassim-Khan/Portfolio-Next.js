@@ -57,8 +57,7 @@ const Contact = () => {
   return (
     <section className="contact relative p-6 text-center" id="connect">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="gradient-effect-5"></div>
-
+        <div className="hidden md:block absolute top-[10rem] right-[-200px] w-[700px] h-[700px] opacity-40 bg-[#236b8e] rounded-full blur-3xl -z-10 animate-pulse"></div>
         <div className="flex flex-wrap items-center">
           {/* Image column */}
           <div className="w-full md:w-1/2 flex justify-center mb-8 md:mb-0">

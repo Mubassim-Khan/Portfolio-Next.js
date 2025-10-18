@@ -4,10 +4,7 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { BsArrowRightCircle } from "react-icons/bs";
 import { motion } from "framer-motion";
-import Image from "next/image";
-
 import ShinyText from "./ShinyText";
-import headerImg from "@/assets/images/header-img.svg";
 
 const Banner = () => {
   const [text, setText] = useState("");
@@ -54,64 +51,71 @@ const Banner = () => {
     const ticker = setInterval(() => {
       tick();
     }, delta);
-
-    return () => {
-      clearInterval(ticker);
-    };
+    return () => clearInterval(ticker);
   }, [delta, tick]);
 
   return (
-    <section className="banner" id="home">
-      {/* Container equivalent */}
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Row equivalent */}
-        <div className="flex flex-wrap items-center">
-          {/* Col xs={12} md={6} xl={7} */}
-          <div className="w-full md:w-1/2 xl:w-7/12">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 1.5 }}
-            >
-              <span className="tagLine">Welcome to my Portfolio</span>
-              <div className="pb-12 mt-2 mb-[150px] relative h-[100px]">
-                <h1 className="font-bold mb-[125px] h-full">
-                  {`Hi, I'm a `}
-                  <span className="inline-block min-h-[50px]">
-                    {text}
-                    <span className="inline-block animate-blink">|</span>
-                  </span>
-                </h1>
-              </div>
-              <div className="mt-[50px]">
-                <ShinyText
-                  text="My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi."
-                  disabled={false}
-                  speed={3}
-                  className="text-[20px] font-medium"
-                />
-              </div>
-              <button>
-                <Link className="connect-btn" href="#connect">
-                  Let&apos;s Connect
-                </Link>
-                <BsArrowRightCircle size={25} />
-              </button>
-            </motion.div>
-          </div>
-
-          {/* Col xs={12} md={6} xl={5} */}
-          <div className="w-full md:w-1/2 xl:w-5/12">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 1.5 }}
-            >
-              <Image src={headerImg} alt="Header Image" />
-            </motion.div>
-          </div>
-        </div>
+    <section
+      id="home"
+      className="relative flex flex-col justify-center items-center text-center min-h-[110vh] px-6"
+    >
+      {/* Animated gradient blobs background */}
+      <div className="absolute inset-0 -z-10">
+        <div className="hidden md:block absolute w-[600px] h-[600px] bg-gradient-to-r from-purple-700 via-pink-600 to-indigo-500 opacity-40 blur-3xl rounded-full top-[-150px] left-[-150px] animate-pulse"></div>
+        <div className="hidden md:block absolute w-[700px] h-[700px] bg-gradient-to-b from-purple-700 via-indigo-500 to-blue-400 opacity-40 blur-3xl rounded-full bottom-[-200px] right-[-200px] animate-pulse"></div>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2 }}
+        className="max-w-3xl mx-auto"
+      >
+        <span className="tagLine block mb-4 text-sm tracking-widest uppercase text-indigo-300">
+          Welcome to my Portfolio
+        </span>
+
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-8 text-white py-8 w-full">
+          {`Hi, I'm a `}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-pink-400 to-purple-400">
+            {text}
+          </span>
+          <span className="inline-block animate-blink">|</span>
+        </h1>
+
+        <div className="text-lg md:text-xl mb-10 text-gray-200">
+          <ShinyText
+            text="My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi."
+            disabled={false}
+            speed={3}
+            className="font-medium"
+          />
+        </div>
+
+        <motion.div
+          whileHover="hover"
+          className="group relative inline-flex items-center gap-3 text-lg font-semibold text-white
+             backdrop-blur-md bg-black/10 border border-white/40 
+             px-6 py-3 rounded-full shadow-lg transition-all duration-300 overflow-hidden"
+          variants={{ hover: { scale: 1.02 } }}
+        >
+          {/* ✨ Button content */}
+          <Link href="#connect" className="relative z-10">
+            Let&apos;s Connect
+          </Link>
+
+          <motion.span
+            variants={{
+              hover: { x: 6 },
+              initial: { x: 0 },
+            }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="relative z-10"
+          >
+            <BsArrowRightCircle size={25} />
+          </motion.span>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

@@ -39,7 +39,7 @@ const Certifications = () => {
     <section id="certifications" className="certifications">
       <div className="max-w-7xl mx-auto px-4">
         <div className="w-full">
-          <div className="gradient-effect-4"></div>
+          <div className="hidden md:block absolute bottom-[55rem] left-[-150px] w-[600px] h-[600px] bg-[#947a62] rounded-full blur-3xl opacity-40 -z-10 animate-pulse"></div>
           <div className="pb-[50px] relative">
             <div className="text-[45px] font-bold text-center">
               <BlurText
