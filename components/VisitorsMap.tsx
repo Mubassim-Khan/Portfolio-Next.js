@@ -13,6 +13,7 @@ import {
 
 interface VisitorsMapProps {
   visitorsData: { country: string; visitors: number }[];
+  selectedCountry?: string | null;
 }
 
 export default function VisitorsMap({ visitorsData }: VisitorsMapProps) {

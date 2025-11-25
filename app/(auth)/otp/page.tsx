@@ -1,14 +1,18 @@
-'use client'
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
-import ShinyText from '@/components/ShinyText';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-import Link from 'next/link';
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import ShinyText from "@/components/ShinyText";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import Link from "next/link";
 
 const OTPPage = () => {
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState("");
   const [countdown, setCountdown] = useState(59);
   const [canResend, setCanResend] = useState(false);
   const router = useRouter();
@@ -30,17 +34,17 @@ const OTPPage = () => {
 
     await toast.promise(
       (async () => {
-        const res = await fetch('/api/send-otp', { method: 'POST' });
+        const res = await fetch("/api/send-otp", { method: "POST" });
         const data = await res.json();
 
         if (!data.success) {
-          throw new Error(data.message || 'Failed to generate OTP');
+          throw new Error(data.message || "Failed to generate OTP");
         }
       })(),
       {
-        loading: 'Sending OTP...',
-        success: 'OTP sent to your email',
-        error: (err) => err.message || 'Failed to send OTP',
+        loading: "Sending OTP...",
+        success: "OTP sent to your email",
+        error: (err) => err.message || "Failed to send OTP",
       }
     );
   };
@@ -56,19 +60,26 @@ const OTPPage = () => {
 
     if (value.length === 6) {
       await toast.promise(
-        fetch('/api/verify-otp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ otp: value }),
-        }).then(async (res) => {
+        (async () => {
+          const res = await fetch("/api/verify-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ otp: value }),
+          });
+
           const data = await res.json();
-          if (!res.ok) throw new Error(data.message || 'Invalid OTP');
-          router.push('/dashboard');
-        }),
+
+          if (!res.ok) {
+            throw new Error(data.message || "Invalid OTP");
+          }
+
+          router.push("/dashboard");
+          return data; // return for success
+        })(),
         {
-          loading: 'Validating...',
-          success: 'OTP Verified!',
-          error: (err) => err.message || 'Invalid OTP',
+          loading: "Validating...",
+          success: "OTP Verified!",
+          error: (err) => err.message || "Invalid OTP",
         }
       );
     }
@@ -77,8 +88,16 @@ const OTPPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen px-4">
       <div className="flex flex-col pt-5 mb-5 mt-[-5rem] text-[35px] font-medium text-center">
-        <ShinyText text="Way more than just Portfolio" disabled={false} speed={3} />
-        <ShinyText text="Enter world beyond your imagination" disabled={false} speed={3} />
+        <ShinyText
+          text="Way more than just Portfolio"
+          disabled={false}
+          speed={3}
+        />
+        <ShinyText
+          text="Enter world beyond your imagination"
+          disabled={false}
+          speed={3}
+        />
       </div>
 
       <div className="text-center mt-3">
@@ -112,13 +131,16 @@ const OTPPage = () => {
 
       <p className="text-gray-500 text-lg text-center mt-3">
         If you were not meant to be here, you can take a step back to
-        <Link href="/" className='text-blue-500 hover:underline no-underline disabled:opacity-50 ml-1'>
+        <Link
+          href="/"
+          className="text-blue-500 hover:underline no-underline disabled:opacity-50 ml-1"
+        >
           Portfolio
         </Link>
       </p>
 
       <div className="flex flex-col pt-5 mb-5 mt-1 text-[30px] font-medium text-center">
-        <ShinyText text="Can&apos;t Rush Greatness..." disabled={false} speed={3} />
+        <ShinyText text="Can't Rush Greatness..." disabled={false} speed={3} />
       </div>
     </div>
   );

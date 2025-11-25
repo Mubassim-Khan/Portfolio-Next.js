@@ -4,12 +4,18 @@ import { NextResponse } from "next/server";
 export async function POST() {
   const cookieStore = await cookies();
 
-  // Clear session cookie
-  cookieStore.set("session", "", { maxAge: 0, path: "/" });
+  // Clear all cookies with consistent flags
+  const opts = {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge: 0,
+  };
 
-  // Clear any leftover OTP-related cookies (optional safety)
-  cookieStore.set("otp_hash", "", { maxAge: 0, path: "/" });
-  cookieStore.set("otp_timestamp", "", { maxAge: 0, path: "/" });
+  cookieStore.set("session", "", opts);
+  cookieStore.set("otp_hash", "", opts);
+  cookieStore.set("otp_timestamp", "", opts);
 
   return NextResponse.json(
     { success: true, message: "Successfully signed out" },

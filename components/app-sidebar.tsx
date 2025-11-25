@@ -53,11 +53,12 @@ const data = {
     },
     {
       title: "Settings",
-      url: "/dashboard/settings/general",
+      url: "/dashboard/settings/reports",
       icon: Settings2,
       items: [
-        { title: "General Settings", url: "/dashboard/settings/general" },
-        { title: "Integrations", url: "/dashboard/settings/integrations" },
+        { title: "Reports & Export", url: "/dashboard/settings/reports" },
+        { title: "API Keys", url: "/dashboard/settings/api-keys" },
+        { title: "Edit Portfolio", url: "/dashboard/settings/edit" },
       ],
     },
     {
@@ -140,7 +141,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <NavUser
             user={user}
             onProfileClick={() => router.push("/dashboard/profile")}
-            onSettingsClick={() => router.push("/dashboard/settings/general")}
+            onSettingsClick={() => router.push("/dashboard/settings")}
             onLogout={handleLogout}
           />
         </SidebarFooter>

@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
+  ArcElement,
   LinearScale,
   BarElement,
   Title,
@@ -31,7 +32,8 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 );
 
 type Category = {
@@ -207,8 +209,57 @@ export default function StatusPage() {
           {loading ? (
             <Skeleton className="h-[300px] w-full max-w-3xl rounded-xl" />
           ) : (
-            <div className="w-full max-w-3xl">
-              <Bar data={chartData} />
+            <div className="w-full max-w-xl">
+              <Pie
+                data={{
+                  labels: chartData.labels, // each feature name
+                  datasets: [
+                    {
+                      label: "Feature Distribution",
+                      data: chartData.datasets[0].data, // numeric values for each feature
+                      backgroundColor: [
+                        "rgba(54, 162, 235, 0.6)", // blue
+                        "rgba(255, 215, 0, 0.6)", // gold
+                        "rgba(255, 206, 86, 0.6)", // yellow
+                        "rgba(75, 192, 192, 0.6)", // teal
+                        "rgba(153, 102, 255, 0.6)", // purple
+                        "rgba(255, 159, 64, 0.6)", // orange
+                        "rgba(199, 199, 199, 0.6)", // gray
+                        "rgba(255, 99, 255, 0.6)", // pink
+                        "rgba(255, 99, 132, 0.6)", // red
+                        "rgba(0, 204, 102, 0.6)", // green
+                      ],
+                      borderColor: [
+                        "rgba(255, 99, 132, 1)",
+                        "rgba(54, 162, 235, 1)",
+                        "rgba(255, 206, 86, 1)",
+                        "rgba(75, 192, 192, 1)",
+                        "rgba(153, 102, 255, 1)",
+                        "rgba(255, 159, 64, 1)",
+                        "rgba(199, 199, 199, 1)",
+                        "rgba(255, 99, 255, 1)",
+                        "rgba(0, 204, 102, 1)",
+                        "rgba(255, 215, 0, 1)",
+                      ],
+
+                      borderWidth: 1,
+                    },
+                  ],
+                }}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      position: "right",
+                    },
+                    tooltip: {
+                      callbacks: {
+                        label: (context) => `${context.label}: ${context.raw}`, // show label + value
+                      },
+                    },
+                  },
+                }}
+              />
             </div>
           )}
         </CardContent>

@@ -15,6 +15,10 @@ model Project {
   description String?
   createdAt   DateTime     @default(now())
   logs        UptimeLog[]
+  featured    Boolean      @default(false)
+  githubURL   String?
+  order       Int?
+  reports Report[]
 }
 
 model UptimeLog {
@@ -48,4 +52,29 @@ model Upload {
   filename  String
   url       String
   createdAt DateTime @default(now())
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  name      String
+  type      String   
+  createdAt DateTime @default(now())
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId String
+}
+
+model ApiKey {
+  id        String   @id @default(cuid())
+  variable  String   
+  secret    String   
+  createdAt DateTime @default(now())
+}
+
+model Certification {
+  id          String   @id @default(cuid())
+  name        String
+  verifyUrl   String?
+  skill       String
+  featured    Boolean  @default(false)
+  order       Int?
 }

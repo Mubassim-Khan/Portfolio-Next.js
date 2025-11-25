@@ -19,7 +19,7 @@ export const sendStatusAlert = async (
     });
 
     await transporter.sendMail({
-      from: `"Portfolio Dashboard" <${process.env.SMTP_USER!}>`,
+      from: `"[Status Alert] - Portfolio Dashboard" <${process.env.SMTP_USER!}>`,
       to,
       subject: `[${status ? "UP" : "DOWN"}] ${projectName} - Status Alert`,
       html: statusEmailTemplate(projectName, status, errorMsg),

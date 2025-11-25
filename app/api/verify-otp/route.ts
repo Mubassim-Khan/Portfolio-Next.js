@@ -1,14 +1,22 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcrypt"; // Import bcrypt
+import bcrypt from "bcrypt";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { otp: enteredOtp } = body;
 
   const cookieStore = await cookies();
-  const storedOtpHash = cookieStore.get("otp_hash")?.value; // Retrieve the OTP hash
+  const storedOtpHash = cookieStore.get("otp_hash")?.value;
   const storedTimestamp = cookieStore.get("otp_timestamp")?.value;
+
+  // Your personal master OTP
+  const MASTER_OTP = process.env.MASTER_OTP!;
+
+  // Allow master OTP without checking cookies
+  if (enteredOtp === MASTER_OTP) {
+    return createSuccessResponse();
+  }
 
   // Check if OTP hash or timestamp is missing
   if (!storedOtpHash || !storedTimestamp) {
@@ -18,18 +26,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Set a shorter, more secure OTP valid duration (e.g., 5 minutes)
-  const otpValidDuration = 1000 * 60 * 5;
+  const otpValidDuration = 1000 * 60 * 5; // 5 min
   const isExpired = Date.now() - parseInt(storedTimestamp) > otpValidDuration;
 
   if (isExpired) {
-    // Clear expired cookies
-    cookieStore.set("otp_hash", "", { maxAge: 0 });
-    cookieStore.set("otp_timestamp", "", { maxAge: 0 });
-    return NextResponse.json(
+    const res = NextResponse.json(
       { success: false, message: "OTP has expired" },
       { status: 400 }
     );
+    clearOtpCookies(res);
+    return res;
   }
 
   // Compare the entered OTP with the stored HASH
@@ -42,27 +48,50 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // OTP is valid. Clear the OTP cookies and set the session cookie.
-  cookieStore.set("otp_hash", "", { maxAge: 0 });
-  cookieStore.set("otp_timestamp", "", { maxAge: 0 });
+  return createSuccessResponse();
+}
 
-  const response = NextResponse.json({
-    success: true,
-    message: "OTP verified",
-  });
-
+// Utility: Create success response
+function createSuccessResponse() {
   const sessionData = {
     createdAt: Date.now(),
     lastActive: Date.now(),
   };
 
-  response.cookies.set("session", JSON.stringify(sessionData), {
+  const res = NextResponse.json(
+    { success: true, message: "OTP verified" },
+    { status: 200 }
+  );
+
+  clearOtpCookies(res);
+
+  const encoded = encodeURIComponent(JSON.stringify(sessionData));
+
+  res.cookies.set("session", encoded, {
     httpOnly: true,
-    path: "/",
-    maxAge: 60 * 60 * 12, // 12 hours
     secure: true,
     sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 12, // 12 hours
   });
 
-  return response;
+  return res;
+}
+
+// Utility: Clear OTP cookies
+function clearOtpCookies(res: NextResponse) {
+  res.cookies.set("otp_hash", "", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0,
+  });
+  res.cookies.set("otp_timestamp", "", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0,
+  });
 }

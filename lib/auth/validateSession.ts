@@ -1,12 +1,8 @@
 export function isSessionValid(sessionStr: string | undefined): boolean {
   if (!sessionStr) return false;
   try {
-    const raw = sessionStr.startsWith("session=")
-      ? sessionStr.replace("session=", "")
-      : sessionStr;
-
     // Decode URI component -> JSON
-    const decoded = decodeURIComponent(raw);
+    const decoded = decodeURIComponent(sessionStr);
     const session = JSON.parse(decoded);
 
     const now = Date.now();

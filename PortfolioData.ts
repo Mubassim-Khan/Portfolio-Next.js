@@ -4,6 +4,7 @@ import InstagramIcon from "@/assets/icons/instagramIcon.svg";
 import GitHubIcon from "@/assets/icons/githubIcon.svg";
 import GmailIcon from "@/assets/icons/gmailIcon.svg";
 import ResumeIcon from "@/assets/icons/resumeIcon.png";
+import Shadcn from "@/assets/icons/shadcn-ui.png";
 
 // Links & Icons for Social Media
 export const SocialLinks = [
@@ -12,30 +13,35 @@ export const SocialLinks = [
     icon: LinkedInIcon,
     url: "https://www.linkedin.com/in/mubassim",
     alt: "LinkedIn",
+    username: "Mubassim Ahmed Khan",
   },
   {
     id: 2,
     icon: GitHubIcon,
     url: "https://www.github.com/Mubassim-Khan",
     alt: "GitHub",
+    username: "Mubassim-Khan",
   },
   {
     id: 3,
     icon: DiscordIcon,
     url: "https://discord.com/users/732681893484691518",
     alt: "Discord",
+    username: "mubassimkhan_08",
   },
   {
     id: 4,
     icon: GmailIcon,
     url: "mailto:mubassimkhan@gmail.com",
     alt: "Gmail",
+    username: "mubassimkhan@gmail.com",
   },
   {
     id: 5,
     icon: ResumeIcon,
     url: "https://drive.google.com/file/d/1320m3Q7mjxfDCdG4tFqEP7_D1cJwUWaq/view",
     alt: "Resume",
+    username: "Resume",
   },
   {
     id: 4,
@@ -64,7 +70,7 @@ export const LanguageSkills = [
     id: 12,
     name: "Java",
     imgURL:
-      "https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original-wordmark.svg",
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/java/java-original.svg",
   },
   {
     id: 13,
@@ -97,6 +103,12 @@ export const LanguageSkills = [
     imgURL:
       "https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original.svg",
   },
+  {
+    id: 77,
+    name: "Flask",
+    imgURL:
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/flask/flask-original.svg",
+  },
   // Databases
   {
     id: 7,
@@ -109,6 +121,24 @@ export const LanguageSkills = [
     name: "MySQL",
     imgURL:
       "https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg",
+  },
+  {
+    id: 9,
+    name: "PostgreSQL",
+    imgURL:
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/postgresql/postgresql-original.svg",
+  },
+  {
+    id: 100,
+    name: "Firebase",
+    imgURL:
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/firebase/firebase-original.svg",
+  },
+  {
+    id: 990,
+    name: "Prisma",
+    imgURL:
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/prisma/prisma-original.svg",
   },
   // CSS Frameworks
   {
@@ -123,12 +153,23 @@ export const LanguageSkills = [
     imgURL:
       "https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-original.svg",
   },
+  {
+    id: 101,
+    name: "ShadCN UI",
+    imgURL: Shadcn.src,
+  },
   // Version Control
   {
     id: 99,
     name: "Git",
     imgURL:
       "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
+  },  
+  {
+    id: 999,
+    name: "GitHub Actions",
+    imgURL:
+      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/githubactions/githubactions-original.svg",
   },
 ];
 
@@ -159,7 +200,7 @@ export const CertificateData = [
   {
     title: "DevOps for Web Development - Google Developer Student Clubs",
     skill: "DevOps for Web Development",
-    verifyLink: "https://cert.devtown.in/verify/Z2oRtPz",
+    verifyLink: " ",
   },
   {
     title: "Introduction to Software Engineering - IBM",
@@ -182,13 +223,13 @@ export const ProjectsData = [
   },
   {
     id: 2,
-    title: "CarHub",
+    title: "DocTools",
     description:
-      "CarHub is a Next.js car rental app that lets you easily search and find cars based on your preferences.",
+      "DocTools is an all-in-one document utility for file conversion, OCR, AI summaries & QR code generation, built with FastAPI and React.",
     imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/CarHub/master/public/Preview.png",
-    webURL: "https://car-hub-gray-seven.vercel.app/",
-    githubURL: "https://github.com/Mubassim-Khan/CarHub",
+      "https://raw.githubusercontent.com/Mubassim-Khan/DocTools/refs/heads/master/frontend/src/assets/Preview.png",
+    webURL: "https://m-doctools.vercel.app",
+    githubURL: "https://github.com/Mubassim-Khan/DocTools",
   },
   {
     id: 3,
@@ -214,7 +255,7 @@ export const ProjectsData = [
     id: 5,
     title: "zNotebook",
     description:
-      "zNotebook is a cloud notebook website, made using MERN Stack, Tailwind CSS & Framer Motion etc.",
+      "zNotebook is a cloud notebook website, made using MERN Stack, Tailwind CSS & Framer Motion.",
     imgURL:
       "https://raw.githubusercontent.com/Mubassim-Khan/zNotebook/main/frontend/src/assets/images/Preview.png",
     webURL: "https://znotebook.vercel.app/",
@@ -222,12 +263,12 @@ export const ProjectsData = [
   },
   {
     id: 6,
-    title: "Zentry",
+    title: "F1 Prediction App",
     description:
-      "Zentry is a 2024 award-winning landing page built with React.js and Tailwind CSS.",
+      "Predicts lap times and race outcomes with ML models on FastF1 telemetry, built with Flask, JavaScript, HTML & CSS.",
     imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/Zentry/refs/heads/main/public/img/Preview.png",
-    webURL: "https://zentry-eight-weld.vercel.app/",
-    githubURL: "https://github.com/Mubassim-Khan/Zentry",
+      "https://raw.githubusercontent.com/Mubassim-Khan/F1-Predictor/refs/heads/main/static/images/preview.png",
+    webURL: "",
+    githubURL: "https://github.com/Mubassim-Khan/F1-Predictor",
   },
 ];
