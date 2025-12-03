@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mubassim Ahmed Khan | Personal Portfolio",
   description:
-    "Portfolio of Mubassim Ahmed Khan – showcasing MERN projects, certifications, skills in AI, and web development expertise.",
+    "Portfolio of Mubassim Ahmed Khan - showcasing MERN projects, certifications, skills in AI, and web development expertise.",
   keywords: [
     "Mubassim Ahmed Khan",
     "MERN Developer",

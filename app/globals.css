@@ -98,16 +98,17 @@
   --font-centra3: var(--font-centra-medium);
 }
 
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-/* 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-} */
+/* optional: make the gradient element use large background-size so movement is smooth */
+.animate-[gradientMove_4s_linear_infinite] {
+  background-size: 200% 200%;
+}
+
 
 /* Overall CSS */
 
@@ -390,12 +391,8 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 
 /************ Banner Css ************/
 .banner {
-  margin-top: 0;
-  padding: 260px 0 100px 0;
-  background-image: url("../assets/images/banner-bg.png");
   background-position: top center;
   background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .banner .tagLine {
@@ -413,28 +410,10 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   display: inline-block;
 }
 
-.banner h1 {
-  font-size: 65px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  line-height: 1;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.banner p {
-  color: #b8b8b8;
-  font-size: 18px;
-  letter-spacing: 0.8px;
-  line-height: 1.5em;
-  width: 96%;
-}
-
 .banner button {
   color: #fff;
   font-weight: 700;
   font-size: 20px;
-  margin-top: 60px;
   letter-spacing: 0.8px;
   display: flex;
   align-items: center;
@@ -451,27 +430,9 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   margin-left: 25px;
 }
 
-.banner img {
-  animation: updown 3s linear infinite;
-}
-
 .connect-btn {
   text-decoration: none;
   color: #fff;
-}
-
-@keyframes updown {
-  0% {
-    transform: translateY(-20px);
-  }
-
-  50% {
-    transform: translateY(20px);
-  }
-
-  100% {
-    transform: translateY(-20px);
-  }
 }
 
 .txt-rotate > .wrap {
@@ -995,9 +956,6 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
     transform: translateY(10%);
   }
 }
-
-/* 
----break--- */
 
 @layer base {
   * {

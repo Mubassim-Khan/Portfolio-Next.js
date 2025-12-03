@@ -26,7 +26,10 @@ const Projects = () => {
       try {
         setLoading(true);
         const res = await fetch("/api/portfolio/projects");
-        if (!res.ok) toast.error("Failed to fetch projects");
+        if (!res.ok) {
+          toast.error("Failed to fetch projects");
+          return;
+        }
         const data = await res.json();
         setProjects(data);
       } catch (err) {

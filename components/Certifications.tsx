@@ -24,7 +24,10 @@ const Certifications = () => {
       try {
         setLoading(true);
         const res = await fetch("/api/certifications");
-        if (!res.ok) toast.error("Failed to fetch certifications");
+        if (!res.ok) {
+          toast.error("Failed to fetch certifications");
+          return;
+        }
         const data = await res.json();
         setCertification(data);
       } catch (err) {
