@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 import BlurText from "./BlurText";
-import contactImg from "@/assets/images/contact-img.svg";
+import contactImg from "@/public/assets/images/contact-img.svg";
 import { sendFormEmail } from '@/lib/email/sendFormEmail';
 
 const Contact = () => {

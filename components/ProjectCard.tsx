@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import noImage from "@/assets/images/no-preview-img.jpg";
+import noImage from "@/public/assets/images/no-preview-img.jpg";
 import CustomButton from "./Button";
 
 interface ProjectCardProps {

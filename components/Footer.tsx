@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { SocialLinks } from "@/PortfolioData";
-import Logo from "@/assets/images/logo.png";
+import Logo from "@/public/assets/images/logo.png";
 
 const Footer = () => {
   return (

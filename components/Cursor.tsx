@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 
-import Cursor from "@/assets/images/cursor.png";
-import CursorPointer from "@/assets/images/cursor-pointer.png";
+import Cursor from "@/public/assets/images/cursor.png";
+import CursorPointer from "@/public/assets/images/cursor-pointer.png";
 
 const CustomCursor = () => {
   useEffect(() => {

@@ -1,10 +1,10 @@
-import LinkedInIcon from "@/assets/icons/linkedInIcon.svg";
-import DiscordIcon from "@/assets/icons/discordIcon.svg";
-import InstagramIcon from "@/assets/icons/instagramIcon.svg";
-import GitHubIcon from "@/assets/icons/githubIcon.svg";
-import GmailIcon from "@/assets/icons/gmailIcon.svg";
-import ResumeIcon from "@/assets/icons/resumeIcon.png";
-import Shadcn from "@/assets/icons/shadcn-ui.png";
+import LinkedInIcon from "@/public/assets/icons/linkedInIcon.svg";  
+import DiscordIcon from "@/public/assets/icons/discordIcon.svg";
+import InstagramIcon from "@/public/assets/icons/instagramIcon.svg";
+import GitHubIcon from "@/public/assets/icons/githubIcon.svg";
+import GmailIcon from "@/public/assets/icons/gmailIcon.svg";
+import ResumeIcon from "@/public/assets/icons/resumeIcon.png";
+import Shadcn from "@/public/assets/icons/shadcn-ui.png";
 
 // Links & Icons for Social Media
 export const SocialLinks = [
