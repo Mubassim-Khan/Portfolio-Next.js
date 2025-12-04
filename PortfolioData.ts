@@ -1,9 +1,7 @@
 import LinkedInIcon from "@/public/assets/icons/linkedInIcon.svg";  
 import DiscordIcon from "@/public/assets/icons/discordIcon.svg";
-import InstagramIcon from "@/public/assets/icons/instagramIcon.svg";
 import GitHubIcon from "@/public/assets/icons/githubIcon.svg";
 import GmailIcon from "@/public/assets/icons/gmailIcon.svg";
-import ResumeIcon from "@/public/assets/icons/resumeIcon.png";
 import Shadcn from "@/public/assets/icons/shadcn-ui.png";
 
 // Links & Icons for Social Media
@@ -27,7 +25,7 @@ export const SocialLinks = [
     icon: DiscordIcon,
     url: "https://discord.com/users/732681893484691518",
     alt: "Discord",
-    username: "mubassimkhan_08",
+    username: "@mubassimkhan_08",
   },
   {
     id: 4,
@@ -35,19 +33,6 @@ export const SocialLinks = [
     url: "mailto:mubassimkhan@gmail.com",
     alt: "Gmail",
     username: "mubassimkhan@gmail.com",
-  },
-  {
-    id: 5,
-    icon: ResumeIcon,
-    url: "https://drive.google.com/file/d/1320m3Q7mjxfDCdG4tFqEP7_D1cJwUWaq/view",
-    alt: "Resume",
-    username: "Resume",
-  },
-  {
-    id: 4,
-    icon: InstagramIcon,
-    url: "https://www.instagram.com/mubassimahmedkhan",
-    alt: "Instagram",
   },
 ];
 

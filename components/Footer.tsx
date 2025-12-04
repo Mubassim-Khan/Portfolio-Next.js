@@ -46,15 +46,15 @@ const Footer = () => {
                           <Image
                             src={link.icon}
                             alt={link.alt}
-                            width={25}
-                            height={25}
+                            width={20}
+                            height={20}
                             className="object-contain hover:scale-110 transition-transform"
                           />
                         </div>
                       </Link>
                     </TooltipTrigger>
                     <TooltipContent
-                      className="rounded-xl bg-gray-900 text-white mb-2"
+                      className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 text-white mb-2"
                       side="top"
                       align="center"
                     >

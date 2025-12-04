@@ -6,7 +6,7 @@ import Image from "next/image";
 
 import BlurText from "./BlurText";
 import contactImg from "@/public/assets/images/contact-img.svg";
-import { sendFormEmail } from '@/lib/email/sendFormEmail';
+import { sendFormEmail } from "@/lib/email/sendFormEmail";
 
 const Contact = () => {
   const formInitialDetails = {
@@ -45,7 +45,10 @@ const Contact = () => {
       return;
     }
 
-    const result = await sendFormEmail(process.env.NEXT_PUBLIC_TEMPLATE_ID!, form.current);
+    const result = await sendFormEmail(
+      process.env.NEXT_PUBLIC_TEMPLATE_ID!,
+      form.current
+    );
     if (result.success) {
       toast.success("Message sent successfully");
       setFormDetails(formInitialDetails);
@@ -57,17 +60,17 @@ const Contact = () => {
   return (
     <section className="contact relative p-6 text-center" id="connect">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="gradient-effect-5"></div>
+        {/* Gradient Blob */}
+        <div
+          className="absolute bottom-[25rem] right-[3rem] w-[45rem] h-[40rem]
+         bg-[#236b8e] rounded-full blur-[80px] opacity-45 -z-10 translate-y-[80%] animate-pulse
+         md:display-none sm:display-none"
+        ></div>
 
         <div className="flex flex-wrap items-center">
           {/* Image column */}
           <div className="w-full md:w-1/2 flex justify-center mb-8 md:mb-0">
-            <Image
-              src={contactImg}
-              alt="Contact Us"
-              width={400}
-              height={400}
-            />
+            <Image src={contactImg} alt="Contact Us" width={400} height={400} />
           </div>
 
           {/* Form column */}

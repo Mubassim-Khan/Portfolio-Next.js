@@ -66,9 +66,9 @@ const Banner = () => {
       id="home"
     >
       {/* Gradient Blobs */}
-      <div className="absolute -left-32 top-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-purple-700 via-indigo-600 to-blue-500 rounded-full blur-3xl opacity-40 animate-pulse"></div>
+      <div className="absolute -left-48 top-1/2 -translate-y-1/2 w-[35rem] h-[25rem] bg-gradient-to-br from-purple-700 via-indigo-600 to-blue-500 rounded-full blur-[120px] opacity-40 animate-pulse"></div>
 
-      <div className="absolute -right-32 top-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-blue-600 via-purple-600 to-fuchsia-500 rounded-full blur-3xl opacity-40 animate-pulse"></div>
+      <div className="absolute -right-48 top-1/2 -translate-y-1/2 w-[35rem] h-[32rem] bg-gradient-to-br from-blue-600 via-purple-600 to-fuchsia-500 rounded-full blur-[120px] opacity-40 animate-pulse"></div>
 
       <div className="relative max-w-4xl mx-auto px-4 text-center mt-12 flex flex-col items-center justify-center">
         <motion.div
@@ -76,16 +76,7 @@ const Banner = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
         >
-          <span
-            className="
-    relative inline-block rounded-xl p-[2px] 
-    bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500
-
-    after:absolute after:inset-0 after:rounded-xl after:content-['']
-    after:bg-gradient-to-r after:from-pink-500 after:via-purple-500 after:to-indigo-500
-    after:blur-[20px] after:opacity-50 after:animate-pulse after:-z-10
-  "
-          >
+          <span className=" relative inline-block rounded-xl p-[2px]  bg-gradient-to-r from-pink-500 via-purple-5 to-indigo-500 after:absolute after:inset-0 after:rounded- after:content-[''] after:bg-gradient-to-r after:from-pink-5 after:via-purple-500 after:to-indigo-500 after:blur-[20px] after:opacity-50 after:animate-puls after:-z-10">
             <span className="relative z-10 block rounded-2xl px-4 py-2 text-white font-semibold text-[20px]">
               Welcome to my Portfolio
             </span>

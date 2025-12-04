@@ -44,7 +44,9 @@ const Projects = () => {
   return (
     <section className="project py-12" id="project">
       <div className="max-w-[1140px] mx-auto px-4">
-        <div className="gradient-effect-3"></div>
+        {/* Gradient Blob */}
+        <div className="absolute bottom-[25rem] -right-48 w-[45rem] h-[35rem] bg-[#628c94] rounded-full blur-[120px] opacity-40 -z-10 translate-y-[80%] animate-pulse md:display-none sm:display-none"></div>
+
         <div className="text-[45px] font-bold text-center">
           <BlurText
             text="Projects"
