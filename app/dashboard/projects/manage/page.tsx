@@ -25,6 +25,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import toast from "react-hot-toast";
 
 type Project = {
   id: string;
@@ -72,34 +73,76 @@ export default function ManageProjectsPage() {
 
   async function handleSave() {
     setSaving(true);
-    const payload = {
-      name,
-      url,
-      description,
-      coverImage,
-      featured,
-      order,
-      githubURL,
-    };
 
-    if (editId) {
-      await fetch(`/api/projects/${editId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-    } else {
-      await fetch("/api/projects", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+    // Validate required fields
+    if (!name.trim() || !description.trim() || !githubURL.trim()) {
+      toast.error(
+        "Please fill in all required fields: Name, Description, and GitHub URL"
+      );
+      setSaving(false);
+      return;
     }
 
-    setSaving(false);
-    setDialogOpen(false);
-    resetForm();
-    fetchProjects();
+    // Validate GitHub URL format
+    const githubUrlPattern = /^https:\/\/github\.com\/.+/;
+    if (!githubUrlPattern.test(githubURL)) {
+      toast.error(
+        "Please enter a valid GitHub URL (e.g., https://github.com/username/repo)"
+      );
+      setSaving(false);
+      return;
+    }
+
+    const payload = {
+      name: name.trim(),
+      url: url.trim() || null, // Send null if empty
+      description: description.trim(),
+      coverImage: coverImage.trim() || null, // Send null if empty
+      featured,
+      order,
+      githubURL: githubURL.trim(),
+    };
+
+    try {
+      if (editId) {
+        const response = await fetch(`/api/projects/${editId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to update project");
+        }
+
+        toast.success("Project updated successfully!");
+      } else {
+        const response = await fetch("/api/projects", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to create project");
+        }
+
+        toast.success("Project created successfully!");
+      }
+
+      setDialogOpen(false);
+      resetForm();
+      fetchProjects();
+    } catch (error: any) {
+      console.error("Error saving project:", error);
+      toast.error(
+        error.message || "An error occurred while saving the project"
+      );
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function handleDelete() {
@@ -127,10 +170,8 @@ export default function ManageProjectsPage() {
     setEditId(null);
   }
 
-  const filteredProjects = projects.filter(
-    (p) =>
-      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.url.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProjects = projects.filter((p) =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -145,7 +186,7 @@ export default function ManageProjectsPage() {
             <div className="w-1/3 flex justify-center relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
-                placeholder="Search by name or URL..."
+                placeholder="Search by name"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full max-w-sm pl-9 rounded-xl"
