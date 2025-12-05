@@ -86,63 +86,69 @@ const OTPPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen px-4">
-      <div className="flex flex-col pt-5 mb-5 mt-[-5rem] text-[35px] font-medium text-center">
-        <ShinyText
-          text="Way more than just Portfolio"
-          disabled={false}
-          speed={3}
-        />
-        <ShinyText
-          text="Enter world beyond your imagination"
-          disabled={false}
-          speed={3}
-        />
-      </div>
+    <main>
+      <div className="flex flex-col items-center justify-center h-screen px-4">
+        <div className="flex flex-col pt-5 mb-5 mt-[-5rem] text-[35px] font-medium text-center">
+          <ShinyText
+            text="Way more than just Portfolio"
+            disabled={false}
+            speed={3}
+          />
+          <ShinyText
+            text="Enter world beyond your imagination"
+            disabled={false}
+            speed={3}
+          />
+        </div>
 
-      <div className="text-center mt-3">
-        <h1 className="text-[35px] font-semibold mb-2">Enter OTP</h1>
-        <p className="text-gray-500 text-xl mb-6 text-center mt-3">
-          Please enter the OTP sent to your registered email.
-        </p>
-      </div>
+        <div className="text-center mt-3">
+          <h1 className="text-[35px] font-semibold mb-2">Enter OTP</h1>
+          <p className="text-gray-500 text-xl mb-6 text-center mt-3">
+            Please enter the OTP sent to your registered email.
+          </p>
+        </div>
 
-      <InputOTP maxLength={6} value={otp} onChange={handleChange}>
-        <InputOTPGroup>
-          {Array.from({ length: 6 }).map((_, i) => (
-            <InputOTPSlot key={i} index={i} />
-          ))}
-        </InputOTPGroup>
-      </InputOTP>
+        <InputOTP maxLength={6} value={otp} onChange={handleChange}>
+          <InputOTPGroup>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <InputOTPSlot key={i} index={i} />
+            ))}
+          </InputOTPGroup>
+        </InputOTP>
 
-      <div className="mt-4 text-center text-gray-500">
-        Didn&apos;t receive email?
-        {!canResend ? (
-          <span>Try again in {countdown}s</span>
-        ) : (
-          <button
-            onClick={sendOTP}
-            className="text-blue-500 hover:underline disabled:opacity-50 ml-1"
+        <div className="mt-4 text-center text-gray-500">
+          Didn&apos;t receive email?
+          {!canResend ? (
+            <span>Try again in {countdown}s</span>
+          ) : (
+            <button
+              onClick={sendOTP}
+              className="text-blue-500 hover:underline disabled:opacity-50 ml-1"
+            >
+              Click here to resend
+            </button>
+          )}
+        </div>
+
+        <p className="text-gray-500 text-lg text-center mt-3">
+          If you were not meant to be here, you can take a step back to
+          <Link
+            href="/"
+            className="text-blue-500 hover:underline no-underline disabled:opacity-50 ml-1"
           >
-            Click here to resend
-          </button>
-        )}
-      </div>
+            Portfolio
+          </Link>
+        </p>
 
-      <p className="text-gray-500 text-lg text-center mt-3">
-        If you were not meant to be here, you can take a step back to
-        <Link
-          href="/"
-          className="text-blue-500 hover:underline no-underline disabled:opacity-50 ml-1"
-        >
-          Portfolio
-        </Link>
-      </p>
-
-      <div className="flex flex-col pt-5 mb-5 mt-1 text-[30px] font-medium text-center">
-        <ShinyText text="Can't Rush Greatness..." disabled={false} speed={3} />
+        <div className="flex flex-col pt-5 mb-5 mt-1 text-[30px] font-medium text-center">
+          <ShinyText
+            text="Can't Rush Greatness..."
+            disabled={false}
+            speed={3}
+          />
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 
