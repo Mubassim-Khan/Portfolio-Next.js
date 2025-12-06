@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isSessionValid } from "@/lib/auth/validateSession";
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const sessionStr = req.cookies.get("session")?.value;
 
   if (req.nextUrl.pathname.startsWith("/dashboard")) {

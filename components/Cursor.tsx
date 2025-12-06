@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect } from "react";
 
 import Cursor from "@/public/assets/images/cursor.png";
@@ -11,14 +9,22 @@ const CustomCursor = () => {
     const trail = document.querySelector(
       ".cursor-trail"
     ) as HTMLDivElement | null;
-
     const hoverElements = document.querySelectorAll(
       "button, a, .cursor--pointer"
     );
 
-    const isMobileView = (): boolean => {
-      return window.innerWidth <= 750 || "ontouchstart" in window;
+    const preloadImages = () => {
+      const normalCursorImg = new Image();
+      normalCursorImg.src = Cursor.src;
+
+      const pointerCursorImg = new Image();
+      pointerCursorImg.src = CursorPointer.src;
     };
+
+    preloadImages();
+
+    const isMobileView = () =>
+      window.innerWidth <= 750 || "ontouchstart" in window;
 
     const updateCursorDisplay = () => {
       const display = isMobileView() ? "none" : "flex";
@@ -28,14 +34,11 @@ const CustomCursor = () => {
 
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX: x, clientY: y } = e;
-      if (cursor) {
-        cursor.style.transform = `translate(${x}px, ${y}px)`;
-      }
-      if (trail) {
+      if (cursor) cursor.style.transform = `translate(${x}px, ${y}px)`;
+      if (trail)
         setTimeout(() => {
           trail.style.transform = `translate(${x}px, ${y}px)`;
         }, 50);
-      }
     };
 
     updateCursorDisplay();
@@ -46,19 +49,30 @@ const CustomCursor = () => {
 
     window.addEventListener("resize", updateCursorDisplay);
 
+    // --- SWAP CACHED IMAGE OBJECTS ---
     hoverElements.forEach((el) => {
       el.addEventListener("mouseenter", () => {
-        if (cursor) {
-          const img = cursor.querySelector("img") as HTMLImageElement | null;
-          if (img) img.src = CursorPointer.src;
-        }
+        const normalImg = cursor?.querySelector(
+          ".cursor-normal"
+        ) as HTMLImageElement | null;
+        const pointerImg = cursor?.querySelector(
+          ".cursor-pointer"
+        ) as HTMLImageElement | null;
+
+        if (normalImg) normalImg.style.opacity = "0";
+        if (pointerImg) pointerImg.style.opacity = "1";
       });
 
       el.addEventListener("mouseleave", () => {
-        if (cursor) {
-          const img = cursor.querySelector("img") as HTMLImageElement | null;
-          if (img) img.src = Cursor.src;
-        }
+        const normalImg = cursor?.querySelector(
+          ".cursor-normal"
+        ) as HTMLImageElement | null;
+        const pointerImg = cursor?.querySelector(
+          ".cursor-pointer"
+        ) as HTMLImageElement | null;
+
+        if (normalImg) normalImg.style.opacity = "1";
+        if (pointerImg) pointerImg.style.opacity = "0";
       });
     });
 
