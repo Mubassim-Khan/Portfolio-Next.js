@@ -3,7 +3,7 @@ import { generateReportData } from "@/lib/reports/generateReportData";
 import { generateReportPDF } from "@/lib/reports/generateReportPDF";
 import { generateReportCSV } from "@/lib/reports/generateReportCSV";
 
-// 🔹 Force Node runtime (critical for PDFKit / Buffers)
+// Force Node runtime (critical for PDFKit / Buffers)
 export const runtime = "nodejs";
 
 export async function POST(req: Request): Promise<Response> {
@@ -18,7 +18,13 @@ export async function POST(req: Request): Promise<Response> {
     }
 
     if (format === "csv") {
-      const csvBuffer = await generateReportCSV(reportData);
+      // sanitize projects so `url` is always a string — generateReportCSV expects ReportData with string urls
+      const sanitizedReportData = {
+        ...reportData,
+        projects: reportData.projects.map((p) => ({ ...p, url: p.url ?? "" })),
+      } as unknown as Parameters<typeof generateReportCSV>[0];
+
+      const csvBuffer = await generateReportCSV(sanitizedReportData);
 
       if (action === "download") {
         const uint8Array = new Uint8Array(csvBuffer);

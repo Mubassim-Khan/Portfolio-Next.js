@@ -1,58 +1,92 @@
 import { NextResponse } from "next/server";
-import { generateReportPDF, ReportData } from "@/lib/reports/generateReportPDF";
+import { generateReportData } from "@/lib/reports/generateReportData";
+import { generateReportPDF } from "@/lib/reports/generateReportPDF";
 import { sendReportMail } from "@/lib/email/sendReportMail";
 
 export async function GET() {
   try {
-    const now = new Date();
-    const start = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
-    const end = new Date(
-      now.getFullYear(),
-      now.getMonth() + 1,
-      0
-    ).toISOString();
+    // Check if MY_EMAIL is configured
+    const myEmail = process.env.MY_EMAIL;
+    if (!myEmail) {
+      return NextResponse.json(
+        { error: "MY_EMAIL environment variable is not configured" },
+        { status: 500 }
+      );
+    }
 
-    const reportData: ReportData = {
-      id: "report-123",
-      title: "Monitoring Report",
-      recipients: [process.env.MY_EMAIL!],
-      date: new Date().toISOString(),
-      generatedAt: new Date().toISOString(),
-      range: {
-        start,
-        end,
-        type: "month",
-      },
-      options: {
-        includeRawLogs: false,
-      },
-      totals: {
-        projects: 0, // dynamically calculate if you pull real projects
-        totalChecks: 0,
-        overallUptime: null,
-      },
-      projects: [], // dynamically fill if you fetch projects/logs
+    // Set date range for previous month
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+
+    // Calculate previous month
+    const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+    const prevMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+
+    // Format month name for email subject
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const monthName = monthNames[prevMonth];
+    const emailSubject = `Monthly Report: ${monthName} ${prevMonthYear}`;
+
+    // Define options for report generation (previous month's data)
+    const options = {
+      range: "last_month" as const, 
+      includeEverything: true,
+      includeRawLogs: false,
+      format: "pdf" as const,
     };
 
-    // Now pass the correct type
-    const reportBuffer = await generateReportPDF(reportData);
+    // Generate report data using your existing function
+    const reportData = await generateReportData(options);
 
-    // Send to configured admin email(s)
-    await sendReportMail({
-      to: process.env.MY_EMAIL!,
-      subject: "Monthly Project Status Report",
-      text: "Attached is the monthly status report.",
+    // Generate PDF using your existing function
+    // @ts-expect-error reportData doesn't match ReportData fully (url can be null)
+    const pdfBuffer = await generateReportPDF(reportData);
+
+    // Send email using your existing function
+    const result = await sendReportMail({
+      to: myEmail,
+      subject: emailSubject,
+      text: `Attached is the monthly project status report for ${monthName} ${prevMonthYear}.`,
+      html: undefined,
       attachment: {
-        filename: "monthly_report.pdf",
-        content: reportBuffer,
+        filename: `monthly_report_${prevMonthYear}_${String(
+          prevMonth + 1
+        ).padStart(2, "0")}.pdf`,
+        content: pdfBuffer,
         contentType: "application/pdf",
       },
     });
 
-    return NextResponse.json({ success: true, message: "Monthly report sent" });
+    if (!result.success) {
+      throw new Error("Failed to send email");
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Monthly report sent successfully",
+    });
   } catch (err: unknown) {
+    console.error("Monthly report error:", err);
+
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : String(err) },
+      {
+        error: "Failed to generate and send monthly report",
+        details: err instanceof Error ? err.message : String(err),
+      },
       { status: 500 }
     );
   }

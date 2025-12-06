@@ -39,7 +39,7 @@ export interface ReportData {
   projects: {
     projectId: string;
     projectName: string;
-    url: string;
+    url: string | null;
     totalChecks: number;
     upCount: number;
     downCount: number;
@@ -80,11 +80,18 @@ export async function generateReportPDF(
 
       const fontPath = path.join(
         process.cwd(),
+        "public",
         "assets",
         "fonts",
         "CentraNo2-Medium.ttf"
       );
-      const logoPath = path.join(process.cwd(), "assets", "images", "logo.png");
+      const logoPath = path.join(
+        process.cwd(),
+        "public",
+        "assets",
+        "images",
+        "logo.png"
+      );
 
       const doc = new PDFDocument({ size: "A4", margin: 50, font: fontPath });
       const chunks: Buffer[] = [];
@@ -110,24 +117,59 @@ export async function generateReportPDF(
         .fontSize(25)
         .text("Portfolio Dashboard | Monitoring Report", { align: "center" });
       doc.moveDown(2);
-      doc
-        .fontSize(12)
-        .text(
-          `Generated on: ${new Date(reportData.generatedAt).toLocaleString()}`,
-          { align: "center" }
-        );
+
+      // Fix: Format generatedAt date properly
+      const generatedDate = new Date(reportData.generatedAt);
+      doc.fontSize(12).text(
+        `Generated on: ${generatedDate.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })} at ${generatedDate.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZoneName: "short",
+        })}`,
+        { align: "center" }
+      );
 
       const r = reportData.range;
-      doc.moveDown(0.5);
-      doc
-        .fontSize(12)
-        .text(
-          `Date range: ${new Date(r.start).toLocaleString()} — ${new Date(
-            r.end
-          ).toLocaleString()}`,
-          { align: "center" }
-        );
 
+      // Debug log to see what dates we're receiving
+      console.log("PDF Generation - Date Range Received:", {
+        start: r.start,
+        end: r.end,
+        parsedStart: new Date(r.start),
+        parsedEnd: new Date(r.end),
+      });
+
+      // Fix: Parse dates properly and format them
+      const startDate = new Date(r.start);
+      const endDate = new Date(r.end);
+
+      // Check if dates are valid
+      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        console.error("Invalid dates received:", {
+          start: r.start,
+          end: r.end,
+        });
+      }
+
+      doc.moveDown(0.5);
+      doc.fontSize(12).text(
+        `Date range: ${startDate.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })} — ${endDate.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}`,
+        { align: "center" }
+      );
+
+      // Continue with the rest of the PDF generation...
       doc.addPage();
 
       // ==========================
@@ -200,7 +242,7 @@ export async function generateReportPDF(
         }
 
         doc.fontSize(14).text(p.projectName, { underline: true });
-        doc.fontSize(10).text(p.url);
+        doc.fontSize(10).text(p.url ?? "N/A");
         doc.moveDown(0.5);
 
         doc.fontSize(11).text("Stats:");
@@ -218,10 +260,13 @@ export async function generateReportPDF(
           doc.addNamedDestination("incidents");
           doc.moveDown(0.5).fontSize(11).text("Recent Incidents:");
           p.incidents.slice(0, 5).forEach((inc, i) => {
+            const incidentDate = new Date(inc.checkedAt);
             doc
               .fontSize(9)
               .text(
-                `${i + 1}. ${new Date(inc.checkedAt).toLocaleString()} — ${
+                `${
+                  i + 1
+                }. ${incidentDate.toLocaleDateString()} ${incidentDate.toLocaleTimeString()} — ${
                   inc.errorMessage ?? `HTTP ${inc.httpStatus ?? "-"}`
                 }`
               );
@@ -232,10 +277,11 @@ export async function generateReportPDF(
           doc.addNamedDestination("logs");
           doc.moveDown(0.5).fontSize(11).text("Logs (latest):");
           p.logs.slice(0, 20).forEach((l) => {
+            const logDate = new Date(l.checkedAt);
             doc
               .fontSize(8)
               .text(
-                `${new Date(l.checkedAt).toLocaleString()} | ${
+                `${logDate.toLocaleDateString()} ${logDate.toLocaleTimeString()} | ${
                   l.status ? "UP" : "DOWN"
                 } | ${l.responseTime ?? "-"}ms | ${l.httpStatus ?? "-"} | ${
                   l.errorMessage ?? "-"

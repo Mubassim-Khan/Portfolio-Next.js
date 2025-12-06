@@ -14,7 +14,16 @@ export async function POST(req: Request) {
 
     const reportData = await generateReportData(options);
     if (format === "csv") {
-      const csvBuffer = await generateReportCSV(reportData);
+      // Ensure project URLs are strings (convert null to empty string) to satisfy ReportData shape
+      const sanitizedReportData = {
+        ...reportData,
+        projects: reportData.projects.map((p) => ({
+          ...p,
+          url: p.url ?? "",
+        })),
+      };
+
+      const csvBuffer = await generateReportCSV(sanitizedReportData);
 
       const result = await sendReportMail({
         to: email,
