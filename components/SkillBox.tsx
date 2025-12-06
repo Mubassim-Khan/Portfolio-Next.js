@@ -35,7 +35,7 @@ const SkillBox = ({
                 </div>
               </TooltipTrigger>
               <TooltipContent
-                className="bg-gray-900 text-white rounded-xl mb-2 p-2"
+                className="bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 text-white mb-1"
                 side="top"
                 align="center"
               >

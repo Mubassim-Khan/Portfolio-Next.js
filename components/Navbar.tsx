@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-import Logo from "@/assets/images/logo.png";
+import Logo from "@/public/assets/images/logo.png";
 
 const Navbar = () => {
   const [isNavVisible, setIsNavVisible] = useState(true);

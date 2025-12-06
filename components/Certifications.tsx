@@ -24,7 +24,10 @@ const Certifications = () => {
       try {
         setLoading(true);
         const res = await fetch("/api/certifications");
-        if (!res.ok) toast.error("Failed to fetch certifications");
+        if (!res.ok) {
+          toast.error("Failed to fetch certifications");
+          return;
+        }
         const data = await res.json();
         setCertification(data);
       } catch (err) {
@@ -39,7 +42,9 @@ const Certifications = () => {
     <section id="certifications" className="certifications">
       <div className="max-w-7xl mx-auto px-4">
         <div className="w-full">
-          <div className="gradient-effect-4"></div>
+          {/* Gradient Blob */}
+          <div className="absolute bottom-[70rem] left-[-25rem] w-[60rem] h-[30rem] bg-[#947a62] rounded-full blur-[100px] opacity-40 -z-10 translate-y-[80%] animate-pulse md:display-none sm:display-none"></div>
+
           <div className="pb-[50px] relative">
             <div className="text-[45px] font-bold text-center">
               <BlurText

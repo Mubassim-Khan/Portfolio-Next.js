@@ -57,6 +57,15 @@
   }
 }
 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
 @layer utilities {
   .nav-hover-btn {
     @apply relative ms-10 text-sm uppercase text-blue-50;
@@ -77,17 +86,17 @@
 
 @font-face {
   font-family: Centra;
-  src: url(../assets/fonts/CentraNo2-Bold.ttf);
+  src: url(/assets/fonts/CentraNo2-Bold.ttf);
 }
 
 @font-face {
   font-family: Centra;
-  src: url(../assets/fonts/CentraNo2-Book.ttf);
+  src: url(/assets/fonts/CentraNo2-Book.ttf);
 }
 
 @font-face {
   font-family: Centra;
-  src: url(../assets/fonts/CentraNo2-Medium.ttf);
+  src: url(/assets/fonts/CentraNo2-Medium.ttf);
 }
 
 @theme inline {
@@ -98,16 +107,17 @@
   --font-centra3: var(--font-centra-medium);
 }
 
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-/* 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-} */
+/* optional: make the gradient element use large background-size so movement is smooth */
+.animate-[gradientMove_4s_linear_infinite] {
+  background-size: 200% 200%;
+}
+
 
 /* Overall CSS */
 
@@ -390,12 +400,8 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 
 /************ Banner Css ************/
 .banner {
-  margin-top: 0;
-  padding: 260px 0 100px 0;
-  background-image: url("../assets/images/banner-bg.png");
   background-position: top center;
   background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .banner .tagLine {
@@ -413,28 +419,10 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   display: inline-block;
 }
 
-.banner h1 {
-  font-size: 65px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  line-height: 1;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.banner p {
-  color: #b8b8b8;
-  font-size: 18px;
-  letter-spacing: 0.8px;
-  line-height: 1.5em;
-  width: 96%;
-}
-
 .banner button {
   color: #fff;
   font-weight: 700;
   font-size: 20px;
-  margin-top: 60px;
   letter-spacing: 0.8px;
   display: flex;
   align-items: center;
@@ -451,27 +439,9 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   margin-left: 25px;
 }
 
-.banner img {
-  animation: updown 3s linear infinite;
-}
-
 .connect-btn {
   text-decoration: none;
   color: #fff;
-}
-
-@keyframes updown {
-  0% {
-    transform: translateY(-20px);
-  }
-
-  50% {
-    transform: translateY(20px);
-  }
-
-  100% {
-    transform: translateY(-20px);
-  }
 }
 
 .txt-rotate > .wrap {
@@ -482,14 +452,6 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 .skill {
   padding: 0 0 50px 0;
   position: relative;
-}
-
-.skill-bx {
-  background: #151515;
-  border-radius: 65px;
-  text-align: center;
-  padding: 60px 50px;
-  margin-top: -60px;
 }
 
 .skill p {
@@ -839,171 +801,4 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   object-fit: contain;
   height: 100%;
   width: 100%;
-}
-
-/* Gradient Effect */
-.gradient-effect-1 {
-  position: absolute;
-  top: -2rem;
-  right: 8rem;
-  width: 31.25rem;
-  height: 31.25rem;
-  background: rgb(90, 81, 194); /* Dark muted purple */
-  border-radius: 50%;
-  filter: blur(12rem);
-  z-index: -30;
-}
-
-.gradient-effect-2 {
-  position: absolute;
-  top: 25rem;
-  left: -25rem;
-  width: 68.75rem;
-  height: 31.25rem;
-  background: #946263; /* Dark muted red */
-  border-radius: 50%;
-  filter: blur(8rem);
-  z-index: -30;
-}
-
-.gradient-effect-3 {
-  position: absolute;
-  bottom: 25rem;
-  right: 5rem;
-  width: 35rem;
-  height: 35rem;
-  background: #628c94; /* Muted Teal */
-  border-radius: 50%;
-  filter: blur(10rem);
-  z-index: -1;
-  transform: translateY(80%); /* Push it deeper dynamically */
-}
-
-.gradient-effect-4 {
-  position: absolute;
-  bottom: 70rem;
-  left: -25rem;
-  width: 60rem;
-  height: 30rem;
-  background: #947a62; /* Muted Warm Brown */
-  border-radius: 50%;
-  filter: blur(10rem);
-  z-index: -1;
-  transform: translateY(80%); /* Push it deeper dynamically */
-}
-
-.gradient-effect-5 {
-  position: absolute;
-  bottom: 25rem;
-  right: 3rem;
-  width: 35rem;
-  height: 35rem;
-  background: #236b8e; /* Deep Space Blue */
-  border-radius: 50%;
-  filter: blur(10rem);
-  z-index: -1;
-  transform: translateY(80%); /* Push it deeper dynamically */
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .gradient-effect-1 {
-    top: -3rem;
-    right: 5rem;
-    width: 18rem; /* Reduce size */
-    height: 18rem;
-    filter: blur(6rem); /* Reduce blur */
-  }
-
-  .gradient-effect-2 {
-    top: -2rem;
-    left: -20rem;
-    width: 40rem;
-    height: 20rem;
-    filter: blur(6rem);
-  }
-
-  .gradient-effect-3 {
-    bottom: 10rem;
-    right: 2rem;
-    width: 18rem;
-    height: 18rem;
-    filter: blur(6rem);
-    transform: translateY(40%);
-  }
-
-  .gradient-effect-4 {
-    bottom: 20rem;
-    left: -8rem;
-    width: 28rem;
-    height: 12rem;
-    filter: blur(6rem);
-    transform: translateY(40%);
-  }
-
-  .gradient-effect-5 {
-    bottom: 6rem;
-    right: 1rem;
-    width: 14rem;
-    height: 14rem;
-    filter: blur(6rem);
-    transform: translateY(40%);
-  }
-}
-
-@media (max-width: 480px) {
-  .gradient-effect-1 {
-    top: -2rem;
-    right: 2rem;
-    width: 12rem;
-    height: 12rem;
-    filter: blur(4rem);
-  }
-
-  .gradient-effect-2 {
-    top: 0;
-    left: -10rem;
-    width: 25rem;
-    height: 15rem;
-    filter: blur(4rem);
-  }
-
-  .gradient-effect-3 {
-    bottom: 2rem;
-    right: 1rem;
-    width: 10rem;
-    height: 10rem;
-    filter: blur(3rem);
-    transform: translateY(20%);
-  }
-
-  .gradient-effect-4 {
-    bottom: 6rem;
-    left: -4rem;
-    width: 14rem;
-    height: 7rem;
-    filter: blur(3rem);
-    transform: translateY(20%);
-  }
-
-  .gradient-effect-5 {
-    bottom: 2rem;
-    right: 0.5rem;
-    width: 7rem;
-    height: 7rem;
-    filter: blur(2rem);
-    transform: translateY(10%);
-  }
-}
-
-/* 
----break--- */
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 }

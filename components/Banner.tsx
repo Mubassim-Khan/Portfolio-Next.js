@@ -61,56 +61,51 @@ const Banner = () => {
   }, [delta, tick]);
 
   return (
-    <section className="banner" id="home">
-      {/* Container equivalent */}
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Row equivalent */}
-        <div className="flex flex-wrap items-center">
-          {/* Col xs={12} md={6} xl={7} */}
-          <div className="w-full md:w-1/2 xl:w-7/12">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 1.5 }}
-            >
-              <span className="tagLine">Welcome to my Portfolio</span>
-              <div className="pb-12 mt-2 mb-[150px] relative h-[100px]">
-                <h1 className="font-bold mb-[125px] h-full">
-                  {`Hi, I'm a `}
-                  <span className="inline-block min-h-[50px]">
-                    {text}
-                    <span className="inline-block animate-blink">|</span>
-                  </span>
-                </h1>
-              </div>
-              <div className="mt-[50px]">
-                <ShinyText
-                  text="My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi."
-                  disabled={false}
-                  speed={3}
-                  className="text-[20px] font-medium"
-                />
-              </div>
-              <button>
-                <Link className="connect-btn" href="#connect">
-                  Let&apos;s Connect
-                </Link>
-                <BsArrowRightCircle size={25} />
-              </button>
-            </motion.div>
+    <section
+      className="relative w-full h-screen banner py-24 overflow-hidden"
+      id="home"
+    >
+      {/* Gradient Blobs */}
+      <div className="absolute -left-48 top-1/2 -translate-y-1/2 w-[35rem] h-[25rem] bg-gradient-to-br from-purple-700 via-indigo-600 to-blue-500 rounded-full blur-[120px] opacity-40 animate-pulse"></div>
+
+      <div className="absolute -right-48 top-1/2 -translate-y-1/2 w-[35rem] h-[32rem] bg-gradient-to-br from-blue-600 via-purple-600 to-fuchsia-500 rounded-full blur-[120px] opacity-40 animate-pulse"></div>
+
+      <div className="relative max-w-4xl mx-auto px-4 text-center mt-12 flex flex-col items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
+        >
+          <span className=" relative inline-block rounded-xl p-[2px]  bg-gradient-to-r from-pink-500 via-purple-5 to-indigo-500 after:absolute after:inset-0 after:rounded- after:content-[''] after:bg-gradient-to-r after:from-pink-5 after:via-purple-500 after:to-indigo-500 after:blur-[20px] after:opacity-50 after:animate-puls after:-z-10">
+            <span className="relative z-10 block rounded-2xl px-4 py-2 text-white font-semibold text-[20px]">
+              Welcome to my Portfolio
+            </span>
+          </span>
+
+          <h1 className="font-bold mt-6 text-white text-4xl md:text-5xl">
+            {`Hi, I'm a `}
+            <span className="inline-block min-h-[50px]">
+              {text}
+              <span className="inline-block animate-blink">|</span>
+            </span>
+          </h1>
+
+          <div className="mt-6 max-w-2xl mx-auto">
+            <ShinyText
+              text="My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi."
+              disabled={false}
+              speed={3}
+              className="text-[20px] font-medium"
+            />
           </div>
 
-          {/* Col xs={12} md={6} xl={5} */}
-          <div className="w-full md:w-1/2 xl:w-5/12">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 1.5 }}
-            >
-              <Image src={headerImg} alt="Header Image" />
-            </motion.div>
-          </div>
-        </div>
+          <button className="mt-8 flex items-center gap-0.5 connect-btn mx-auto">
+            <Link className="connect-btn" href="#connect">
+              Let&apos;s Connect
+            </Link>
+            <BsArrowRightCircle size={25} />
+          </button>
+        </motion.div>
       </div>
     </section>
   );
