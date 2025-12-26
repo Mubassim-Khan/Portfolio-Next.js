@@ -104,7 +104,7 @@ const DashboardHome = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold"> {totalTime} hrs</p>
+            <p className="text-2xl font-bold">{totalTime}</p>
             <p className="text-sm text-gray-400">this month</p>
           </CardContent>
         </Card>
