@@ -25,6 +25,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import toast from "react-hot-toast";
 
 type Project = {
@@ -240,9 +246,32 @@ export default function ManageProjectsPage() {
                             </Badge>
                           )}
                         </span>
-                        <span className="text-xs text-muted-foreground">
-                          {p.url}
-                        </span>
+                        <TooltipProvider>
+                          <Tooltip delayDuration={200}>
+                            <TooltipTrigger asChild>
+                              <span
+                                className="text-xs text-muted-foreground cursor-pointer hover:text-foreground hover:underline hover:cursor-pointer"
+                                onClick={(e) => {
+                                  if (e.ctrlKey || e.metaKey) {
+                                    e.preventDefault();
+                                    if (p.url) {
+                                      window.open(p.url, "_blank");
+                                    }
+                                  }
+                                }}
+                              >
+                                {p.url}
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent
+                              side="top"
+                              align="center"
+                              className="bg-white/5 backdrop-blur-lg rounded-xl z-100 left-[-40rem] border border-white/10 text-white mb-2"
+                            >
+                              Follow link (Ctrl + Click)
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </div>
                     </TableCell>
                     <TableCell className="text-right">
