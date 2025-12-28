@@ -32,6 +32,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 type Project = {
   id: string;
@@ -249,19 +250,13 @@ export default function ManageProjectsPage() {
                         <TooltipProvider>
                           <Tooltip delayDuration={200}>
                             <TooltipTrigger asChild>
-                              <span
+                              <Link
+                                href={p.url === null ? "#" : p.url}
+                                target="_blank"
                                 className="text-xs text-muted-foreground cursor-pointer hover:text-foreground hover:underline hover:cursor-pointer"
-                                onClick={(e) => {
-                                  if (e.ctrlKey || e.metaKey) {
-                                    e.preventDefault();
-                                    if (p.url) {
-                                      window.open(p.url, "_blank");
-                                    }
-                                  }
-                                }}
                               >
                                 {p.url}
-                              </span>
+                              </Link>
                             </TooltipTrigger>
                             <TooltipContent
                               side="top"

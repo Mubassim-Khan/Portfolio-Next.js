@@ -8,7 +8,6 @@ export async function GET(request: Request) {
   const logs = await prisma.uptimeLog.findMany({
     where: { projectId },
     orderBy: { checkedAt: "asc" },
-    take: 50,
   });
 
   return NextResponse.json(logs);
