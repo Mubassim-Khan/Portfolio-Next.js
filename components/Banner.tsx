@@ -4,10 +4,8 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { BsArrowRightCircle } from "react-icons/bs";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 import ShinyText from "./ShinyText";
-import headerImg from "@/assets/images/header-img.svg";
 
 const Banner = () => {
   const [text, setText] = useState("");
@@ -18,10 +16,9 @@ const Banner = () => {
 
   const toRotate = useMemo(
     () => [
-      "MERN Stack Developer",
-      "Student",
-      "Gen AI Enthusiast",
-      "Web Developer",
+      "Software Developer",
+      "AI-Enhanced Website Developer",
+      "Full-Stack Web Developer",
     ],
     []
   );
