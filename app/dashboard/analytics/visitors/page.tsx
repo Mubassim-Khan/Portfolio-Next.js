@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import VisitorsMap from "@/components/VisitorsMap";
+import VisitorsMap from "@/components/charts/VisitorsMap";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 

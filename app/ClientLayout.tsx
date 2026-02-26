@@ -3,10 +3,10 @@
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
-import { ToasterProvider } from '@/components/ToastProvider';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import Cursor from "@/components/Cursor";
+import { ToasterProvider } from '@/components/providers/ToastProvider';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import Cursor from "@/components/misc/Cursor";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();

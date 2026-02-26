@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import noImage from "@/public/assets/images/no-preview-img.jpg";
-import CustomButton from "./Button";
+import CustomButton from "../misc/Button";
 import { ExternalLink, Github } from "lucide-react";
 
 interface ProjectCardProps {

@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { BsArrowRightCircle } from "react-icons/bs";
 import { motion } from "framer-motion";
 
-import ShinyText from "./ShinyText";
+import ShinyText from "../misc/ShinyText";
 
 const Banner = () => {
   const [text, setText] = useState("");

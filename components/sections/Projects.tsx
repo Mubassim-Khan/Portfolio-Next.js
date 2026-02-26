@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
-import ProjectCard from "./ProjectCard";
-import ShinyText from "./ShinyText";
-import BlurText from "./BlurText";
+import ProjectCard from "../cards/ProjectCard";
+import ShinyText from "../misc/ShinyText";
+import BlurText from "../misc/BlurText";
 import toast from "react-hot-toast";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";

@@ -25,7 +25,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 type WakaData = {
@@ -61,8 +61,25 @@ const DashboardHome = () => {
   }
 
   const totalTime = wakaData.human_readable_total ?? "0 hrs";
-  const dailyAverage = parseFloat(wakaData.human_readable_daily_average);
-  const targetDaily = 5; // assume 6 productive hrs/day
+
+  function parseTimeToHours(str: string) {
+    if (!str) return 0;
+
+    if (str.includes("hr")) {
+      return parseFloat(str);
+    }
+
+    if (str.includes("min")) {
+      const mins = parseFloat(str);
+      return mins / 60;
+    }
+
+    return 0;
+  }
+
+  const dailyAverage = parseTimeToHours(wakaData.human_readable_daily_average);
+
+  const targetDaily = 3; // assume 6 productive hrs/day
   const productivity = ((dailyAverage / targetDaily) * 100).toFixed(0);
 
   // Sample chart data
@@ -89,7 +106,7 @@ const DashboardHome = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-black rounded-[15px] flex flex-col items-center justify-center p-6">
       {/* Rainbow Animated Name */}
       <h1 className="text-5xl sm:text-5xl font-extrabold mb-8 text-center bg-gradient-to-r from-pink-500 via-yellow-500 to-cyan-500 bg-[length:200%_200%] animate-gradient text-transparent bg-clip-text">
         Welcome, Mubassim!
@@ -119,7 +136,7 @@ const DashboardHome = () => {
             <p className="text-2xl font-bold">
               {projects?.filter(
                 (p: { logs: { status: boolean }[] }) =>
-                  p.logs[0]?.status === true
+                  p.logs[0]?.status === true,
               ).length ?? 0}
             </p>
             <p className="text-sm text-gray-400">active projects</p>

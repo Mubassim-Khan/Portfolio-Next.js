@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import ShinyText from "@/components/ShinyText";
+import ShinyText from "@/components/misc/ShinyText";
 import {
   InputOTP,
   InputOTPGroup,

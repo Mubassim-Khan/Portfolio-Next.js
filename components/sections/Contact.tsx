@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 
-import BlurText from "./BlurText";
+import BlurText from "../misc/BlurText";
 import contactImg from "@/public/assets/images/contact-img.svg";
 import { sendFormEmail } from "@/lib/email/sendFormEmail";
 

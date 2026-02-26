@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import ProjectUptimeChart from "@/components/ProjectUptimeChart";
+import ProjectUptimeChart from "@/components/charts/ProjectUptimeChart";
 import {
   Dialog,
   DialogContent,
@@ -176,8 +176,8 @@ export default function StatusPage() {
                     <Badge
                       className={
                         isUp
-                          ? "bg-green-500 text-white hover:bg-green-600"
-                          : "bg-red-500 text-white hover:bg-red-600"
+                          ? "bg-green-500 text-white hover:bg-green-600 rounded-[5px]"
+                          : "bg-red-500 text-white hover:bg-red-600 rounded-[5px]"
                       }
                     >
                       {isUp ? "UP" : "DOWN"}

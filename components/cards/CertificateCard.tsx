@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import CustomButton from "./Button";
+import CustomButton from "../misc/Button";
 
 interface CertificateCardProps {
   name: string;

@@ -10,8 +10,8 @@ import {
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
+import { NavMain } from "@/components/navigation/nav-main";
+import { NavUser } from "@/components/navigation/nav-user";
 import {
   Sidebar,
   SidebarContent,

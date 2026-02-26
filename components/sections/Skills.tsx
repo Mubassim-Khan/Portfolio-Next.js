@@ -1,7 +1,7 @@
 import { LanguageSkills } from "@/PortfolioData";
-import SkillBox from "./SkillBox";
-import ShinyText from "./ShinyText";
-import BlurText from "./BlurText";
+import SkillBox from "../misc/SkillBox";
+import ShinyText from "../misc/ShinyText";
+import BlurText from "../misc/BlurText";
 
 const Skills = () => {
   const languages = LanguageSkills.slice(0, 4);

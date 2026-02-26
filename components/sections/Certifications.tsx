@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 
-import CertificateCard from "./CertificateCard";
-import ShinyText from "./ShinyText";
-import BlurText from "./BlurText";
+import CertificateCard from "../cards/CertificateCard";
+import ShinyText from "../misc/ShinyText";
+import BlurText from "../misc/BlurText";
 import toast from "react-hot-toast";
 
 type Certification = {
