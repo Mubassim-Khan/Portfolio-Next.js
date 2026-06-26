@@ -7,6 +7,7 @@ import { ToasterProvider } from '@/components/providers/ToastProvider';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Cursor from "@/components/misc/Cursor";
+import Particles from "@/components/misc/Particles";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -28,8 +29,23 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <ToasterProvider>
             <Cursor />
             {!hideLayout && <Navbar />}
-            {children}
-            {!hideLayout && <Footer />}
+            <div className="relative z-20">
+                {children}
+                {!hideLayout && <Footer />}
+            </div>
+            <div className="fixed inset-0 pointer-events-none z-10">
+                <Particles
+                    particleColors={["#ffffff"]}
+                    particleCount={150}
+                    particleSpread={8}
+                    speed={0.05}
+                    particleBaseSize={80}
+                    moveParticlesOnHover={false}
+                    alphaParticles
+                    disableRotation={false}
+                    pixelRatio={1}
+                />
+            </div>
         </ToasterProvider>
     );
 }

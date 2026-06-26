@@ -11,7 +11,7 @@ interface ButtonProps {
 const CustomButton = ({ Url, text, containerClass, icon }: ButtonProps) => {
   return (
     <button
-      className={`group relative z-10 w-fit cursor-pointer overflow-hidden rounded-full bg-purple-600 hover:bg-purple-700 px-3 py-1 text-black ${containerClass}`}
+      className={`group relative z-10 w-fit cursor-pointer overflow-hidden rounded-full bg-purple-600/30 backdrop-blur-md border border-purple-400/20 hover:bg-purple-600/50 px-3 py-1 text-black ${containerClass}`}
     >
       <Link
         href={Url}

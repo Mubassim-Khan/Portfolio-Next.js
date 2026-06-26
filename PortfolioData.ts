@@ -199,3 +199,20 @@ export const LanguageSkills = [
     imgURL: "https://raw.githubusercontent.com/devicons/devicon/7330accdbc47e2dc0c19789a48533c4a3c50fe58/icons/pytorch/pytorch-original.svg",
   },
 ];
+
+export const ExperienceData = [
+  {
+    title: "IT Intern",
+    company: "ChaseValue | Head Office, Karachi",
+    date: "Jan 2026 - Present",
+    description:
+      "Developing and implementing advanced computer vision systems, including real-time retail security solutions for theft detection, automated facial recognition-based attendance tracking, and customer interaction analysis. Also collaborating on the development and deployment of full-stack web applications to support business operations.",
+  },
+  {
+    title: "Oracle E-Business Suite - Intern",
+    company: "Brookes Pharma Pvt. Ltd",
+    date: "July 2025 - Aug 2025",
+    description:
+      "Designed and optimized SQL-based ERP reports, customized Oracle Application Framework (OAF) forms, and built tailored enterprise reports using Oracle Report Builder to streamline business workflows and improve corporate reporting efficiency.",
+  },
+];

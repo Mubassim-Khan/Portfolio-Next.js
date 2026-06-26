@@ -70,20 +70,20 @@ const Certifications = () => {
     fetchCertifications();
   }, []);
   return (
-    <section id="certifications" className="certifications">
+    <section id="certifications" className="certifications relative">
       <div className="max-w-7xl mx-auto px-4">
         <div className="w-full">
           {/* Gradient Blob */}
-          <div className="absolute bottom-[70rem] left-[-25rem] w-[60rem] h-[30rem] bg-[#947a62] rounded-full blur-[100px] opacity-40 -z-10 translate-y-[80%] animate-pulse md:display-none sm:display-none"></div>
+           <div className="absolute bottom-[70rem] left-[-25rem] w-[60rem] h-[30rem] bg-[#947a62] rounded-full blur-[100px] opacity-40 -z-10 translate-y-[80%] animate-pulse hidden lg:block"></div>
 
           <div className="pb-[50px] relative">
-            <div className="text-[45px] font-bold text-center">
+            <div className="text-[32px] md:text-[45px] font-bold text-center">
               <BlurText
                 text="Certifications"
                 delay={250}
                 animateBy="words"
                 direction="top"
-                className="text-[50px] font-bold text-center"
+                className="!text-[32px] md:!text-[50px] font-bold text-center"
               />
             </div>
             <div className="text-center font-[500] text-[#B8B8B8] text-[18px] tracking-[0.8px] leading-[1.5em] my-[14px] mt-[15px] mb-[75px]">

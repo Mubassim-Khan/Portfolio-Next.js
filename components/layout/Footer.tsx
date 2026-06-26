@@ -12,7 +12,7 @@ import Logo from "@/public/assets/images/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="footer py-6 text-white">
+    <footer className="footer relative py-6 text-white mb-12">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-wrap items-center justify-center md:justify-between">
           {/* Logo */}

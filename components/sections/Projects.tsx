@@ -113,13 +113,13 @@ const Projects = () => {
   return (
     <section ref={containerRef} id="project" className="relative w-full">
       <div className="max-w-[1140px] mx-auto px-4 py-10 relative z-10">
-        <div className="text-[50px] font-bold text-center mb-4">
+        <div className="text-[32px] md:text-[50px] font-bold text-center mb-4">
           <BlurText
             text="Projects"
             delay={250}
             animateBy="words"
             direction="top"
-            className="text-[50px] font-bold text-center"
+            className="!text-[32px] md:!text-[50px] font-bold text-center"
           />
         </div>
 

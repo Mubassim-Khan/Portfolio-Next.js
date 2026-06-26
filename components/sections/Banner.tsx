@@ -66,20 +66,20 @@ const Banner = () => {
       {/* Aurora Background */}
       <div className="absolute inset-0 w-full h-full">
         <Aurora
-          colorStops={["#7cff67", "#B497CF", "#5227FF"]}
+          colorStops={["#7cff67", "#4CC9F0", "#5227FF"]}
           blend={0.5}
           amplitude={1.0}
           speed={0.5}
         />
       </div>
 
-      <div className="relative max-w-4xl mx-auto px-4 text-center mt-12 flex flex-col items-center justify-center">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center mt-12 flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
         >
-          <span className="relative inline-block rounded-2xl px-6 py-3 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 after:absolute after:inset-0 after:rounded-xl after:content-[''] after:bg-gradient-to-r after:from-pink-500 after:via-purple-500 after:to-indigo-500 after:blur-[20px] after:opacity-50 after:animate-pulse after:-z-10">
+          <span className="relative inline-block rounded-2xl px-6 py-3 bg-white/10 backdrop-blur-xl border border-white/20 after:absolute after:inset-0 after:rounded-xl after:content-[''] after:bg-gradient-to-r after:from-pink-500 after:via-purple-500 after:to-indigo-500 after:blur-[20px] after:opacity-50 after:animate-pulse after:-z-10">
             Welcome to my Portfolio
           </span>
 
