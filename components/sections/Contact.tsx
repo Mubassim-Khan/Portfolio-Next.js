@@ -58,13 +58,13 @@ const Contact = () => {
   };
 
   return (
-    <section className="contact relative p-6 text-center" id="connect">
+    <section className="contact relative p-6 text-center mb-5" id="connect">
       <div className="max-w-7xl mx-auto px-4">
         {/* Gradient Blob */}
         <div
           className="absolute bottom-[25rem] right-[3rem] w-[45rem] h-[40rem]
          bg-[#236b8e] rounded-full blur-[80px] opacity-45 -z-10 translate-y-[80%] animate-pulse
-         md:display-none sm:display-none"
+         hidden lg:block"
         ></div>
 
         <div className="flex flex-wrap items-center">
@@ -81,7 +81,7 @@ const Contact = () => {
                 delay={250}
                 animateBy="words"
                 direction="top"
-                className="text-[50px] font-bold text-center"
+                className="!text-[28px] md:!text-[50px] font-bold text-center"
               />
             </h2>
 

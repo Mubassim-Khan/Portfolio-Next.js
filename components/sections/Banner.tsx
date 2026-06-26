@@ -6,6 +6,7 @@ import { BsArrowRightCircle } from "react-icons/bs";
 import { motion } from "framer-motion";
 
 import ShinyText from "../misc/ShinyText";
+import Aurora from "../misc/Aurora";
 
 const Banner = () => {
   const [text, setText] = useState("");
@@ -17,10 +18,10 @@ const Banner = () => {
   const toRotate = useMemo(
     () => [
       "Software Developer",
+      "Computer Vision Developer",
       "AI-Enhanced Website Developer",
-      "Full-Stack Web Developer",
     ],
-    []
+    [],
   );
 
   const tick = useCallback(() => {
@@ -62,21 +63,24 @@ const Banner = () => {
       className="relative w-full h-screen banner py-24 overflow-hidden"
       id="home"
     >
-      {/* Gradient Blobs */}
-      <div className="absolute -left-48 top-1/2 -translate-y-1/2 w-[35rem] h-[25rem] bg-gradient-to-br from-purple-700 via-indigo-600 to-blue-500 rounded-full blur-[120px] opacity-40 animate-pulse"></div>
+      {/* Aurora Background */}
+      <div className="absolute inset-0 w-full h-full">
+        <Aurora
+          colorStops={["#7cff67", "#4CC9F0", "#5227FF"]}
+          blend={0.5}
+          amplitude={1.0}
+          speed={0.5}
+        />
+      </div>
 
-      <div className="absolute -right-48 top-1/2 -translate-y-1/2 w-[35rem] h-[32rem] bg-gradient-to-br from-blue-600 via-purple-600 to-fuchsia-500 rounded-full blur-[120px] opacity-40 animate-pulse"></div>
-
-      <div className="relative max-w-4xl mx-auto px-4 text-center mt-12 flex flex-col items-center justify-center">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 text-center mt-12 flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
         >
-          <span className=" relative inline-block rounded-xl p-[2px]  bg-gradient-to-r from-pink-500 via-purple-5 to-indigo-500 after:absolute after:inset-0 after:rounded- after:content-[''] after:bg-gradient-to-r after:from-pink-5 after:via-purple-500 after:to-indigo-500 after:blur-[20px] after:opacity-50 after:animate-puls after:-z-10">
-            <span className="relative z-10 block rounded-2xl px-4 py-2 text-white font-semibold text-[20px]">
-              Welcome to my Portfolio
-            </span>
+          <span className="relative inline-block rounded-2xl px-6 py-3 bg-white/10 backdrop-blur-xl border border-white/20 after:absolute after:inset-0 after:rounded-xl after:content-[''] after:bg-gradient-to-r after:from-pink-500 after:via-purple-500 after:to-indigo-500 after:blur-[20px] after:opacity-50 after:animate-pulse after:-z-10">
+            Welcome to my Portfolio
           </span>
 
           <h1 className="font-bold mt-6 text-white text-4xl md:text-5xl">
@@ -89,7 +93,7 @@ const Banner = () => {
 
           <div className="mt-6 max-w-2xl mx-auto">
             <ShinyText
-              text="My name is Mubassim Ahmed Khan, and I am currently pursuing a Bachelor of Science in Computer Science at the University of Karachi."
+              text="My name is Mubassim Ahmed Khan, and I am an IT Intern at ChaseValue, Head Office"
               disabled={false}
               speed={3}
               className="text-[20px] font-medium"
