@@ -21,7 +21,7 @@ const SkillBox = ({
       </h3>
 
       {/* icons container */}
-      <div className="flex flex-wrap gap-4 justify-center mt-4">
+      <div className="flex flex-wrap gap-4 justify-center mt-2">
         <TooltipProvider>
           {skills.map((skill) => (
             <Tooltip key={skill.id}>

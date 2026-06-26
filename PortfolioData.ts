@@ -3,6 +3,8 @@ import DiscordIcon from "@/public/assets/icons/discordIcon.svg";
 import GitHubIcon from "@/public/assets/icons/githubIcon.svg";
 import GmailIcon from "@/public/assets/icons/gmailIcon.svg";
 import Shadcn from "@/public/assets/icons/shadcn-ui.png";
+import SQLiteIcon from "@/public/assets/icons/SQLiteIcon.png";
+import YOLO from "@/public/assets/icons/yolo-logo.svg";
 
 // Links & Icons for Social Media
 export const SocialLinks = [
@@ -94,12 +96,24 @@ export const LanguageSkills = [
     imgURL:
       "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/flask/flask-original.svg",
   },
+  {
+    id: 773,
+    name: "Django",
+    imgURL:
+    "https://raw.githubusercontent.com/devicons/devicon/7330accdbc47e2dc0c19789a48533c4a3c50fe58/icons/django/django-plain-wordmark.svg",
+  },
+  {
+    id: 774,
+    name: "Flutter",
+    imgURL:
+    "https://raw.githubusercontent.com/devicons/devicon/7330accdbc47e2dc0c19789a48533c4a3c50fe58/icons/flutter/flutter-original.svg",
+  },
   // Databases
   {
     id: 7,
     name: "MongoDB",
     imgURL:
-      "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
+    "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
   },
   {
     id: 8,
@@ -111,32 +125,43 @@ export const LanguageSkills = [
     id: 9,
     name: "PostgreSQL",
     imgURL:
-      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/postgresql/postgresql-original.svg",
+    "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/postgresql/postgresql-original.svg",
   },
   {
     id: 100,
     name: "Firebase",
     imgURL:
-      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/firebase/firebase-original.svg",
+    "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/firebase/firebase-original.svg",
   },
   {
     id: 990,
     name: "Prisma",
     imgURL:
-      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/prisma/prisma-original.svg",
+    "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/prisma/prisma-original.svg",
+  },
+  {
+    id: 90,
+    name: "SQLite",
+    imgURL: SQLiteIcon.src,
+  },
+  {
+    id: 199,
+    name: "Redis",
+    imgURL:
+    "https://raw.githubusercontent.com/devicons/devicon/7330accdbc47e2dc0c19789a48533c4a3c50fe58/icons/redis/redis-original.svg",
   },
   // CSS Frameworks
   {
     id: 10,
     name: "Tailwind CSS",
     imgURL:
-      "https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg",
+    "https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg",
   },
   {
     id: 11,
     name: "Bootstrap",
     imgURL:
-      "https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-original.svg",
+    "https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-original.svg",
   },
   {
     id: 101,
@@ -148,112 +173,29 @@ export const LanguageSkills = [
     id: 99,
     name: "Git",
     imgURL:
-      "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
+    "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
+  },  
+  {
+    id: 909,
+    name: "Docker",
+    imgURL:
+    "https://raw.githubusercontent.com/devicons/devicon/7330accdbc47e2dc0c19789a48533c4a3c50fe58/icons/docker/docker-original.svg",
   },  
   {
     id: 999,
     name: "GitHub Actions",
     imgURL:
-      "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/githubactions/githubactions-original.svg",
+    "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/githubactions/githubactions-original.svg",
   },
-];
-
-// Certificate Data consisting of various courses and certifications
-export const CertificateData = [
+  // Computer Vision
   {
-    title: "Foundational Generative AI - iNeuron",
-    skill: "Generative AI",
-    verifyLink:
-      "https://learn.ineuron.ai/certificate/a6eddac2-5014-460c-afd4-ab273969a93b",
+    id: 71,
+    name: "YOLO",
+    imgURL: YOLO.src,
   },
   {
-    title: "Generative AI with Large Language Models - AWS | DeepLearning.AI",
-    skill: "Generative AI",
-    verifyLink: "https://coursera.org/verify/A1N8VDV2FCUIY",
-  },
-  {
-    title: "Google IT Automation with Python - Google",
-    skill: "Automation",
-    verifyLink: "https://coursera.org/verify/professional-cert/N9YF92Y9QP8P",
-  },
-  {
-    title:
-      "Backend Web Development with Node.js and Express - Microsoft Learn Student Ambassador",
-    skill: "Backend Development",
-    verifyLink: "https://cert.devtown.in/verify/19wlu6",
-  },
-  {
-    title: "DevOps for Web Development - Google Developer Student Clubs",
-    skill: "DevOps for Web Development",
-    verifyLink: " ",
-  },
-  {
-    title: "Introduction to Software Engineering - IBM",
-    skill: "Software Engineering",
-    verifyLink: "https://coursera.org/verify/0U1KZ7GBNKPT",
-  },
-];
-
-// Project Data
-export const ProjectsData = [
-  {
-    id: 1,
-    title: "Clypp",
-    description:
-      "A Netflix-inspired streaming UI built with Next.js, TypeScript, Tailwind CSS, and GSAP for smooth animations.",
-    imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/Clypp/refs/heads/main/public/images/Preview_1.png",
-    webURL: "https://clypp.vercel.app/",
-    githubURL: "https://github.com/Mubassim-Khan/Clypp",
-  },
-  {
-    id: 2,
-    title: "DocTools",
-    description:
-      "DocTools is an all-in-one document utility for file conversion, OCR, AI summaries & QR code generation, built with FastAPI and React.",
-    imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/DocTools/refs/heads/master/frontend/src/assets/Preview.png",
-    webURL: "https://m-doctools.vercel.app",
-    githubURL: "https://github.com/Mubassim-Khan/DocTools",
-  },
-  {
-    id: 3,
-    title: "Spotify Clone",
-    description:
-      "Spotify Clone lets users play and explore music, built with Next.js and Supabase.",
-    imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/Spotify-Clone-Next.js/master/assets/Preview.png",
-    webURL: "https://spotify-clone-ivory-sigma.vercel.app",
-    githubURL: "https://github.com/Mubassim-Khan/Spotify-Clone-Next.js",
-  },
-  {
-    id: 4,
-    title: "Imaginify AI",
-    description:
-      "An AI SaaS platform built with Next.js that lets users manipulate images.",
-    imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/Imaginify-AI/refs/heads/master/public/assets/images/Preview.png",
-    webURL: "https://imaginify-ai-eight.vercel.app/",
-    githubURL: "https://github.com/Mubassim-Khan/Imaginify-AI",
-  },
-  {
-    id: 5,
-    title: "zNotebook",
-    description:
-      "zNotebook is a cloud notebook website, made using MERN Stack, Tailwind CSS & Framer Motion.",
-    imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/zNotebook/main/frontend/src/assets/images/Preview.png",
-    webURL: "https://znotebook.vercel.app/",
-    githubURL: "https://github.com/Mubassim-Khan/zNotebook",
-  },
-  {
-    id: 6,
-    title: "F1 Prediction App",
-    description:
-      "Predicts lap times and race outcomes with ML models on FastF1 telemetry, built with Flask, JavaScript, HTML & CSS.",
-    imgURL:
-      "https://raw.githubusercontent.com/Mubassim-Khan/F1-Predictor/refs/heads/main/static/images/preview.png",
-    webURL: "",
-    githubURL: "https://github.com/Mubassim-Khan/F1-Predictor",
+    id: 72,
+    name: "PyTorch",
+    imgURL: "https://raw.githubusercontent.com/devicons/devicon/7330accdbc47e2dc0c19789a48533c4a3c50fe58/icons/pytorch/pytorch-original.svg",
   },
 ];

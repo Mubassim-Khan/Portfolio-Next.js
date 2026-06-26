@@ -2,13 +2,15 @@ import { LanguageSkills } from "@/PortfolioData";
 import SkillBox from "../misc/SkillBox";
 import ShinyText from "../misc/ShinyText";
 import BlurText from "../misc/BlurText";
+import BorderGlow from "../misc/BorderGlow";
 
 const Skills = () => {
   const languages = LanguageSkills.slice(0, 4);
-  const frameworks = LanguageSkills.slice(4, 9);
-  const databases = LanguageSkills.slice(9, 14);
-  const cssFrameworks = LanguageSkills.slice(14, 17);
-  const versionControl = LanguageSkills.slice(17, 19);
+  const frameworks = LanguageSkills.slice(4, 11);
+  const databases = LanguageSkills.slice(11, 18);
+  const cssFrameworks = LanguageSkills.slice(18, 21);
+  const devOps = LanguageSkills.slice(21, 24);
+  const machineLearning = LanguageSkills.slice(24, 26);
 
   return (
     <section className="skill" id="skills">
@@ -42,12 +44,25 @@ const Skills = () => {
               className="custom-class"
             />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <SkillBox title="Languages" skills={languages} />
-            <SkillBox title="Libraries & Frameworks" skills={frameworks} />
-            <SkillBox title="Databases & ORMs" skills={databases} />
-            <SkillBox title="Styling & UI Libraries" skills={cssFrameworks} />
-            <SkillBox title="Version Control & CI/CD" skills={versionControl} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <BorderGlow borderRadius={16} fillOpacity={0} className="h-full">
+              <SkillBox title="Languages" skills={languages} />
+            </BorderGlow>
+            <BorderGlow borderRadius={16} fillOpacity={0} className="h-full">
+              <SkillBox title="Libraries & Frameworks" skills={frameworks} />
+            </BorderGlow>
+            <BorderGlow borderRadius={16} fillOpacity={0} className="h-full">
+              <SkillBox title="Databases & ORMs" skills={databases} />
+            </BorderGlow>
+            <BorderGlow borderRadius={16} fillOpacity={0} className="h-full">
+              <SkillBox title="Styling & UI Libraries" skills={cssFrameworks} />
+            </BorderGlow>
+            <BorderGlow borderRadius={16} fillOpacity={0} className="h-full">
+              <SkillBox title="DevOps & Version Control" skills={devOps} />
+            </BorderGlow>
+            <BorderGlow borderRadius={16} fillOpacity={0} className="h-full">
+              <SkillBox title="Computer Vision" skills={machineLearning} />
+            </BorderGlow>
           </div>
         </div>
       </div>

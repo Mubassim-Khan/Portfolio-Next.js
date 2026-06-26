@@ -7,7 +7,7 @@ import ShinyText from "../misc/ShinyText";
 import BlurText from "../misc/BlurText";
 import toast from "react-hot-toast";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,7 +27,6 @@ const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch projects
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -49,8 +48,6 @@ const Projects = () => {
     fetchProjects();
   }, []);
 
-  // Horizontal Scroll Animation
-  // Horizontal Scroll Animation
   useEffect(() => {
     if (
       !trackRef.current ||
@@ -63,7 +60,7 @@ const Projects = () => {
     const ctx = gsap.context(() => {
       const cardWidth = 700;
       const gap = 40;
-      const cardCount = projects.length;
+      const cardCount = 3;
 
       const containerWidth = cardsContainerRef.current!.offsetWidth;
       const totalCardsWidth = cardWidth * cardCount + gap * (cardCount - 1);
@@ -73,14 +70,13 @@ const Projects = () => {
 
       gsap.set(trackRef.current, { x: initialPosition });
 
-      // Horizontal scroll animation
       const horizontalTween = gsap.to(trackRef.current, {
         x: finalPosition,
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: () => `+=${(initialPosition - finalPosition) * 1.8}`,
+          end: () => `+=${(initialPosition - finalPosition) * 0.5}`,
           scrub: 1,
           pin: true,
           anticipatePin: 1,
@@ -88,7 +84,6 @@ const Projects = () => {
         },
       });
 
-      // Card fade / scale animations
       const cards = gsap.utils.toArray(".project-card") as HTMLElement[];
 
       cards.forEach((card, index) => {
@@ -110,70 +105,62 @@ const Projects = () => {
       });
 
       ScrollTrigger.refresh();
-    }, containerRef); // important scope binding
+    }, containerRef);
 
-    // Cleanup — clean ONLY what belongs to this component
     return () => ctx.revert();
   }, [projects]);
 
   return (
-    <main>
-      <section ref={containerRef} id="project" className="relative w-full">
-        <div className="max-w-[1140px] mx-auto px-4 py-10 relative z-10">
-          {/* Header */}
-          <div className="text-[50px] font-bold text-center mb-4">
-            <BlurText
-              text="Projects"
-              delay={250}
-              animateBy="words"
-              direction="top"
-              className="text-[50px] font-bold text-center"
-            />
-          </div>
+    <section ref={containerRef} id="project" className="relative w-full">
+      <div className="max-w-[1140px] mx-auto px-4 py-10 relative z-10">
+        <div className="text-[50px] font-bold text-center mb-4">
+          <BlurText
+            text="Projects"
+            delay={250}
+            animateBy="words"
+            direction="top"
+            className="text-[50px] font-bold text-center"
+          />
+        </div>
 
-          <div className="text-center font-[500] text-[#B8B8B8] text-[18px] tracking-[0.8px] leading-[1.5em]">
-            <ShinyText
-              text="A showcase of my hands-on experience, turning ideas into impactful digital solutions using modern web technologies"
-              disabled={false}
-              speed={3}
-              className="custom-class"
-            />
-          </div>
+        <div className="text-center font-[500] text-[#B8B8B8] text-[18px] tracking-[0.8px] leading-[1.5em]">
+          <ShinyText
+            text="A showcase of my hands-on experience, turning ideas into impactful digital solutions using modern web technologies"
+            disabled={false}
+            speed={3}
+            className="custom-class"
+          />
+        </div>
 
-          {/* Cards Container */}
-          {loading ? (
-            <div className="w-full flex justify-center py-20">
-              <Loader2 className="animate-spin h-8 w-8 text-gray-500" />
-            </div>
-          ) : projects.length === 0 ? (
-            <p className="w-full text-center text-gray-500 py-20">
-              No projects found.
-            </p>
-          ) : (
+        {loading ? (
+          <div className="w-full flex justify-center py-20">
+            <Loader2 className="animate-spin h-8 w-8 text-gray-500" />
+          </div>
+        ) : projects.length === 0 ? (
+          <p className="w-full text-center text-gray-500 py-20">
+            No projects found.
+          </p>
+        ) : (
+          <div
+            ref={cardsContainerRef}
+            className="relative h-[500px] overflow-visible"
+          >
             <div
-              ref={cardsContainerRef}
-              className="relative h-[500px] overflow-visible"
+              ref={trackRef}
+              className="absolute flex gap-10 items-center h-full"
               style={{
-                position: "relative",
+                top: "50%",
+                transform: "translateY(-50%)",
               }}
             >
-              <div
-                ref={trackRef}
-                className="absolute flex gap-10 items-center h-full"
-                style={{
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                }}
-              >
-                {projects.map((project, i) => (
-                  <ProjectCard key={project.id} index={i} {...project} />
-                ))}
-              </div>
+              {projects.slice(0, 3).map((project, i) => (
+                <ProjectCard key={project.id} index={i} {...project} />
+              ))}
             </div>
-          )}
-        </div>
-      </section>
-    </main>
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
 

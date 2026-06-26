@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
 
 import CertificateCard from "../cards/CertificateCard";
@@ -13,6 +13,37 @@ type Certification = {
   name: string;
   verifyUrl: string;
   skill: string;
+};
+
+const SpotlightCard = ({ children }: { children: React.ReactNode }) => {
+  const divRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [opacity, setOpacity] = useState(0);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!divRef.current) return;
+    const rect = divRef.current.getBoundingClientRect();
+    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+
+  return (
+    <div
+      ref={divRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setOpacity(1)}
+      onMouseLeave={() => setOpacity(0)}
+      className="relative"
+    >
+      <div
+        className="pointer-events-none absolute -inset-2 rounded-xl transition-opacity duration-500"
+        style={{
+          opacity,
+          background: `radial-gradient(500px circle at ${position.x}px ${position.y}px, rgba(168,85,247,0.12), transparent 40%)`,
+        }}
+      />
+      {children}
+    </div>
+  );
 };
 
 const Certifications = () => {
@@ -74,7 +105,9 @@ const Certifications = () => {
                 </p>
               ) : (
                 certification.map((certificate) => (
-                  <CertificateCard key={certificate.id} {...certificate} />
+                  <SpotlightCard key={certificate.id}>
+                    <CertificateCard {...certificate} />
+                  </SpotlightCard>
                 ))
               )}
             </div>

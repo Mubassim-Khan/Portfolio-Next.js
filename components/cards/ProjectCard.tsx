@@ -50,12 +50,13 @@ const ProjectCard = ({
     <div
       className="
         project-card
-        w-[700px] h-[400px]
+        w-[500px] lg:w-[700px] h-[400px] lg:h-[450px]
         rounded-2xl shadow-2xl overflow-hidden
         relative
         cursor-pointer
-        transition-all duration-500
+        bg-neutral-950
         flex-shrink-0
+        transition-all duration-500
       "
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -67,7 +68,7 @@ const ProjectCard = ({
           alt={name}
           fill
           className={`
-            object-cover
+            object-contain
             transition-all duration-700
             ${isHovered ? "scale-110 blur-sm brightness-50" : ""}
           `}
@@ -107,17 +108,16 @@ const ProjectCard = ({
       {/* Hover state - Full content */}
       <div
         className={`
-        absolute inset-0 p-8
-        flex flex-col justify-between
+        absolute inset-0 p-8 md:p-10
+        flex flex-col justify-end
         transition-all duration-700
         ${isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
       `}
       >
-        {/* Top section */}
-        <div>
+        <div className={`transition-all duration-500 delay-100 ${isHovered ? "translate-y-0" : "translate-y-4"}`}>
           <h3
             className="
-            text-white text-4xl font-bold mb-4
+            text-white text-3xl md:text-4xl font-bold mb-3
             drop-shadow-lg
           "
           >
@@ -126,40 +126,41 @@ const ProjectCard = ({
 
           <p
             className="
-            text-gray-200 text-lg
+            text-gray-300 text-base md:text-lg
             leading-relaxed
-            max-w-[90%]
+            max-w-[95%]
             drop-shadow
+            mb-6
           "
           >
             {description}
           </p>
-        </div>
 
-        {/* Bottom section - Buttons */}
-        <div className="flex gap-4">
-          {url && (
+          {/* Bottom section - Buttons */}
+          <div className="flex gap-4">
+            {url && (
+              <div
+                onMouseEnter={handleButtonMouseEnter}
+                onMouseLeave={handleButtonMouseLeave}
+              >
+                <CustomButton
+                  Url={url}
+                  text="Live Demo"
+                  icon={<ExternalLink size={20} />}
+                />
+              </div>
+            )}
+
             <div
               onMouseEnter={handleButtonMouseEnter}
               onMouseLeave={handleButtonMouseLeave}
             >
               <CustomButton
-                Url={url}
-                text="Live Demo"
-                icon={<ExternalLink size={20} />}
+                Url={githubURL}
+                text="View Code"
+                icon={<Github size={20} />}
               />
             </div>
-          )}
-
-          <div
-            onMouseEnter={handleButtonMouseEnter}
-            onMouseLeave={handleButtonMouseLeave}
-          >
-            <CustomButton
-              Url={githubURL}
-              text="View Code"
-              icon={<Github size={20} />}
-            />
           </div>
         </div>
       </div>
@@ -171,7 +172,7 @@ const ProjectCard = ({
         transition-all duration-700
         ${
           isHovered
-            ? "shadow-[0_0_40px_rgba(59,130,246,0.5)] border border-blue-400/30"
+            ? "shadow-[0_0_40px_rgba(168,85,247,0.4)] border border-purple-400/30"
             : "shadow-none"
         }
         pointer-events-none
