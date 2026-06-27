@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isSessionValid } from "@/lib/auth/validateSession";
 
+function isMobileDevice(ua: string): boolean {
+  return /mobile|android|iphone|ipad|ipod/i.test(ua);
+}
+
 export function proxy(req: NextRequest) {
+  const { pathname } = req.nextUrl;
   const sessionStr = req.cookies.get("session")?.value;
 
-  if (req.nextUrl.pathname.startsWith("/dashboard")) {
+  // ── 1. Dashboard auth guard ─────────────────────────────────────────────────
+  if (pathname.startsWith("/dashboard")) {
     if (!isSessionValid(sessionStr)) {
       return NextResponse.redirect(new URL("/otp", req.url));
     }
@@ -30,9 +36,19 @@ export function proxy(req: NextRequest) {
     }
   }
 
+  // ── 2. Mobile / desktop routing (only on root) ──────────────────────────────
+  if (pathname === "/") {
+    const ua = req.headers.get("user-agent") ?? "";
+    const target = isMobileDevice(ua) ? "/mobile" : "/desktop";
+    return NextResponse.rewrite(new URL(target, req.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: [
+    "/dashboard/:path*", // auth guard
+    "/",                 // mobile vs desktop split
+  ],
 };
