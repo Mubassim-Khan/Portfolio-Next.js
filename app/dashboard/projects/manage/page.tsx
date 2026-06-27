@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ManageProjectsSkeleton } from "@/components/skeletons/ManageProjectsSkeleton";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -181,6 +181,8 @@ export default function ManageProjectsPage() {
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  if (loading) return <ManageProjectsSkeleton />;
+
   return (
     <div className="space-y-4">
       <Card>
@@ -215,14 +217,7 @@ export default function ManageProjectsPage() {
             </div>
           </div>
 
-          {/* Loading State */}
-          {loading ? (
-            <div className="space-y-2">
-              {[1, 2, 3].map((i) => (
-                <Skeleton key={i} className="w-full h-6" />
-              ))}
-            </div>
-          ) : filteredProjects.length === 0 ? (
+          {filteredProjects.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center">
               No projects found.
             </p>

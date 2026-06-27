@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { StatusSkeleton } from "@/components/skeletons/StatusSkeleton";
 import ProjectUptimeChart from "@/components/charts/ProjectUptimeChart";
 import {
   Dialog,
@@ -74,6 +74,8 @@ export default function StatusPage() {
     return true;
   });
 
+  if (loading) return <StatusSkeleton />;
+
   return (
     <div className="space-y-4 ml-5">
       {/* Header */}
@@ -120,20 +122,7 @@ export default function StatusPage() {
           <CardTitle>Status</CardTitle>
         </CardHeader>
         <CardContent className="divide-y divide-border">
-          {loading ? (
-            <div className="space-y-4 py-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex justify-between items-center">
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[150px]" />
-                    <Skeleton className="h-3 w-[100px]" />
-                    <Skeleton className="h-3 w-[80px]" />
-                  </div>
-                  <Skeleton className="h-6 w-[80px]" />
-                </div>
-              ))}
-            </div>
-          ) : filteredProjects.length === 0 ? (
+          {filteredProjects.length === 0 ? (
             <p className="text-muted-foreground text-sm">No projects found.</p>
           ) : (
             filteredProjects.map((p) => {

@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
+import { DeploymentsSkeleton } from "@/components/skeletons/DeploymentsSkeleton";
 import {
   Select,
   SelectContent,
@@ -62,6 +62,8 @@ export default function DeploymentsPage() {
     projectFilter === "all"
       ? deployments
       : deployments.filter((d) => d.project === projectFilter);
+
+  if (loading) return <DeploymentsSkeleton />;
 
   return (
     <div className="space-y-4">
@@ -120,13 +122,7 @@ export default function DeploymentsPage() {
           {/* Projects Table */}
         </CardHeader>
         <CardContent>
-          {loading ? (
-            <div className="space-y-2">
-              {[1, 2, 3].map((i) => (
-                <Skeleton key={i} className="w-full h-6" />
-              ))}
-            </div>
-          ) : filteredDeployments.length > 0 ? (
+          {filteredDeployments.length > 0 ? (
             <Table>
               <TableHeader>
                 <TableRow>

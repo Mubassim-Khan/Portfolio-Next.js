@@ -43,7 +43,7 @@ const Navbar = () => {
 
   return (
     <motion.div
-      className="fixed bottom-2 left-0 right-0 z-50 flex justify-center overflow-x-auto"
+      className="fixed bottom-2 left-0 right-0 z-50 flex justify-center"
       animate={{ y: isVisible ? 0 : 120, opacity: isVisible ? 1 : 0 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
     >

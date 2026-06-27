@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { TrafficSkeleton } from "@/components/skeletons/TrafficSkeleton";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -121,6 +121,8 @@ export default function TrafficPage() {
     },
   ];
 
+  if (loading) return <TrafficSkeleton />;
+
   return (
     <div className="space-y-6">
       {/* Traffic Chart */}
@@ -150,11 +152,7 @@ export default function TrafficPage() {
 
         {/* Stats numbers */}
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
-          {loading
-            ? [...Array(5)].map((_, i) => (
-                <Skeleton key={i} className="h-24 w-full rounded-lg mb-8" />
-              ))
-            : stats.map((stat) => (
+          {stats.map((stat) => (
                 <Card
                   key={stat.label}
                   className="bg-zinc-900 border-gray-700 h-24 flex flex-col items-center justify-center mb-8 mt-3"
@@ -173,9 +171,7 @@ export default function TrafficPage() {
         </div>
 
         <CardContent>
-          {loading ? (
-            <Skeleton className="w-full h-64" />
-          ) : chartData ? (
+          {chartData ? (
             <div className="w-full h-64">
               <Bar
                 data={chartData}

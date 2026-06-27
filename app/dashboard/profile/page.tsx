@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ProfileSkeleton } from "@/components/skeletons/ProfileSkeleton";
 import { Label } from "@/components/ui/label";
 import {
   Copy,
@@ -88,20 +88,7 @@ export default function ProfilePage() {
     setTimeout(() => setCopiedField(null), 2000); // reset after 2s
   };
 
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center space-y-4 my-6">
-        {/* Image placeholder */}
-        <Skeleton className="w-[250px] h-[180px] rounded-xl shadow-md" />
-
-        {/* Title placeholder */}
-        <Skeleton className="w-[180px] h-6 rounded-md" />
-
-        {/* Subtitle/text placeholder */}
-        <Skeleton className="w-[140px] h-4 rounded-md" />
-      </div>
-    );
-  }
+  if (loading) return <ProfileSkeleton />;
 
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6">

@@ -146,7 +146,7 @@ export default function Dock({
   const height = useSpring(heightRow, spring);
 
   return (
-    <motion.div style={{ height, scrollbarWidth: 'none' }} className="mx-2 flex max-w-full items-center">
+    <motion.div style={{ height, scrollbarWidth: 'none' }} className="mx-2 flex max-w-full items-center relative">
       <motion.div
         onMouseMove={({ pageX }) => {
           isHovered.set(1);

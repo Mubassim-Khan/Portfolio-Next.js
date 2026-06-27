@@ -44,10 +44,10 @@ export async function PUT(req: NextRequest) {
     // Parse request body
     const body = await req.json();
 
-    // Validate required fields
+    // Only validate required fields on full updates
     const { name, description, githubURL } = body;
 
-    if (!name || !description || !githubURL) {
+    if (name !== undefined && (!name || !description || !githubURL)) {
       return NextResponse.json(
         { error: "Missing required fields: name, description, githubURL" },
         { status: 400 }

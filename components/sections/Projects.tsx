@@ -57,29 +57,31 @@ const Projects = () => {
     )
       return;
 
+    const container = containerRef.current;
+    const cardWidth = 700;
+    const gap = 40;
+    const cardCount = projects.length;
+
+    const containerWidth = cardsContainerRef.current.offsetWidth;
+    const totalCardsWidth = cardWidth * cardCount + gap * (cardCount - 1);
+
+    const initialPosition = containerWidth - cardWidth / 2;
+    const finalPosition = -(totalCardsWidth - cardWidth);
+    const scrollDistance = (initialPosition - finalPosition) * 0.5;
+
+    container.style.paddingBottom = `${scrollDistance}px`;
+
     const ctx = gsap.context(() => {
-      const cardWidth = 700;
-      const gap = 40;
-      const cardCount = 3;
-
-      const containerWidth = cardsContainerRef.current!.offsetWidth;
-      const totalCardsWidth = cardWidth * cardCount + gap * (cardCount - 1);
-
-      const initialPosition = containerWidth - cardWidth / 2;
-      const finalPosition = -(totalCardsWidth - cardWidth);
-
       gsap.set(trackRef.current, { x: initialPosition });
 
       const horizontalTween = gsap.to(trackRef.current, {
         x: finalPosition,
         ease: "none",
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: container,
           start: "top top",
-          end: () => `+=${(initialPosition - finalPosition) * 0.5}`,
+          end: `+=${scrollDistance}`,
           scrub: 1,
-          pin: true,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       });
@@ -105,13 +107,16 @@ const Projects = () => {
       });
 
       ScrollTrigger.refresh();
-    }, containerRef);
+    }, container);
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      container.style.paddingBottom = '';
+    };
   }, [projects]);
 
   return (
-    <section ref={containerRef} id="project" className="relative w-full">
+    <section ref={containerRef} id="project" className="sticky top-0 w-full">
       <div className="max-w-[1140px] mx-auto px-4 py-10 relative z-10">
         <div className="text-[32px] md:text-[50px] font-bold text-center mb-4">
           <BlurText
@@ -153,7 +158,7 @@ const Projects = () => {
                 transform: "translateY(-50%)",
               }}
             >
-              {projects.slice(0, 3).map((project, i) => (
+              {projects.map((project, i) => (
                 <ProjectCard key={project.id} index={i} {...project} />
               ))}
             </div>
