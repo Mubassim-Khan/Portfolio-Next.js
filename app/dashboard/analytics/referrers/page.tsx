@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ReferrersSkeleton } from "@/components/skeletons/ReferrersSkeleton";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -61,6 +61,8 @@ export default function ReferrersPage() {
     ],
   };
 
+  if (loading) return <ReferrersSkeleton />;
+
   return (
     <div className="space-y-4">
       <Card className="w-full">
@@ -88,9 +90,7 @@ export default function ReferrersPage() {
         </CardHeader>
 
         <CardContent>
-          {loading ? (
-            <Skeleton className="w-full h-64" />
-          ) : data.length > 0 ? (
+          {data.length > 0 ? (
             <div className="w-full h-80">
               <Bar
                 data={chartData}

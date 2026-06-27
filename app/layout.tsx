@@ -72,6 +72,7 @@ export default function RootLayout({
       >
         <ClientLayout>{children}</ClientLayout>
         <Script defer src="https://umami-plum-delta.vercel.app/script.js" data-website-id="cf6ab4d0-e402-488d-a3c0-a95ab5ba944a"/>
+        <Script data-goatcounter="https://mubassim.goatcounter.com/count" async src="//gc.zgo.at/count.js" />
       </body>
     </html>
   );

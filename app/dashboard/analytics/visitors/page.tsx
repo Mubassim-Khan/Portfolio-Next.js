@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import VisitorsMap from "@/components/charts/VisitorsMap";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { VisitorsSkeleton } from "@/components/skeletons/VisitorsSkeleton";
 
 export default function VisitorsPage() {
   const [loading, setLoading] = useState(true);
@@ -19,6 +19,8 @@ export default function VisitorsPage() {
     }, 1000);
   }, []);
 
+  if (loading) return <VisitorsSkeleton />;
+
   return (
     <div className="space-y-6">
       {/* World Map */}
@@ -27,11 +29,7 @@ export default function VisitorsPage() {
           <CardTitle className="text-xl font-bold">Visitors Map</CardTitle>
         </CardHeader>
         <CardContent className="relative w-full h-[500px]">
-          {loading ? (
-            <Skeleton className="w-full h-full rounded-lg" />
-          ) : (
-            <VisitorsMap visitorsData={visitorsData} selectedCountry={null} />
-          )}
+          <VisitorsMap visitorsData={visitorsData} selectedCountry={null} />
         </CardContent>
       </Card>
 

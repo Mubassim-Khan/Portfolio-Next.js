@@ -9,6 +9,7 @@ export async function POST(req: Request) {
       url: body.url,
       coverImage: body.coverImage,
       description: body.description,
+      githubURL: body.githubURL,
       featured: body.featured || false,
       order: body.order || null,
     },

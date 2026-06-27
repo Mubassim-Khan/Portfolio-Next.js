@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Card,
   CardContent,
@@ -21,9 +21,12 @@ import {
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Pencil, Trash, Plus, ArrowUp, ArrowDown, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Project = {
   id: string;
@@ -93,6 +96,13 @@ export default function PortfolioEditor() {
   const [cFeatured, setCFeatured] = useState(true);
   const [cOrder, setCOrder] = useState<number | null>(null);
 
+  // portfolio count state
+  const [allProjects, setAllProjects] = useState<Project[]>([]);
+  const [portfolioCount, setPortfolioCount] = useState(3);
+  const [countDialogOpen, setCountDialogOpen] = useState(false);
+  const [countSaving, setCountSaving] = useState(false);
+  const [selectedProjectIds, setSelectedProjectIds] = useState<Set<string>>(new Set());
+
   // confirmation states
   const [deleteProjectId, setDeleteProjectId] = useState<string | null>(null);
   const [deletingProject, setDeletingProject] = useState(false);
@@ -103,7 +113,30 @@ export default function PortfolioEditor() {
   useEffect(() => {
     fetchFeaturedProjects();
     fetchCertifications();
+    fetchAllProjects();
   }, []);
+
+  async function fetchAllProjects() {
+    try {
+      const res = await fetch("/api/projects");
+      const data = await res.json();
+      data.sort((a: Project, b: Project) => {
+        const aa = a.order ?? Number.MAX_SAFE_INTEGER;
+        const bb = b.order ?? Number.MAX_SAFE_INTEGER;
+        return aa - bb;
+      });
+      setAllProjects(data);
+    } catch {
+      setAllProjects([]);
+    }
+  }
+
+  // sync portfolio count when projects load
+  useEffect(() => {
+    if (!loadingProjects) {
+      setPortfolioCount(projects.length);
+    }
+  }, [loadingProjects, projects.length]);
 
   async function fetchFeaturedProjects() {
     setLoadingProjects(true);
@@ -277,6 +310,48 @@ export default function PortfolioEditor() {
     }
   }
 
+  // ----- Portfolio count control -----
+  const featuredIds = useMemo(() => new Set(projects.map((p) => p.id)), [projects]);
+
+  function openCountDialog() {
+    setSelectedProjectIds(featuredIds);
+    setCountDialogOpen(true);
+  }
+
+  function toggleProjectSelection(id: string) {
+    setSelectedProjectIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }
+
+  async function savePortfolioSelection() {
+    setCountSaving(true);
+    try {
+      await Promise.all(
+        allProjects.map((p) =>
+          fetch(`/api/projects/${p.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ featured: selectedProjectIds.has(p.id) }),
+          })
+        )
+      );
+      setCountDialogOpen(false);
+      toast.success("Portfolio selection updated.");
+      fetchFeaturedProjects();
+    } catch {
+      toast.error("Failed to update portfolio selection.");
+    } finally {
+      setCountSaving(false);
+    }
+  }
+
   // ----- Certifications CRUD -----
   function openNewCertDialog() {
     setEditCertId(null);
@@ -359,13 +434,13 @@ export default function PortfolioEditor() {
   }
 
   // ----- validations for UI -----
-  // Projects
+  // Projects - url is optional (some projects have GitHub only)
   const incompleteProjects = projects.filter(
-    (p) => !p.description || !p.githubURL || !p.coverImage || !p.url
+    (p) => !p.description || !p.githubURL || !p.coverImage
   );
+  const missingUrlProjects = projects.filter((p) => !p.url);
   const hasIncompleteProjects = incompleteProjects.length > 0;
   const projectsCount = projects.length;
-  const notExactlySixProjects = projectsCount !== 6;
 
   // Certifications
   const incompleteCertifications = certifications.filter(
@@ -373,12 +448,48 @@ export default function PortfolioEditor() {
   );
   const hasIncompleteCertifications = incompleteCertifications.length > 0;
   const certificationsCount = certifications.length;
-  const notExactlyFourCertifications = certificationsCount !== 6;
 
   return (
     <div className="space-y-4 p-6">
       <Card>
         <CardContent className="pt-6 space-y-4">
+          {/* Portfolio count control */}
+          <div className="flex items-center gap-3 p-3 bg-zinc-900 rounded-xl border border-zinc-800 mb-4">
+            <Label className="text-sm text-zinc-300 shrink-0">Projects on portfolio:</Label>
+            <div className="flex items-center gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-8 w-8"
+                onClick={() => setPortfolioCount(Math.max(0, portfolioCount - 1))}
+                disabled={portfolioCount <= 0}
+              >
+                -
+              </Button>
+              <span className="text-lg font-semibold text-purple-400 w-6 text-center">
+                {portfolioCount}
+              </span>
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-8 w-8"
+                onClick={() => setPortfolioCount(Math.min(allProjects.length, portfolioCount + 1))}
+                disabled={portfolioCount >= allProjects.length}
+              >
+                +
+              </Button>
+            </div>
+            <span className="text-xs text-zinc-500">of {allProjects.length} total</span>
+            <Button
+              size="sm"
+              variant="secondary"
+              className="ml-auto rounded-[8px]"
+              onClick={openCountDialog}
+            >
+              Select projects
+            </Button>
+          </div>
+
           <Tabs defaultValue="projects" className="w-full rounded-2xl">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-bold w-1/3">Portfolio Editor</h2>
@@ -409,18 +520,13 @@ export default function PortfolioEditor() {
                 <AlertTitle>Incomplete data</AlertTitle>
                 <AlertDescription>
                   {incompleteProjects.length} project(s) are missing required
-                  fields (description, GitHub URL, cover image URL, or website
-                  URL).
-                </AlertDescription>
-              </Alert>
-            )}
-
-            {notExactlySixProjects && (
-              <Alert variant="destructive">
-                <AlertTitle>Portfolio requires exactly 6 projects</AlertTitle>
-                <AlertDescription>
-                  You currently have {projectsCount} project(s). The portfolio
-                  grid expects exactly 6.
+                  fields (description, GitHub URL, or cover image URL).
+                  {missingUrlProjects.length > 0 && (
+                    <span className="block mt-1">
+                      {missingUrlProjects.length} project(s) are also missing a
+                      website URL (optional, but recommended).
+                    </span>
+                  )}
                 </AlertDescription>
               </Alert>
             )}
@@ -430,26 +536,21 @@ export default function PortfolioEditor() {
                 <AlertTitle>Incomplete data</AlertTitle>
                 <AlertDescription>
                   {incompleteCertifications.length} certification(s) are missing
-                  required fields (name, issuer, issue date, or certificate
-                  URL).
-                </AlertDescription>
-              </Alert>
-            )}
-
-            {notExactlyFourCertifications && (
-              <Alert variant="destructive">
-                <AlertTitle>
-                  Portfolio requires exactly 6 certifications
-                </AlertTitle>
-                <AlertDescription>
-                  You currently have {certificationsCount} certification(s). The
-                  portfolio grid expects exactly 6.
+                  required fields (name, skill, or verification URL).
                 </AlertDescription>
               </Alert>
             )}
 
             {/* Projects Tab */}
             <TabsContent value="projects">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key="projects"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -570,10 +671,20 @@ export default function PortfolioEditor() {
                   </div>
                 </CardContent>
               </Card>
+                </motion.div>
+              </AnimatePresence>
             </TabsContent>
 
             {/* Certifications Tab */}
             <TabsContent value="certifications">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key="certifications"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.2 }}
+                >
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -634,10 +745,63 @@ export default function PortfolioEditor() {
                   )}
                 </CardContent>
               </Card>
+                </motion.div>
+              </AnimatePresence>
             </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
+
+      {/* Portfolio Selection Dialog */}
+      <Dialog open={countDialogOpen} onOpenChange={setCountDialogOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Select projects for portfolio</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-zinc-400 mb-3">
+            Choose exactly {portfolioCount} project(s) to show on your portfolio.
+            Currently {selectedProjectIds.size} selected.
+          </p>
+          <div className="space-y-2 max-h-80 overflow-y-auto">
+            {allProjects.map((p) => (
+              <div
+                key={p.id}
+                className="flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-800 transition-colors"
+              >
+                <Checkbox
+                  id={p.id}
+                  checked={selectedProjectIds.has(p.id)}
+                  onCheckedChange={() => toggleProjectSelection(p.id)}
+                />
+                <Label htmlFor={p.id} className="text-sm cursor-pointer flex-1">
+                  {p.name}
+                  <span className="text-xs text-zinc-500 ml-2">
+                    {p.description ? "" : "⚠️ no description"}
+                  </span>
+                </Label>
+              </div>
+            ))}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setCountDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={savePortfolioSelection}
+              disabled={countSaving || selectedProjectIds.size !== portfolioCount}
+            >
+              {countSaving ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="animate-spin h-4 w-4" />
+                  <span>Saving...</span>
+                </div>
+              ) : (
+                `Show ${portfolioCount} projects`
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Project Dialog */}
       <Dialog open={projectDialogOpen} onOpenChange={setProjectDialogOpen}>

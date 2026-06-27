@@ -1,0 +1,13 @@
+{
+  "breakpoints": [1280],
+  "out": "./src/bones",
+  "wait": 1000,
+  "routes": ["/", "/dashboard"],
+  "color": "rgba(39,39,42,1)",
+  "darkColor": "rgba(63,63,70,1)",
+  "animate": "shimmer",
+  "shimmerColor": "#ebebeb",
+  "darkShimmerColor": "#333333",
+  "speed": "2s",
+  "shimmerAngle": 100
+}
