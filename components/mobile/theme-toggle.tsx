@@ -1,31 +1,74 @@
 "use client";
 
+import * as React from "react";
+import { flushSync } from "react-dom";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { playSound } from "@/lib/sound-engine";
+import { click003Sound } from "@/lib/click-003";
+
+type ViewTransitionDocument = Document & {
+  startViewTransition?: (callback: () => void) => void;
+};
+
+function subscribeToClient() {
+  return () => {};
+}
+
+function getClientSnapshot() {
+  return true;
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
+function useMounted() {
+  return React.useSyncExternalStore(
+    subscribeToClient,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
+}
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
+  const { setTheme, resolvedTheme } = useTheme();
+  const mounted = useMounted();
 
   if (!mounted) {
-    return (
-      <div className={`w-9 h-9 flex items-center justify-center ${className ?? ""}`}>
-        <div className="w-3.5 h-3.5 rounded-full border border-zinc-400" />
-      </div>
-    );
+    return <div className={`h-[18px] w-[18px] ${className ?? ""}`} />;
   }
+
+  const isDark = resolvedTheme === "dark";
+
+  const toggleTheme = () => {
+    const nextTheme = isDark ? "light" : "dark";
+    const transitionDocument = document as ViewTransitionDocument;
+
+    if (!transitionDocument.startViewTransition) {
+      setTheme(nextTheme);
+      return;
+    }
+
+    transitionDocument.startViewTransition(() => {
+      flushSync(() => {
+        setTheme(nextTheme);
+      });
+    });
+  };
 
   return (
     <button
       type="button"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className={`w-9 h-9 flex items-center justify-center text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors cursor-pointer ${className ?? ""}`}
+      onClick={() => {
+        void playSound(click003Sound.dataUri, { volume: 0.5 });
+        toggleTheme();
+      }}
+      className={`relative z-50 flex h-[18px] w-[18px] cursor-pointer items-center justify-center text-zinc-500 transition-all duration-300 hover:text-zinc-900 active:scale-95 dark:text-zinc-600 dark:hover:text-zinc-300 ${className ?? ""}`}
       aria-label="Toggle theme"
+      aria-pressed={isDark}
     >
-      {theme === "dark" ? (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+      {isDark ? (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-[18px] w-[18px]">
           <circle cx="12" cy="12" r="5" />
           <line x1="12" y1="1" x2="12" y2="3" />
           <line x1="12" y1="21" x2="12" y2="23" />
@@ -37,7 +80,7 @@ export function ThemeToggle({ className }: { className?: string }) {
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
         </svg>
       ) : (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-[18px] w-[18px]">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
       )}

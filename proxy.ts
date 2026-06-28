@@ -36,11 +36,21 @@ export function proxy(req: NextRequest) {
     }
   }
 
-  // ── 2. Mobile / desktop routing (only on root) ──────────────────────────────
+  // ── 2. Mobile / desktop routing ────────────────────────────────────────────
   if (pathname === "/") {
     const ua = req.headers.get("user-agent") ?? "";
     const target = isMobileDevice(ua) ? "/mobile" : "/desktop";
     return NextResponse.rewrite(new URL(target, req.url));
+  }
+
+  // Rewrite /contact, /experience, /projects, /resume to mobile versions
+  if (["/contact", "/experience", "/projects", "/resume", "/pull-requests"].includes(pathname)) {
+    return NextResponse.rewrite(new URL(`/mobile${pathname}`, req.url));
+  }
+
+  // Rewrite /projects/[slug] to mobile
+  if (pathname.startsWith("/projects/")) {
+    return NextResponse.rewrite(new URL(`/mobile${pathname}`, req.url));
   }
 
   return NextResponse.next();
@@ -48,7 +58,13 @@ export function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/dashboard/:path*", // auth guard
-    "/",                 // mobile vs desktop split
+    "/dashboard/:path*",
+    "/",
+    "/contact",
+    "/experience",
+    "/projects",
+    "/projects/:path*",
+    "/resume",
+    "/pull-requests",
   ],
 };
