@@ -22,7 +22,8 @@ export function proxy(req: NextRequest) {
       session.lastActive = Date.now();
       const encoded = encodeURIComponent(JSON.stringify(session));
 
-      const res = NextResponse.next();
+      const target = pathname.replace("/dashboard", "/desktop/dashboard");
+      const res = NextResponse.rewrite(new URL(target, req.url));
       res.cookies.set("session", encoded, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -43,6 +44,11 @@ export function proxy(req: NextRequest) {
     return NextResponse.rewrite(new URL(target, req.url));
   }
 
+  // Rewrite /otp to desktop otp page
+  if (pathname === "/otp") {
+    return NextResponse.rewrite(new URL("/desktop/otp", req.url));
+  }
+
   // Rewrite /contact, /experience, /projects, /resume to mobile versions
   if (["/contact", "/experience", "/projects", "/resume", "/pull-requests"].includes(pathname)) {
     return NextResponse.rewrite(new URL(`/mobile${pathname}`, req.url));
@@ -60,6 +66,7 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/",
+    "/otp",
     "/contact",
     "/experience",
     "/projects",

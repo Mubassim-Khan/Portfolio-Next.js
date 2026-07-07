@@ -66,7 +66,7 @@ const data = {
           url: "https://github.com/Mubassim-Khan?tab=repositories",
         },
         { title: "Vercel Dashboard", url: "https://vercel.com/dashboard" },
-        { title: "Analytics Panel", url: "https://umami.com/stats" },
+        { title: "Analytics Panel", url: "https://mubassim.goatcounter.com" },
       ],
     },
   ],

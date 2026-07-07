@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import {
   Card,
   CardContent,
@@ -13,10 +14,11 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
+  ArcElement,
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 import {
   Select,
   SelectContent,
@@ -25,15 +27,29 @@ import {
   SelectValue,
 } from "@/components/desktop/ui/select";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 interface Referrer {
   source: string;
   visitors: number;
+  ref_scheme: string;
 }
 
+interface SourceBreakdown {
+  name: string;
+  count: number;
+}
+
+const SOURCE_COLORS: Record<string, string> = {
+  "Direct / Other": "rgba(107, 114, 128, 0.8)",
+  Search: "rgba(59, 130, 246, 0.8)",
+  Referral: "rgba(16, 185, 129, 0.8)",
+  Campaign: "rgba(234, 179, 8, 0.8)",
+};
+
 export default function ReferrersPage() {
-  const [data, setData] = useState<Referrer[]>([]);
+  const [referrers, setReferrers] = useState<Referrer[]>([]);
+  const [sources, setSources] = useState<SourceBreakdown[]>([]);
   const [loading, setLoading] = useState(true);
   const [range, setRange] = useState("7d");
 
@@ -42,29 +58,49 @@ export default function ReferrersPage() {
       setLoading(true);
       try {
         const res = await fetch(`/api/analytics/referrers?range=${range}`);
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Failed to fetch referrers");
+        }
         const json = await res.json();
-        console.log(json);
-        setData(json);
+        if (json && typeof json === "object") {
+          setReferrers(Array.isArray(json.referrers) ? json.referrers : []);
+          setSources(Array.isArray(json.sources) ? json.sources : []);
+        }
       } catch (error) {
-        console.error("Error fetching referrers:", error);
+        toast.error(`Referrers: ${(error as Error).message}`);
       } finally {
         setLoading(false);
       }
     }
-
     fetchReferrers();
   }, [range]);
 
   const chartData = {
-    labels: data.map((r) => r.source),
+    labels: referrers.map((r) => r.source),
     datasets: [
       {
         label: "Visitors",
-        data: data.map((r) => r.visitors),
+        data: referrers.map((r) => r.visitors),
         backgroundColor: "rgba(59, 130, 246, 0.7)",
       },
     ],
   };
+
+  const doughnutData = sources.length
+    ? {
+        labels: sources.map((s) => s.name),
+        datasets: [
+          {
+            data: sources.map((s) => s.count),
+            backgroundColor: sources.map(
+              (s) => SOURCE_COLORS[s.name] || "rgba(107, 114, 128, 0.8)"
+            ),
+            borderWidth: 0,
+          },
+        ],
+      }
+    : null;
 
   if (loading) return <ReferrersSkeleton />;
 
@@ -74,7 +110,6 @@ export default function ReferrersPage() {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-xl font-bold">Top Referrers</CardTitle>
 
-          {/* Filter Range */}
           <div className="flex gap-2">
             <div className="flex items-center gap-2">
               <span className="text-gray-400 text-sm">Select Range:</span>
@@ -95,7 +130,7 @@ export default function ReferrersPage() {
         </CardHeader>
 
         <CardContent>
-          {data.length > 0 ? (
+          {referrers.length > 0 ? (
             <div className="w-full h-80">
               <Bar
                 data={chartData}
@@ -103,6 +138,7 @@ export default function ReferrersPage() {
                   responsive: true,
                   maintainAspectRatio: false,
                   plugins: { legend: { display: true, position: "bottom" } },
+                  indexAxis: "y",
                 }}
               />
             </div>
@@ -113,6 +149,59 @@ export default function ReferrersPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Traffic Source Breakdown */}
+      {sources.length > 0 && (
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle className="text-xl font-bold">
+              Traffic Sources
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="w-64 h-64 shrink-0">
+                <Doughnut
+                  data={doughnutData!}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: "65%",
+                    plugins: {
+                      legend: {
+                        position: "right",
+                        labels: { boxWidth: 12, padding: 12 },
+                      },
+                    },
+                  }}
+                />
+              </div>
+              <div className="flex-1 w-full space-y-2">
+                {sources.map((s) => {
+                  const total = sources.reduce((a, b) => a + b.count, 0);
+                  const pct = total > 0 ? ((s.count / total) * 100).toFixed(1) : "0";
+                  return (
+                    <div key={s.name} className="flex items-center gap-3">
+                      <div
+                        className="w-3 h-3 rounded-full shrink-0"
+                        style={{
+                          backgroundColor:
+                            SOURCE_COLORS[s.name] || "rgba(107, 114, 128, 0.8)",
+                        }}
+                      />
+                      <span className="text-sm flex-1">{s.name}</span>
+                      <span className="text-sm text-gray-400">{pct}%</span>
+                      <span className="text-sm font-medium w-16 text-right">
+                        {s.count.toLocaleString()}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
