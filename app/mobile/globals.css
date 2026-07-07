@@ -49,6 +49,26 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }
+
+  ::view-transition-group(root) {
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  ::view-transition-old(root),.dark::view-transition-old(root) {
+    animation: none;
+    animation-fill-mode: both;
+    z-index: -1;
+  }
+  ::view-transition-new(root) {
+    mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="m20 0 20 35H0z" fill="white"/></svg>') center / 0 no-repeat;
+    animation: scale 0.7s;
+    animation-fill-mode: both;
+  }
+
+  @keyframes scale {
+    to {
+      mask-size: 300vmax;
+    }
+  }
 }
 
 @layer base {

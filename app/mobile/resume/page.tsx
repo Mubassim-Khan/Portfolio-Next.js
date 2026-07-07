@@ -8,11 +8,12 @@ import { FooterBackground } from "@/components/mobile/FooterBackground";
 import SoftPillButton from "@/components/mobile/pixel-perfect/soft-pill-button";
 import { ThemeToggle } from "@/components/mobile/theme-toggle";
 
-const resumePath = "/Ashutosh-Singh-Resume.pdf";
+const resumePath = "/assets/docs/Mubassim_Khan_Resume.pdf";
+const resumeImgPath = "/assets/images/preview.png";
 
 export const metadata: Metadata = {
-  title: "Resume | Ashutoshx7",
-  description: "Resume of Ashutosh Singh, full-stack developer and open-source contributor.",
+  title: "Resume | Mubassim Ahmed Khan",
+  description: "Resume of Mubassim Ahmed Khan, full-stack developer and computer vision engineer.",
 };
 
 export default function ResumePage() {
@@ -96,7 +97,7 @@ export default function ResumePage() {
                 Resume
               </h1>
               <p className="mt-1 truncate text-[12px] text-zinc-500 dark:text-zinc-400">
-                Ashutosh Singh
+                Mubassim Ahmed Khan
               </p>
             </div>
           </div>
@@ -116,7 +117,7 @@ export default function ResumePage() {
             </span>
             <div className="min-w-0">
               <p className="truncate text-[13px] font-semibold text-zinc-800 dark:text-zinc-200">
-                Ashutosh Singh Resume
+                Mubassim Ahmed Khan Resume
               </p>
               <p className="text-[11px] text-zinc-400 dark:text-zinc-600">
                 PDF document
@@ -137,7 +138,7 @@ export default function ResumePage() {
             </a>
             <a
               href={resumePath}
-              download="Ashutosh-Singh-Resume.pdf"
+              download="Mubassim_Ahmed_Khan_Resume.pdf"
               aria-label="Download resume"
               title="Download resume"
             >
@@ -157,10 +158,9 @@ export default function ResumePage() {
 
         <div className="relative aspect-[8.5/11] w-full overflow-hidden rounded-[6px] border border-black/10 bg-white shadow-sm dark:border-white/10">
           <Image
-            src="/Ashutosh-Singh-Resume.png"
-            alt="Ashutosh Singh resume"
+            src={resumeImgPath}
+            alt="Mubassim Ahmed Khan resume"
             fill
-            preload
             sizes="(min-width: 768px) 40vw, 100vw"
             quality={75}
             className="object-contain"
