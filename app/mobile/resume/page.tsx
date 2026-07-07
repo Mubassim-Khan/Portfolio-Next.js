@@ -13,7 +13,7 @@ const resumeImgPath = "/assets/images/resume-preview.png";
 
 export const metadata: Metadata = {
   title: "Resume | Mubassim Ahmed Khan",
-  description: "Resume of Mubassim Ahmed Khan, full-stack developer and computer vision engineer.",
+  description: "Resume of Mubassim Ahmed Khan, Full-Stack Developer and Computer Vision Engineer.",
 };
 
 export default function ResumePage() {

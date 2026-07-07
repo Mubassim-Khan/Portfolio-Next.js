@@ -25,6 +25,12 @@ export {
   techNames,
 };
 
+const projectTechMap: Record<string, TechItem[]> = {
+  "Imaginify AI": ["next", "tailwind", "stripe", "cloudinary", "mongodb"],
+  "Clypp": ["next", "ts", "tailwind", { label: "GSAP", tooltip: "GSAP" }],
+  "F1 predictor model": ["python", "flask", "js", "html", "css3"],
+};
+
 type ApiProject = {
   id: string;
   name: string;
@@ -34,9 +40,24 @@ type ApiProject = {
   coverImage: string;
   featured: boolean;
   order: number | null;
+  technologies?: string[];
 };
 
 function mapApiToProject(api: ApiProject): Project {
+  const tech: TechItem[] = [];
+  if (api.technologies?.length) {
+    for (const t of api.technologies) {
+      const key = t.toLowerCase().replace(/[^a-z0-9]/g, "") as TechKey;
+      if (key in iconMap) {
+        tech.push(key);
+      } else {
+        tech.push({ label: t, tooltip: t });
+      }
+    }
+  } else {
+    const mapped = projectTechMap[api.name] ?? projectTechMap[api.id] ?? projectTechMap[Object.keys(projectTechMap).find(k => k.toLowerCase() === api.name.toLowerCase()) ?? ""];
+    if (mapped) tech.push(...mapped);
+  }
   return {
     slug: api.id,
     title: api.name,
@@ -44,7 +65,7 @@ function mapApiToProject(api: ApiProject): Project {
     src: api.coverImage || "/assets/images/no-preview-img.jpg",
     video: "",
     description: api.description || "No description",
-    tech: [],
+    tech,
     github: api.githubURL || "",
     live: api.url || "",
     hasPin: api.featured || false,
@@ -66,9 +87,8 @@ export const ProjectCard = ({
   const router = useRouter();
 
   const isNotStarted = !project.video && !project.live && !project.github;
-  const isBuilding = !!project.github && !project.live;
-  const statusColor = isNotStarted ? "bg-zinc-400" : isBuilding ? "bg-red-500" : "bg-emerald-500";
-  const statusLabel = isNotStarted ? "Not Started" : isBuilding ? "Building" : "Live";
+  const statusColor = isNotStarted ? "bg-zinc-400" : "bg-emerald-500";
+  const statusLabel = isNotStarted ? "Not Started" : "Live";
 
   return (
     <div
@@ -142,7 +162,7 @@ export const ProjectCard = ({
         )}
 
         <motion.div
-          className="absolute bottom-0 left-1/2 w-[85%] rounded-t-[10px] bg-white dark:bg-[#0a0a0a] p-0 shadow-[0_-8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_-8px_30px_rgba(0,0,0,0.5)] z-20 border border-black/5 dark:border-white/[0.15] border-b-0"
+          className="absolute bottom-0 left-1/2 w-full rounded-t-[10px] bg-white dark:bg-[#0a0a0a] p-0 shadow-[0_-8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_-8px_30px_rgba(0,0,0,0.5)] z-20 border border-black/5 dark:border-white/[0.15] border-b-0"
           variants={{
             rest: { height: "78%", y: 0, x: "-50%" },
             hover: { height: "72%", y: 4, x: "-50%" },
@@ -199,7 +219,7 @@ export const ProjectCard = ({
                       return TechIcon ? <TechIcon className="w-4 h-4 md:w-3.5 md:h-3.5 text-zinc-400 dark:text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors" /> : null;
                     })()
                   ) : (
-                    <span className="px-1.5 py-0.5 rounded border border-black/30 dark:border-white/[0.15] text-[9px] text-zinc-500 dark:text-zinc-400 leading-none">
+                    <span className="flex items-center justify-center w-4 h-4 md:w-3.5 md:h-3.5 text-[9px] font-semibold text-zinc-500 dark:text-zinc-400 leading-none">
                       {item.label}
                     </span>
                   )}

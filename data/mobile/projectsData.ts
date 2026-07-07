@@ -26,13 +26,20 @@ import {
   SiClaude,
   SiGooglegemini,
   SiMeta,
+  SiStripe,
+  SiMongodb,
+  SiJavascript,
+  SiHtml5,
+  SiFlask,
+  SiCloudinary,
 } from "react-icons/si";
 
 export type TechIcon = ComponentType<{ className?: string }>;
 export type TechKey =
   | "next" | "ts" | "react" | "three" | "prisma" | "cloud" | "langchain" | "langgraph" | "rag"
   | "node" | "motion" | "tailwind" | "bun" | "eslint" | "radixui" | "charts" | "github" | "fastapi"
-  | "redis" | "celery" | "tldraw" | "css3" | "python" | "anthropic" | "claude" | "gemini" | "llama";
+  | "redis" | "celery" | "tldraw" | "css3" | "python" | "anthropic" | "claude" | "gemini" | "llama"
+  | "stripe" | "mongodb" | "js" | "html" | "flask" | "cloudinary";
 
 export type TechItem = TechKey | { label: string; tooltip?: string; };
 
@@ -59,6 +66,8 @@ export const iconMap: Record<TechKey, TechIcon> = {
   charts: SiChartdotjs, github: SiGithub, fastapi: SiFastapi, redis: SiRedis, celery: SiCelery,
   tldraw: SiTldraw,   css3: SiCss, python: SiPython, anthropic: SiAnthropic, claude: SiClaude,
   gemini: SiGooglegemini, llama: SiMeta,
+  stripe: SiStripe, mongodb: SiMongodb, js: SiJavascript, html: SiHtml5, flask: SiFlask,
+  cloudinary: SiCloudinary,
 };
 
 export const techNames: Record<TechKey, string> = {
@@ -68,6 +77,8 @@ export const techNames: Record<TechKey, string> = {
   radixui: "Radix UI", charts: "Charts", github: "GitHub API", fastapi: "FastAPI", redis: "Redis",
   celery: "Celery", tldraw: "tldraw", css3: "CSS3", python: "Python", anthropic: "Anthropic",
   claude: "Claude", gemini: "Gemini", llama: "LLaMA",
+  stripe: "Stripe", mongodb: "MongoDB", js: "JavaScript", html: "HTML5", flask: "Flask",
+  cloudinary: "Cloudinary",
 };
 
 export const projectsData: Project[] = [

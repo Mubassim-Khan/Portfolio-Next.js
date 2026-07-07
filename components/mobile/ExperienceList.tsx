@@ -15,7 +15,7 @@ export function ExperienceList() {
                 alt={`${item.company} logo`}
                 width={32}
                 height={32}
-                className="size-full object-contain"
+                className="size-full object-contain rounded-md"
               />
             ) : (
               <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase">

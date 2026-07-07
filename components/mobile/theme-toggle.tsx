@@ -63,7 +63,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         void playSound(click003Sound.dataUri, { volume: 0.5 });
         toggleTheme();
       }}
-      className={`relative z-50 flex h-[18px] w-[18px] cursor-pointer items-center justify-center text-zinc-500 transition-all duration-300 hover:text-zinc-900 active:scale-95 dark:text-zinc-600 dark:hover:text-zinc-300 ${className ?? ""}`}
+      className={`relative z-50 flex h-[18px] w-[18px] cursor-pointer items-center justify-center text-zinc-500 transition-all duration-300 hover:text-zinc-900 active:scale-95 dark:text-zinc-400 dark:hover:text-zinc-200 ${className ?? ""}`}
       aria-label="Toggle theme"
       aria-pressed={isDark}
     >

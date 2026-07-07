@@ -33,12 +33,12 @@ const socials = [
   {
     name: "Discord",
     href: "https://discord.com/users/732681893484691518",
-    icon: <path d="M18 5c-1.5-.7-3.2-1-5-1s-3.5.3-5 1c-1.5 3.5-2.5 8-2.5 8 1.5 2 4.5 3 7.5 3s6-1 7.5-3c0 0-1-4.5-2.5-8zM9 13c-.8 0-1.5-.7-1.5-1.5S8.2 10 9 10s1.5.7 1.5 1.5S9.8 13 9 13zm6 0c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5z" fill="currentColor" />,
+    icon: <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 4.317 4.37a.07.07 0 0 0-.032.028C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.056c2.053 1.508 4.041 2.423 5.993 3.03a.077.077 0 0 0 .084-.028c.462-.63.873-1.295 1.226-1.994a.076.076 0 0 0-.042-.106 13.47 13.47 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .078-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .079.01c.12.099.246.198.373.29a.077.077 0 0 1-.007.128c-.598.343-1.22.645-1.873.893a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028c1.961-.607 3.95-1.522 6.002-3.03a.077.077 0 0 0 .032-.055c.5-5.178-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.029zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" fill="currentColor" />,
   },
   {
     name: "Gmail",
     href: "mailto:mubassimkhan@gmail.com",
-    icon: <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="2" fill="none" />,
+    icon: <><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" strokeWidth="2" fill="none" /><path d="M22 4l-10 8L2 4" stroke="currentColor" strokeWidth="2" fill="none" /></>,
   },
 ];
 
@@ -163,9 +163,9 @@ export default function Home() {
         </p>
 
         <ul className="text-[14px] sm:text-[15px] text-zinc-600 dark:text-zinc-300 leading-relaxed mt-4 pl-4">
-          <li className="flex gap-1.5"><span>•</span><span>Full-stack developer working across React, Node.js, and computer vision.</span></li>
+          <li className="flex gap-1.5"><span>•</span><span>Full-stack developer working across React, Node.js, and Computer Vision.</span></li>
           <li className="flex gap-1.5"><span>•</span><span>Building real-world solutions in retail security, attendance tracking, and enterprise ERP.</span></li>
-          <li className="flex gap-1.5"><span>•</span><span>Currently building computer vision systems, full-stack web apps, and experimental AI tools.</span></li>
+          <li className="flex gap-1.5"><span>•</span><span>Currently building robust Computer Vision systems, Full-Stack web apps, and experimental AI tools.</span></li>
         </ul>
 
         {/* Buttons */}
@@ -174,8 +174,9 @@ export default function Home() {
             <SoftPillButton
               as="span"
               variant="primary"
-              className="px-3 py-1.5 !text-[12px]"
+              className="relative overflow-hidden px-3 py-1.5 !text-[12px]"
             >
+              <span aria-hidden="true" className="absolute inset-0 rounded-[4px] p-px opacity-[0.24] pointer-events-none" style={{ background: "linear-gradient(rgb(255, 255, 255) 0%, rgb(153, 153, 153) 55%, rgb(255, 255, 255) 80%, rgb(153, 153, 153) 95%)", mask: "linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px) content-box exclude, linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px)", WebkitMask: "linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px) content-box exclude, linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px)" }} />
               <div className="flex items-center gap-1.5">
                 <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -187,12 +188,19 @@ export default function Home() {
               </div>
             </SoftPillButton>
           </Link>
-          <Link href="/contact">
+          <Link href="/contact" className="group">
             <SoftPillButton
               as="span"
               variant="secondary"
-              className="px-3 py-1.5 !text-[12px]"
+              className="relative overflow-hidden group px-3 py-1.5 !text-[12px]"
             >
+              <span aria-hidden="true" className="absolute inset-0 rounded-full overflow-hidden transition-colors duration-200 group-active:duration-[50ms] bg-white/90 dark:bg-[#0c0c0e] group-hover:dark:bg-[#121214] border border-black/5 dark:border-white/5 group-hover:border-black/10 dark:group-hover:border-white/10">
+                <span className="absolute inset-0 rounded-full transition duration-200 bg-black/[0.02] dark:bg-transparent group-hover:bg-transparent dark:group-hover:bg-white/[0.02] group-active:bg-black/[0.04] dark:group-active:bg-white/[0.04] group-active:duration-[50ms]" />
+                <span className="absolute inset-0 transition duration-200 group-active:opacity-0 group-active:duration-[50ms] opacity-[0.16] dark:opacity-[0.04]" style={{ background: "linear-gradient(rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%)" }} />
+                <span className="absolute inset-0 transition duration-200 group-active:duration-[50ms] opacity-[0.04] dark:opacity-[0.1]" style={{ background: "radial-gradient(65.62% 65.62% at 50% 100%, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%)" }} />
+                <span className="absolute inset-0 transition duration-200 group-active:opacity-0 group-active:duration-[50ms] opacity-[0.4] dark:opacity-[0.04]" style={{ background: "linear-gradient(99deg, rgba(255, 255, 255, 0) 27.7%, rgba(255, 255, 255, 0.12) 60.19%, rgba(255, 255, 255, 0) 86.06%)" }} />
+                <span aria-hidden="true" className="absolute inset-0 rounded-full p-px hidden" style={{ background: "linear-gradient(transparent 0%, rgb(255, 255, 255) 55%, transparent 80%, rgb(255, 255, 255) 95%)", mask: "linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px) content-box exclude, linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px)" }} />
+              </span>
               <div className="flex items-center gap-1.5 opacity-70 group-hover:opacity-100 transition-opacity duration-300">
                 <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -219,7 +227,7 @@ export default function Home() {
                   className="px-3 py-1.5 !text-[12px]"
                 >
                   <div className="flex items-center gap-1.5 opacity-70 group-hover:opacity-100 transition-opacity duration-300">
-                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5">
+                    <svg viewBox="0 0 24 24" className="w-4 h-4">
                       {social.icon}
                     </svg>
                     {social.name}

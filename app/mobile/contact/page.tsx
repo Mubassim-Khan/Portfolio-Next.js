@@ -73,7 +73,7 @@ export default function ContactPage() {
           --autofill-text: #171717;
         }
         .dark {
-          --autofill-bg: black;
+          --autofill-bg: #1a1a1a;
           --autofill-text: #fafafa;
         }
       `}} />
@@ -178,7 +178,7 @@ export default function ContactPage() {
           <input type="text" name="_honey" style={{ display: "none" }} />
 
           <div className="space-y-2">
-            <label className="text-[11px] font-bold tracking-[0.15em] text-zinc-400 dark:text-zinc-600 uppercase ml-4">
+            <label className="text-[11px] font-bold tracking-[0.15em] text-zinc-400 dark:text-zinc-400 uppercase ml-4">
               Full Name
             </label>
             <input
@@ -189,12 +189,12 @@ export default function ContactPage() {
                 setFormData({ ...formData, name: e.target.value })
               }
               placeholder="Tyler Durden"
-              className="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-3 px-4 text-[14px] text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-zinc-500 dark:focus:border-zinc-500 transition-colors placeholder:text-zinc-300 dark:placeholder:text-zinc-700"
+              className="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-500 py-3 px-4 text-[14px] text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-zinc-500 dark:focus:border-zinc-400 transition-colors placeholder:text-zinc-300 dark:placeholder:text-zinc-500"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[11px] font-bold tracking-[0.15em] text-zinc-400 dark:text-zinc-600 uppercase ml-4">
+            <label className="text-[11px] font-bold tracking-[0.15em] text-zinc-400 dark:text-zinc-400 uppercase ml-4">
               Email Address
             </label>
             <input
@@ -206,12 +206,12 @@ export default function ContactPage() {
                 setFormData({ ...formData, email: e.target.value })
               }
               placeholder="tyler@projectmayhem.com"
-              className="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-3 px-4 text-[14px] text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-zinc-500 dark:focus:border-zinc-500 transition-colors placeholder:text-zinc-300 dark:placeholder:text-zinc-700"
+              className="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-500 py-3 px-4 text-[14px] text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-zinc-500 dark:focus:border-zinc-400 transition-colors placeholder:text-zinc-300 dark:placeholder:text-zinc-500"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[11px] font-bold tracking-[0.15em] text-zinc-400 dark:text-zinc-600 uppercase ml-4">
+            <label className="text-[11px] font-bold tracking-[0.15em] text-zinc-400 dark:text-zinc-400 uppercase ml-4">
               Message
             </label>
             <textarea
@@ -223,7 +223,7 @@ export default function ContactPage() {
                 setFormData({ ...formData, message: e.target.value })
               }
               placeholder="You're crazy good, never change."
-              className="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-800 py-3 px-4 text-[14px] text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-zinc-500 dark:focus:border-zinc-500 transition-colors placeholder:text-zinc-300 dark:placeholder:text-zinc-700 resize-none"
+              className="w-full bg-transparent border-b border-zinc-200 dark:border-zinc-500 py-3 px-4 text-[14px] text-zinc-900 dark:text-zinc-100 focus:outline-none focus:border-zinc-500 dark:focus:border-zinc-400 transition-colors placeholder:text-zinc-300 dark:placeholder:text-zinc-500 resize-none"
             />
           </div>
 
@@ -269,13 +269,22 @@ export default function ContactPage() {
                   LinkedIn
                 </a>
               </SocialHoverCard>
+              <SocialHoverCard socialName="Gmail">
+                <a href="mailto:mubassimkhan@gmail.com" target="_blank" className="flex items-center gap-1.5 px-2.5 py-1.5 bg-zinc-100 dark:bg-zinc-800/40 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-md text-[12px] font-medium text-zinc-600 dark:text-zinc-300 transition-colors border border-zinc-200/50 dark:border-zinc-700/50">
+                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="M22 4l-10 8L2 4" />
+                  </svg>
+                  Gmail
+                </a>
+              </SocialHoverCard>
             </div>
           </div>
 
-          <div className="flex-grow h-[160px] relative flex items-center justify-end -mr-56 mt-2">
+          <div className="flex-grow h-[120px] relative flex items-center justify-end mt-2">
             <DisplacementText
               text="MUBASSIM"
-              fontSize={300}
+              fontSize={200}
               className="h-full w-full"
               lightColor="#171717"
               darkColor="#e5e5e5"

@@ -208,7 +208,7 @@ export const ExperienceData = [
     company: "ChaseValue | Head Office, Karachi",
     date: "Jan 2026 - Present",
     description:
-      "Developing and implementing advanced computer vision systems, including real-time retail security solutions for theft detection, automated facial recognition-based attendance tracking, and customer interaction analysis. Also collaborating on the development and deployment of full-stack web applications to support business operations.",
+      "Developing and implementing advanced Computer Vision systems, including real-time retail security solutions for theft detection, automated facial recognition-based attendance tracking, and customer interaction analysis. Also collaborating on the development and deployment of full-stack web applications to support business operations.",
     logo: ChaseValueLogo.src,
   },
   {

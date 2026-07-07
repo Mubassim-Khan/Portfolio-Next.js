@@ -27,7 +27,7 @@ export function CurrentTime() {
     return (
       <div className="flex items-center opacity-0">
         <div 
-          className="text-[20px] sm:text-[24px] tracking-[0.15em] text-zinc-400 dark:text-zinc-500" 
+          className="text-[20px] sm:text-[24px] tracking-[0.15em] text-zinc-400 dark:text-zinc-300" 
           style={{ fontFamily: '"Doto", monospace', fontWeight: 700 }}
         >
           00.00.00
@@ -43,7 +43,7 @@ export function CurrentTime() {
   return (
     <div className="flex items-center h-[24px]">
       <div 
-        className="text-[20px] sm:text-[24px] tracking-[0.15em] flex items-center text-zinc-400 dark:text-zinc-500 h-full" 
+        className="text-[20px] sm:text-[24px] tracking-[0.15em] flex items-center text-zinc-400 dark:text-zinc-300 h-full" 
         style={{ fontFamily: '"Doto", monospace', fontWeight: 700 }}
       >
         <span>{hours}</span>
