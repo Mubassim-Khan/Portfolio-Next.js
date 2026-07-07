@@ -20,7 +20,7 @@ import {
   SiRedis,
   SiCelery,
   SiTldraw,
-  SiCss3,
+  SiCss,
   SiPython,
   SiAnthropic,
   SiClaude,
@@ -57,7 +57,7 @@ export const iconMap: Record<TechKey, TechIcon> = {
   cloud: SiCloudflare, langchain: SiLangchain, langgraph: Network, rag: Search, node: SiNodedotjs,
   motion: SiFramer, tailwind: SiTailwindcss, bun: SiBun, eslint: SiEslint, radixui: SiRadixui,
   charts: SiChartdotjs, github: SiGithub, fastapi: SiFastapi, redis: SiRedis, celery: SiCelery,
-  tldraw: SiTldraw,   css3: SiCss3, python: SiPython, anthropic: SiAnthropic, claude: SiClaude,
+  tldraw: SiTldraw,   css3: SiCss, python: SiPython, anthropic: SiAnthropic, claude: SiClaude,
   gemini: SiGooglegemini, llama: SiMeta,
 };
 

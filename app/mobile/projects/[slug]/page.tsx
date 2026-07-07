@@ -2,7 +2,7 @@ import { ThemeToggle } from "@/components/mobile/theme-toggle";
 import { CommandMenu } from "@/components/mobile/command-menu";
 import { CurrentTime } from "@/components/mobile/CurrentTime";
 import { RightNavbar } from "@/components/mobile/RightNavbar";
-import { FooterBackground } from "@/components/mobile/FooterBackground";
+import { BannerParticles } from "@/components/mobile/BannerParticles";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -63,8 +63,35 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           }} />
       ))}
 
-      <div className="absolute left-0 right-0 md:left-[30%] md:right-[30%] top-0 h-[22vh] -z-0 pointer-events-auto">
-        <FooterBackground />
+      <div className="absolute left-0 right-0 md:left-[30%] md:right-[30%] top-0 h-[22vh] -z-0 pointer-events-auto overflow-hidden bg-white dark:bg-black shadow-[0_4px_12px_rgba(2,6,23,0.04)] dark:shadow-[0_4px_12px_rgba(2,6,23,0.10)]">
+        <div className="absolute inset-0">
+          <div className="block dark:hidden size-full relative">
+            <Image
+              src="/ChatGPT%20Image%20May%2022%2C%202026%2C%2012_40_29%20AM.jpg"
+              alt=""
+              fill
+              fetchPriority="high"
+              sizes="(min-width: 768px) 40vw, 100vw"
+              quality={100}
+              className="object-cover object-center"
+            />
+          </div>
+          <div className="hidden dark:block size-full relative">
+            <Image
+              src="/ChatGPT%20Image%20May%2022%2C%202026%2C%2012_49_39%20AM.jpg"
+              alt=""
+              fill
+              fetchPriority="high"
+              sizes="(min-width: 768px) 40vw, 100vw"
+              quality={100}
+              className="object-cover object-center"
+            />
+          </div>
+        </div>
+        <BannerParticles />
+        <div className="absolute inset-x-0 bottom-0 h-10 pointer-events-none z-[5] bg-gradient-to-t from-white/90 to-transparent dark:from-black/50 dark:to-transparent" />
+        <div className="absolute left-0 top-0 bottom-0 w-8 pointer-events-none z-20 bg-gradient-to-r from-white/90 to-transparent dark:from-black/40 dark:to-transparent" />
+        <div className="absolute right-0 top-0 bottom-0 w-8 pointer-events-none z-20 bg-gradient-to-l from-white/90 to-transparent dark:from-black/40 dark:to-transparent" />
         <div className="absolute bottom-3 right-2 z-10 pointer-events-auto">
           <CurrentTime />
         </div>
@@ -89,7 +116,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
 
-          <div className="flex items-start justify-end gap-2 sm:gap-3 h-20 sm:h-24 py-1">
+          <div className="flex items-center justify-end gap-2 sm:gap-3 h-20 sm:h-24 py-1">
             <CommandMenu />
             <ThemeToggle className="dark:text-zinc-400 hover:dark:text-zinc-300" />
           </div>

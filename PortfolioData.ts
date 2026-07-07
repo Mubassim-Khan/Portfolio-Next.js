@@ -5,6 +5,8 @@ import GmailIcon from "@/public/assets/icons/gmailIcon.svg";
 import Shadcn from "@/public/assets/icons/shadcn-ui.png";
 import SQLiteIcon from "@/public/assets/icons/SQLiteIcon.png";
 import YOLO from "@/public/assets/icons/yolo-logo.svg";
+import ChaseValueLogo from "@/public/assets/logos/cv-logo.png";
+import BrookesLogo from "@/public/assets/logos/brookes-logo.jpg";
 
 // Links & Icons for Social Media
 export const SocialLinks = [
@@ -207,6 +209,7 @@ export const ExperienceData = [
     date: "Jan 2026 - Present",
     description:
       "Developing and implementing advanced computer vision systems, including real-time retail security solutions for theft detection, automated facial recognition-based attendance tracking, and customer interaction analysis. Also collaborating on the development and deployment of full-stack web applications to support business operations.",
+    logo: ChaseValueLogo.src,
   },
   {
     title: "Oracle E-Business Suite - Intern",
@@ -214,5 +217,6 @@ export const ExperienceData = [
     date: "July 2025 - Aug 2025",
     description:
       "Designed and optimized SQL-based ERP reports, customized Oracle Application Framework (OAF) forms, and built tailored enterprise reports using Oracle Report Builder to streamline business workflows and improve corporate reporting efficiency.",
+    logo: BrookesLogo.src,
   },
 ];
