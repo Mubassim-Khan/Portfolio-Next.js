@@ -108,7 +108,7 @@ export default function TrafficPage() {
   }, [range]);
 
   const calcTrend = (current?: number, previous?: number) => {
-    if (!current || !previous) return 0;
+    if (current == null || previous == null) return null;
     if (previous === 0) return current > 0 ? 100 : 0;
     return ((current - previous) / previous) * 100;
   };
@@ -167,10 +167,10 @@ export default function TrafficPage() {
             </p>
             <p
               className={`text-sm mt-1 ${
-                trend >= 0 ? "text-green-500" : "text-red-500"
+                trend != null && trend >= 0 ? "text-green-500" : "text-red-500"
               }`}
             >
-              {trend.toFixed(1)}%
+              {trend != null ? `${trend.toFixed(1)}%` : "—"}
             </p>
           </Card>
           <Card className="bg-zinc-900 border-gray-700 h-24 flex flex-col items-center justify-center mb-4">
@@ -198,7 +198,13 @@ export default function TrafficPage() {
                     tooltip: { mode: "index", intersect: false },
                   },
                   scales: {
-                    y: { beginAtZero: true },
+                    y: {
+                      beginAtZero: true,
+                      ticks: {
+                        callback: (value: number) =>
+                          Number.isInteger(value) ? value : null,
+                      },
+                    },
                     x: {
                       ticks: {
                         maxTicksLimit: 20,
