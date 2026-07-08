@@ -59,29 +59,34 @@ const OTPPage = () => {
     setOtp(value);
 
     if (value.length === 6) {
-      await toast.promise(
-        (async () => {
-          const res = await fetch("/api/verify-otp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ otp: value }),
-          });
+      try {
+        await toast.promise(
+          (async () => {
+            const res = await fetch("/api/verify-otp", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ otp: value }),
+            });
 
-          const data = await res.json();
+            const data = await res.json();
 
-          if (!res.ok) {
-            throw new Error(data.message || "Invalid OTP");
-          }
+            if (!res.ok) {
+              throw new Error(data.message || "Invalid OTP");
+            }
 
-          router.push("/dashboard");
-          return data; // return for success
-        })(),
-        {
-          loading: "Validating...",
-          success: "OTP Verified!",
-          error: (err) => err.message || "Invalid OTP",
-        },
-      );
+            return data;
+          })(),
+          {
+            loading: "Validating...",
+            success: "OTP Verified!",
+            error: (err) => err.message || "Invalid OTP",
+          },
+        );
+
+        router.push("/dashboard");
+      } catch {
+        // error already handled by toast
+      }
     }
   };
 

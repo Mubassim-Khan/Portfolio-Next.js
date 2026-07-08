@@ -9,7 +9,11 @@ const BASE_URL = GOATCOUNTER_HOST
 
 async function goatFetch(endpoint: string) {
   if (!BASE_URL || !GOATCOUNTER_API_KEY) {
-    throw new Error("GOATCOUNTER_API_KEY is not configured");
+    throw new Error(
+      !GOATCOUNTER_HOST
+        ? "GOATCOUNTER_HOST is not configured"
+        : "GOATCOUNTER_API_KEY is not configured"
+    );
   }
   const res = await fetch(`${BASE_URL}${endpoint}`, {
     headers: {
