@@ -201,8 +201,8 @@ export default function TrafficPage() {
                     y: {
                       beginAtZero: true,
                       ticks: {
-                        callback: (value: number) =>
-                          Number.isInteger(value) ? value : null,
+                        callback: (value: number | string) =>
+                          Number.isInteger(Number(value)) ? value : null,
                       },
                     },
                     x: {
