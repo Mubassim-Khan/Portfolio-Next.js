@@ -93,7 +93,7 @@ const Banner = () => {
 
           <div className="mt-6 max-w-2xl mx-auto">
             <ShinyText
-              text="My name is Mubassim Ahmed Khan, and I am an IT Intern at ChaseValue, Head Office"
+              text="My name is Mubassim Ahmed Khan, and I am a Software Engineer at ChaseValue, Head Office"
               disabled={false}
               speed={3}
               className="text-[20px] font-medium"
