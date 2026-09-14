@@ -67,9 +67,7 @@ const Projects = () => {
 
     const initialPosition = containerWidth - cardWidth / 2;
     const finalPosition = -(totalCardsWidth - cardWidth);
-    const scrollDistance = (initialPosition - finalPosition) * 0.5;
-
-    container.style.paddingBottom = `${scrollDistance}px`;
+    const scrollDistance = (initialPosition - finalPosition);
 
     const ctx = gsap.context(() => {
       gsap.set(trackRef.current, { x: initialPosition });
@@ -81,6 +79,8 @@ const Projects = () => {
           trigger: container,
           start: "top top",
           end: `+=${scrollDistance}`,
+          pin: true,
+          pinSpacing: true,
           scrub: 1,
           invalidateOnRefresh: true,
         },
@@ -90,7 +90,7 @@ const Projects = () => {
 
       cards.forEach((card, index) => {
         if (index !== 0) {
-          gsap.set(card, { opacity: 0.8, scale: 0.95 });
+          gsap.set(card, { opacity: 0.8, scale: 0.92 });
         }
 
         gsap.to(card, {
@@ -99,8 +99,8 @@ const Projects = () => {
           scrollTrigger: {
             trigger: card,
             containerAnimation: horizontalTween,
-            start: "left 75%",
-            end: "left 25%",
+            start: "left 85%",
+            end: "left 40%",
             scrub: 1,
           },
         });
@@ -111,13 +111,12 @@ const Projects = () => {
 
     return () => {
       ctx.revert();
-      container.style.paddingBottom = '';
     };
   }, [projects]);
 
   return (
-    <section ref={containerRef} id="project" className="sticky top-0 w-full">
-      <div className="max-w-[1140px] mx-auto px-4 py-10 relative z-10">
+    <section ref={containerRef} id="project" className="relative w-full min-h-screen py-16 flex flex-col justify-center overflow-hidden">
+      <div className="max-w-[1140px] mx-auto px-4 relative z-10 w-full">
         <div className="text-[32px] md:text-[50px] font-bold text-center mb-4">
           <BlurText
             text="Projects"
@@ -128,7 +127,7 @@ const Projects = () => {
           />
         </div>
 
-        <div className="text-center font-[500] text-[#B8B8B8] text-[18px] tracking-[0.8px] leading-[1.5em]">
+        <div className="text-center font-[500] text-[#B8B8B8] text-[18px] tracking-[0.8px] leading-[1.5em] mb-8">
           <ShinyText
             text="A showcase of my hands-on experience, turning ideas into impactful digital solutions using modern web technologies"
             disabled={false}
@@ -148,7 +147,7 @@ const Projects = () => {
         ) : (
           <div
             ref={cardsContainerRef}
-            className="relative h-[500px] overflow-visible"
+            className="relative h-[520px] pb-12 overflow-visible"
           >
             <div
               ref={trackRef}

@@ -150,12 +150,21 @@ const Experience = () => {
                   <span className="text-purple-400 text-sm font-medium tracking-wide uppercase">
                     {job.date}
                   </span>
-                  <h3 className="text-white text-xl font-bold mt-1">
-                    {job.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm font-medium mt-0.5">
-                    {job.company}
-                  </p>
+                  <div className="flex items-center gap-3 mt-1">
+                    {job.logo && (
+                      <div className="size-10 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                        <img src={job.logo} alt={job.company} className="size-full object-contain rounded-xl"/>
+                      </div>
+                    )}
+                    <div>
+                      <h3 className="text-white text-xl font-bold">
+                        {job.title}
+                      </h3>
+                      <p className="text-gray-400 text-sm font-medium mt-0.5">
+                        {job.company}
+                      </p>
+                    </div>
+                  </div>
                   <p className="text-gray-300 text-sm leading-relaxed mt-3">
                     {job.description}
                   </p>

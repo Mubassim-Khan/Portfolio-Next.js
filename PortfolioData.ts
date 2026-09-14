@@ -204,11 +204,19 @@ export const LanguageSkills = [
 
 export const ExperienceData = [
   {
-    title: "IT Intern",
-    company: "ChaseValue | Head Office, Karachi",
-    date: "Jan 2026 - Present",
+    title: "Software Engineer",
+    company: "Chase Value | Head Office, Karachi",
+    date: "July 2026 - Present",
     description:
-      "Developing and implementing advanced Computer Vision systems, including real-time retail security solutions for theft detection, automated facial recognition-based attendance tracking, and customer interaction analysis. Also collaborating on the development and deployment of full-stack web applications to support business operations.",
+      "Engineered high-throughput Computer Vision solutions for retail operations, including automated theft prevention systems and biometric facial recognition for workforce management. Led backend architecture design, database optimization, and end-to-end integration of deep learning inference APIs into production environments.",
+    logo: ChaseValueLogo.src,
+  },
+  {
+    title: "IT Intern",
+    company: "Chase Value | Head Office, Karachi",
+    date: "Jan 2026 - Jun 2026",
+    description:
+      "Assisted in prototyping real-time computer vision models using OpenCV and PyTorch for customer heatmapping and interaction tracking. Contributed to building internal web dashboards, maintaining database pipelines, and automating data analysis tasks for executive reporting.",
     logo: ChaseValueLogo.src,
   },
   {

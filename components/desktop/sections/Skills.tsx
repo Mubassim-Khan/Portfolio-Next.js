@@ -13,20 +13,20 @@ const Skills = () => {
   const machineLearning = LanguageSkills.slice(24, 26);
 
   return (
-    <section className="skill" id="skills">
-      <div className="max-w-[1140px] mx-auto px-4">
+    <section className="skill relative w-full py-16" id="skills">
+      <div className="max-w-[1140px] mx-auto px-4 relative">
         {/* 2 Gradient Blob */}
         <div
-          className="absolute top-[5rem] -right-48 w-[35rem] h-[35rem] 
-         bg-[#5a51c2] rounded-full blur-[120px] opacity-40 -z-30 animate-pulse hidden lg:block"
+          className="absolute -top-10 -right-48 w-[35rem] h-[35rem] 
+         bg-[#5a51c2] rounded-full blur-[150px] opacity-30 -z-10 pointer-events-none animate-pulse hidden lg:block"
         ></div>
 
         <div
-          className="absolute top-[25rem] left-[-10rem] w-[35rem] h-[32rem]
-         bg-[#946263] rounded-full blur-[120px] opacity-40 -z-30 animate-pulse hidden lg:block"
+          className="absolute top-[20rem] -left-48 w-[35rem] h-[32rem]
+         bg-[#946263] rounded-full blur-[150px] opacity-30 -z-10 pointer-events-none animate-pulse hidden lg:block"
         ></div>
 
-        <div className="relative bg-black/10 backdrop-blur-2xl border border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.15)] rounded-[65px] text-center px-4 md:px-[50px] py-[60px] -mt-[60px]">
+        <div className="relative bg-black/10 backdrop-blur-2xl border border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.15)] rounded-[40px] text-center px-4 md:px-[50px] py-[60px]">
           <div className="text-[32px] md:text-[50px] font-bold text-center">
             <BlurText
               text="Skills"
