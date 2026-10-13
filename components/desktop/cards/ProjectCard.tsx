@@ -10,9 +10,10 @@ interface ProjectCardProps {
   name: string;
   description: string;
   coverImage?: string;
-  githubURL: string;
+  githubURL?: string;
   url?: string;
   index: number;
+  videoUrl?: string;
 }
 
 const ProjectCard = ({
@@ -22,6 +23,7 @@ const ProjectCard = ({
   githubURL,
   url,
   index,
+  videoUrl,
 }: ProjectCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
@@ -46,11 +48,17 @@ const ProjectCard = ({
     setIsButtonHovered(false);
   };
 
+  const mediaSource = videoUrl || (coverImage && /\.(mp4|webm|ogg)(\?.*)?$/i.test(coverImage) ? coverImage : undefined);
+  const isYouTube = Boolean(mediaSource?.includes("youtube.com/embed") || mediaSource?.includes("youtu.be/"));
+  const autoplayVideoUrl = isYouTube && mediaSource
+    ? `${mediaSource}${mediaSource.includes("?") ? "&" : "?"}autoplay=1&mute=1&loop=1&controls=0&playsinline=1`
+    : mediaSource;
+
   return (
     <div
       className="
         project-card
-        w-[500px] lg:w-[700px] h-[400px] lg:h-[450px]
+        w-[86vw] max-w-[700px] lg:w-[700px] h-[400px] lg:h-[450px]
         rounded-2xl shadow-2xl overflow-hidden
         relative
         cursor-pointer
@@ -63,17 +71,39 @@ const ProjectCard = ({
     >
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
-        <Image
-          src={coverImage || noImage}
-          alt={name}
-          fill
-          className={`
-            object-contain
-            transition-all duration-700
-            ${isHovered ? "scale-110 blur-sm brightness-50" : ""}
-          `}
-          sizes="(max-width: 768px) 100vw, 700px"
-        />
+        {autoplayVideoUrl ? (
+          isYouTube ? (
+            <iframe
+              src={autoplayVideoUrl}
+              title={`${name} preview`}
+              className="h-full w-full scale-[1.02] border-0 object-cover pointer-events-none"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              tabIndex={-1}
+            />
+          ) : (
+            <video
+              src={autoplayVideoUrl}
+              className={`h-full w-full object-cover transition-all duration-700 ${isHovered ? "scale-110 brightness-50" : ""}`}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
+          )
+        ) : (
+          <Image
+            src={coverImage || noImage}
+            alt={name}
+            fill
+            className={`
+              object-contain
+              transition-all duration-700
+              ${isHovered ? "scale-110 blur-sm brightness-50" : ""}
+            `}
+            sizes="(max-width: 768px) 100vw, 700px"
+          />
+        )}
       </div>
 
       {/* Dark overlay for text readability */}
@@ -151,16 +181,18 @@ const ProjectCard = ({
               </div>
             )}
 
-            <div
-              onMouseEnter={handleButtonMouseEnter}
-              onMouseLeave={handleButtonMouseLeave}
-            >
-              <CustomButton
-                Url={githubURL}
-                text="View Code"
-                icon={<Github size={20} />}
-              />
-            </div>
+            {githubURL && (
+              <div
+                onMouseEnter={handleButtonMouseEnter}
+                onMouseLeave={handleButtonMouseLeave}
+              >
+                <CustomButton
+                  Url={githubURL}
+                  text="View Code"
+                  icon={<Github size={20} />}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/mobile/theme-provider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import LenisScroll from "@/components/shared/LenisScroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function MobileLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <LenisScroll />
           {children}
         </ThemeProvider>
         <Analytics />

@@ -8,6 +8,7 @@ import Navbar from "@/components/desktop/layout/Navbar";
 import Footer from "@/components/desktop/layout/Footer";
 import Cursor from "@/components/desktop/misc/Cursor";
 import Particles from "@/components/desktop/misc/Particles";
+import LenisScroll from "@/components/shared/LenisScroll";
 
 export default function ClientLayout({
   children,
@@ -31,6 +32,7 @@ export default function ClientLayout({
 
   return (
     <ToasterProvider>
+      <LenisScroll />
       <Cursor />
       {!hideLayout && <Navbar />}
       <div className="relative z-20">
