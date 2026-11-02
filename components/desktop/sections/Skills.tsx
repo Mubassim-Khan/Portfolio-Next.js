@@ -13,19 +13,23 @@ const Skills = () => {
   const machineLearning = LanguageSkills.slice(24, 26);
 
   return (
-    <section className="skill relative w-full py-16" id="skills">
-      <div className="max-w-[1140px] mx-auto px-4 relative">
-        {/* 2 Gradient Blob */}
-        <div
-          className="absolute -top-10 -right-48 w-[35rem] h-[35rem] 
-         bg-[#5a51c2] rounded-full blur-[150px] opacity-30 -z-10 pointer-events-none animate-pulse hidden lg:block"
-        ></div>
+    <section
+      className="skill relative -mt-px w-full py-16"
+      id="skills"
+    >
+      {/* Ambient glow: clipped to the section and faded in from the top edge so it blends flush with the hero */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent_0,black_320px)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0,black_320px)]"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(76,201,240,0.13),_transparent_48%)]" />
+        <div className="relative mx-auto h-full max-w-[1140px]">
+          <div className="absolute top-0 -right-48 hidden h-[35rem] w-[35rem] animate-pulse rounded-full bg-[#5a51c2] opacity-30 blur-[150px] lg:block" />
+          <div className="absolute top-[20rem] -left-48 hidden h-[32rem] w-[35rem] animate-pulse rounded-full bg-[#946263] opacity-30 blur-[150px] lg:block" />
+        </div>
+      </div>
 
-        <div
-          className="absolute top-[20rem] -left-48 w-[35rem] h-[32rem]
-         bg-[#946263] rounded-full blur-[150px] opacity-30 -z-10 pointer-events-none animate-pulse hidden lg:block"
-        ></div>
-
+      <div className="max-w-[1140px] mx-auto px-4 relative z-10">
         <div className="relative bg-black/10 backdrop-blur-2xl border border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.15)] rounded-[40px] text-center px-4 md:px-[50px] py-[60px]">
           <div className="text-[32px] md:text-[50px] font-bold text-center">
             <BlurText

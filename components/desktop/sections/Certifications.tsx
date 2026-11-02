@@ -94,14 +94,14 @@ const Certifications = () => {
                 className="custom-class"
               />
             </div>
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 justify-center items-center">
               {loading ? (
-                <div className="w-full flex justify-center py-10">
+                <div className="col-span-full flex min-h-[42vh] w-full items-center justify-center">
                   <Loader2 className="animate-spin h-6 w-6 text-gray-500" />
                 </div>
               ) : certification.length === 0 ? (
-                <p className="w-full text-center text-gray-500">
-                  No projects found.
+                <p className="col-span-full flex min-h-[42vh] w-full items-center justify-center text-center text-gray-500">
+                  No certifications found.
                 </p>
               ) : (
                 certification.map((certificate) => (

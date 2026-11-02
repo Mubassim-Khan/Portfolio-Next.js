@@ -32,7 +32,7 @@ export const sendReportMail = async (
 
     await transporter.sendMail({
       from: `"Portfolio Dashboard" <${process.env.SMTP_USER!}>`,
-      to: process.env.MY_EMAIL!,
+      to: opts.to,
       subject: opts.subject,
       text: opts.text,
       html,

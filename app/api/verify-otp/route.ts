@@ -69,7 +69,7 @@ function createSuccessResponse() {
 
   res.cookies.set("session", encoded, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 12, // 12 hours
@@ -82,14 +82,14 @@ function createSuccessResponse() {
 function clearOtpCookies(res: NextResponse) {
   res.cookies.set("otp_hash", "", {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 0,
   });
   res.cookies.set("otp_timestamp", "", {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 0,

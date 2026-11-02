@@ -210,6 +210,24 @@ export default function Home() {
               </div>
             </SoftPillButton>
           </Link>
+          <Link href="/otp" className="group">
+            <SoftPillButton
+              as="span"
+              variant="secondary"
+              className="relative overflow-hidden group px-3 py-1.5 !text-[12px]"
+            >
+              <span aria-hidden="true" className="absolute inset-0 rounded-full overflow-hidden transition-colors duration-200 group-active:duration-[50ms] bg-white/90 dark:bg-[#0c0c0e] group-hover:dark:bg-[#121214] border border-black/5 dark:border-white/5 group-hover:border-black/10 dark:group-hover:border-white/10" />
+              <div className="relative flex items-center gap-1.5 opacity-70 group-hover:opacity-100 transition-opacity duration-300">
+                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="3" width="7" height="9" rx="1" />
+                  <rect x="14" y="3" width="7" height="5" rx="1" />
+                  <rect x="14" y="12" width="7" height="9" rx="1" />
+                  <rect x="3" y="16" width="7" height="5" rx="1" />
+                </svg>
+                View Dashboard
+              </div>
+            </SoftPillButton>
+          </Link>
         </div>
 
         {/* Socials */}

@@ -233,6 +233,9 @@ const Particles: React.FC<ParticlesProps> = ({
         container.removeEventListener('mousemove', handleMouseMove);
       }
       gl.getExtension("WEBGL_lose_context")?.loseContext();
+      if (gl.canvas.parentNode === container) {
+        container.removeChild(gl.canvas);
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [

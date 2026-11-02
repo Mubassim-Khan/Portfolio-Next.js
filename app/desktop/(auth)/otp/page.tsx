@@ -1,94 +1,132 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import ShinyText from "@/components/desktop/misc/ShinyText";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/desktop/ui/input-otp";
+import CodeSlots, { type CodeSlotsStatus } from "@/components/CodeSlots";
 import Link from "next/link";
 
 const OTPPage = () => {
+  const resendStorageKey = "portfolio-otp-resend-until";
   const [otp, setOtp] = useState("");
-  const [countdown, setCountdown] = useState(59);
-  const [canResend, setCanResend] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const [resendUntil, setResendUntil] = useState<number | null>(null);
+  const [timerReady, setTimerReady] = useState(false);
+  const [status, setStatus] = useState<CodeSlotsStatus>("idle");
+  const [isVerifying, setIsVerifying] = useState(false);
+  const isSendingRef = useRef(false);
+  const redirectTimerRef = useRef<number | null>(null);
   const router = useRouter();
 
-  // Countdown timer
+  // Derive the countdown from an absolute time so it remains correct after a
+  // refresh, suspended tab, or a slow device clock tick.
   useEffect(() => {
-    if (countdown > 0) {
-      const timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
-      return () => clearTimeout(timer);
-    } else {
-      setCanResend(true);
-    }
-  }, [countdown]);
+    if (!resendUntil) return;
+
+    const updateCountdown = () => {
+      const seconds = Math.max(0, Math.ceil((resendUntil - Date.now()) / 1000));
+      setCountdown(seconds);
+      if (seconds === 0) {
+        sessionStorage.removeItem(resendStorageKey);
+        setResendUntil(null);
+      }
+    };
+
+    updateCountdown();
+    const interval = window.setInterval(updateCountdown, 500);
+    return () => window.clearInterval(interval);
+  }, [resendUntil]);
 
   // Function to send OTP
   const sendOTP = async () => {
-    setCanResend(false);
-    setCountdown(59);
+    if (isSendingRef.current) return;
+    isSendingRef.current = true;
 
-    await toast.promise(
-      (async () => {
-        const res = await fetch("/api/send-otp", { method: "POST" });
-        const data = await res.json();
+    // Reserve the resend window before the request. A reload while the email
+    // request is pending must not result in another OTP being generated.
+    const expiresAt = Date.now() + 59_000;
+    sessionStorage.setItem(resendStorageKey, String(expiresAt));
+    setResendUntil(expiresAt);
 
-        if (!data.success) {
-          throw new Error(data.message || "Failed to generate OTP");
-        }
-      })(),
-      {
-        loading: "Sending OTP...",
-        success: "OTP sent to your email",
-        error: (err) => err.message || "Failed to send OTP",
-      },
-    );
-  };
-
-  // Send OTP on mount
-  useEffect(() => {
-    sendOTP();
-  }, []);
-
-  // Handle OTP change
-  const handleChange = async (value: string) => {
-    setOtp(value);
-
-    if (value.length === 6) {
-      try {
-        await toast.promise(
-          (async () => {
-            const res = await fetch("/api/verify-otp", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ otp: value }),
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-              throw new Error(data.message || "Invalid OTP");
-            }
-
-            return data;
-          })(),
-          {
-            loading: "Validating...",
-            success: "OTP Verified!",
-            error: (err) => err.message || "Invalid OTP",
-          },
-        );
-
-        router.push("/dashboard");
-      } catch {
-        // error already handled by toast
-      }
+    try {
+      await toast.promise(
+        (async () => {
+          const res = await fetch("/api/send-otp", { method: "POST" });
+          const data = await res.json();
+          if (!data.success) throw new Error(data.message || "Failed to generate OTP");
+        })(),
+        {
+          loading: "Sending OTP...",
+          success: "OTP sent to your email",
+          error: (err) => err.message || "Failed to send OTP",
+        },
+      );
+    } catch {
+      sessionStorage.removeItem(resendStorageKey);
+      setResendUntil(null);
+    } finally {
+      isSendingRef.current = false;
     }
   };
+
+  // Send only on the first visit in this browser session. Reloads restore the
+  // saved expiry instead of calling the endpoint again.
+  useEffect(() => {
+    const savedExpiry = Number(sessionStorage.getItem(resendStorageKey));
+    if (savedExpiry > Date.now()) {
+      setResendUntil(savedExpiry);
+    } else {
+      sessionStorage.removeItem(resendStorageKey);
+      void sendOTP();
+    }
+    setTimerReady(true);
+  }, []);
+
+  const verifyOTP = async (code: string) => {
+    if (isVerifying) return;
+    setIsVerifying(true);
+
+    try {
+      await toast.promise(
+        (async () => {
+          const res = await fetch("/api/verify-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ otp: code }),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || "Invalid OTP");
+          return data;
+        })(),
+        {
+          loading: "Validating...",
+          success: "OTP Verified!",
+          error: (err) => err.message || "Invalid OTP",
+        },
+      );
+
+      setStatus("success");
+      // Leave enough time for Code Slots' accept animation to be visible.
+      redirectTimerRef.current = window.setTimeout(() => {
+        router.replace("/dashboard");
+        router.refresh();
+      }, 650);
+    } catch {
+      setStatus("error");
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  useEffect(
+    () => () => {
+      if (redirectTimerRef.current !== null) {
+        window.clearTimeout(redirectTimerRef.current);
+      }
+    },
+    [],
+  );
 
   return (
     <main>
@@ -113,17 +151,36 @@ const OTPPage = () => {
           </p>
         </div>
 
-        <InputOTP maxLength={6} value={otp} onChange={handleChange}>
-          <InputOTPGroup>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <InputOTPSlot key={i} index={i} />
-            ))}
-          </InputOTPGroup>
-        </InputOTP>
+        <CodeSlots
+          length={6}
+          value={otp}
+          status={status}
+          onChange={(code) => {
+            setOtp(code);
+            if (status !== "idle") setStatus("idle");
+          }}
+          onComplete={verifyOTP}
+          accentColor="#f5f5f5"
+          inkColor="#f5f5f5"
+          slotColor="#27272a"
+          digitColor="#18181b"
+          dangerColor="#ff3b30"
+          slotSize={44}
+          gap={8}
+          radius={12}
+          bounce={0.2}
+          settle={0.3}
+          rise={8}
+          cascade={20}
+          mask={false}
+          caret
+          autoFocus
+          disabled={isVerifying || status === "success"}
+        />
 
         <div className="mt-4 text-center text-gray-500">
           Didn&apos;t receive email?
-          {!canResend ? (
+          {!timerReady || resendUntil ? (
             <span>Try again in {countdown}s</span>
           ) : (
             <button

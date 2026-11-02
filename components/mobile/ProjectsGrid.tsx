@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import toast from "react-hot-toast";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -282,13 +283,24 @@ export function ProjectsGrid() {
   const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch("/api/portfolio/projects")
-      .then((res) => res.json())
+    const controller = new AbortController();
+
+    fetch("/api/portfolio/projects", { signal: controller.signal })
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Unable to load projects");
+        return res.json();
+      })
       .then((data) => {
         setProjects(Array.isArray(data) ? data : data.projects ?? []);
       })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+      .catch((error) => {
+        if (error.name !== "AbortError") toast.error("Failed to fetch projects");
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -358,6 +370,8 @@ export function ProjectsGrid() {
               </div>
             ))}
           </div>
+        ) : mapped.length === 0 ? (
+          <p className="py-6 text-center text-[13px] text-zinc-500 dark:text-zinc-400">No projects found.</p>
         ) : (
           <div ref={stageRef} className="relative -mx-4 h-[520px] overflow-hidden sm:h-[560px]">
             <div ref={trackRef} className="absolute left-0 top-1/2 flex w-max -translate-y-1/2 items-start gap-5 px-4">
