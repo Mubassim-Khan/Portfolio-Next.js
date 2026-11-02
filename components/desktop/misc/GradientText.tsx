@@ -9,6 +9,8 @@ interface GradientTextProps {
   colors?: string[];
   animationSpeed?: number;
   showBorder?: boolean;
+  variant?: 'linear' | 'radial' | 'conic';
+  glow?: number;
   direction?: 'horizontal' | 'vertical' | 'diagonal';
   pauseOnHover?: boolean;
   yoyo?: boolean;
@@ -20,6 +22,8 @@ export default function GradientText({
   colors = ['#5227FF', '#FF9FFC', '#B497CF'],
   animationSpeed = 8,
   showBorder = false,
+  variant = 'linear',
+  glow = 0,
   direction = 'horizontal',
   pauseOnHover = false,
   yoyo = true
@@ -88,7 +92,12 @@ export default function GradientText({
   const gradientColors = [...colors, colors[0]].join(', ');
 
   const gradientStyle = {
-    backgroundImage: `linear-gradient(${gradientAngle}, ${gradientColors})`,
+    backgroundImage:
+      variant === 'radial'
+        ? `radial-gradient(circle at center, ${gradientColors})`
+        : variant === 'conic'
+          ? `conic-gradient(from 90deg, ${gradientColors})`
+          : `linear-gradient(${gradientAngle}, ${gradientColors})`,
     backgroundSize: direction === 'horizontal' ? '300% 100%' : direction === 'vertical' ? '100% 300%' : '300% 300%',
     backgroundRepeat: 'repeat'
   };
@@ -118,7 +127,12 @@ export default function GradientText({
       )}
       <motion.div
         className="inline-block relative z-2 text-transparent bg-clip-text"
-        style={{ ...gradientStyle, backgroundPosition, WebkitBackgroundClip: 'text' }}
+        style={{
+          ...gradientStyle,
+          backgroundPosition,
+          WebkitBackgroundClip: 'text',
+          textShadow: glow > 0 ? `0 0 ${glow}px ${colors[1] ?? colors[0]}` : undefined,
+        }}
       >
         {children}
       </motion.div>

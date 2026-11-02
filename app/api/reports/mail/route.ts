@@ -6,10 +6,15 @@ import { sendReportMail } from "@/lib/email/sendReportMail";
 
 export async function POST(req: Request) {
   try {
-    const { email, options, subject, format = "pdf" } = await req.json();
+    const { options, subject, format = "pdf" } = await req.json();
 
+    // Reports always go to the configured owner address
+    const email = process.env.MY_EMAIL;
     if (!email) {
-      return NextResponse.json({ error: "Email required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "MY_EMAIL environment variable is not configured" },
+        { status: 500 }
+      );
     }
 
     const reportData = await generateReportData(options);
@@ -45,7 +50,6 @@ export async function POST(req: Request) {
       }
       return NextResponse.json({ message: "Report emailed" });
     } else {
-      // @ts-expect-error reportData doesn’t match ReportData fully
       const pdfBuffer = await generateReportPDF(reportData);
       const result = await sendReportMail({
         to: email,

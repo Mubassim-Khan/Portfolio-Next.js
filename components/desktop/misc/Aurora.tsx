@@ -201,6 +201,9 @@ export default function Aurora(props: AuroraProps) {
       cancelAnimationFrame(animateId);
       window.removeEventListener("resize", resize);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
+      if (gl.canvas.parentNode === ctn) {
+        ctn.removeChild(gl.canvas);
+      }
     };
   }, [amplitude]);
 

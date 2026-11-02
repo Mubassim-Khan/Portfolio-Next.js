@@ -53,7 +53,6 @@ export async function GET() {
     const reportData = await generateReportData(options);
 
     // Generate PDF using your existing function
-    // @ts-expect-error reportData doesn't match ReportData fully (url can be null)
     const pdfBuffer = await generateReportPDF(reportData);
 
     // Send email using your existing function

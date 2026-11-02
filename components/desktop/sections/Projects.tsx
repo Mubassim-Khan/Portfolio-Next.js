@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import toast from "react-hot-toast";
 import ProjectCard from "../cards/ProjectCard";
 import ShinyText from "../misc/ShinyText";
 import BlurText from "../misc/BlurText";
-import toast from "react-hot-toast";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,154 +16,114 @@ type Project = {
   name: string;
   description: string;
   url?: string;
-  githubURL: string;
-  coverImage: string;
+  githubURL?: string;
+  coverImage?: string;
+  /** A direct .mp4/.webm URL or a YouTube embed URL, when supplied by the API. */
+  videoUrl?: string;
 };
 
 const Projects = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const cardsContainerRef = useRef<HTMLDivElement>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch("/api/portfolio/projects");
-        if (!res.ok) {
-          toast.error("Failed to fetch projects");
-          return;
-        }
-        const data = await res.json();
-        setProjects(data);
-      } catch (err) {
-        console.error("Error fetching projects:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const controller = new AbortController();
 
-    fetchProjects();
+    fetch("/api/portfolio/projects", { signal: controller.signal })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Unable to load projects");
+        return response.json();
+      })
+      .then((data) => setProjects(Array.isArray(data) ? data : []))
+      .catch((error) => {
+        if (error.name !== "AbortError") toast.error("Failed to fetch projects");
+      })
+      .finally(() => setLoading(false));
+
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
-    if (
-      !trackRef.current ||
-      !containerRef.current ||
-      !cardsContainerRef.current ||
-      projects.length === 0
-    )
-      return;
+    const section = sectionRef.current;
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    if (!section || !viewport || !track || projects.length === 0) return;
 
-    const container = containerRef.current;
-    const cardWidth = 700;
-    const gap = 40;
-    const cardCount = projects.length;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const containerWidth = cardsContainerRef.current.offsetWidth;
-    const totalCardsWidth = cardWidth * cardCount + gap * (cardCount - 1);
+    const context = gsap.context(() => {
+      const firstCard = track.querySelector<HTMLElement>(".project-card");
+      if (!firstCard) return;
 
-    const initialPosition = containerWidth - cardWidth / 2;
-    const finalPosition = -(totalCardsWidth - cardWidth);
-    const scrollDistance = (initialPosition - finalPosition);
+      const cardWidth = firstCard.offsetWidth;
+      const centeredX = viewport.clientWidth / 2 - cardWidth / 2;
+      const offscreenX = viewport.clientWidth + Math.min(cardWidth * 0.35, 260);
+      const travel = Math.max(0, track.scrollWidth - cardWidth);
+      const finalX = viewport.clientWidth * 0.08 - travel;
+      const cards = gsap.utils.toArray<HTMLElement>(".project-card", track);
 
-    const ctx = gsap.context(() => {
-      gsap.set(trackRef.current, { x: initialPosition });
+      gsap.set(track, { x: offscreenX, y: window.innerHeight * 0.3, scale: 0.72, autoAlpha: 0 });
+      gsap.set(cards, { y: 28, scale: 0.94, autoAlpha: 0 });
 
-      const horizontalTween = gsap.to(trackRef.current, {
-        x: finalPosition,
-        ease: "none",
+      const timeline = gsap.timeline({
         scrollTrigger: {
-          trigger: container,
+          trigger: section,
           start: "top top",
-          end: `+=${scrollDistance}`,
-          pin: true,
-          pinSpacing: true,
-          scrub: 1,
+          end: "bottom bottom",
+          scrub: 0.8,
           invalidateOnRefresh: true,
         },
       });
 
-      const cards = gsap.utils.toArray(".project-card") as HTMLElement[];
+      // First the rail enters diagonally; then the same scroll moves it sideways.
+      timeline
+        .to(track, { x: centeredX, y: 0, scale: 1, autoAlpha: 1, duration: 0.28, ease: "power3.out" })
+        .to(cards, { y: 0, scale: 1, autoAlpha: 1, duration: 0.16, stagger: 0.045, ease: "power2.out" }, 0.08);
 
-      cards.forEach((card, index) => {
-        if (index !== 0) {
-          gsap.set(card, { opacity: 0.8, scale: 0.92 });
-        }
-
-        gsap.to(card, {
-          opacity: 1,
-          scale: 1,
-          scrollTrigger: {
-            trigger: card,
-            containerAnimation: horizontalTween,
-            start: "left 85%",
-            end: "left 40%",
-            scrub: 1,
-          },
-        });
-      });
+      if (projects.length > 1) {
+        timeline.to(track, { x: finalX, duration: 0.72, ease: "none" });
+      }
 
       ScrollTrigger.refresh();
-    }, container);
+    }, section);
 
-    return () => {
-      ctx.revert();
-    };
+    return () => context.revert();
   }, [projects]);
 
   return (
-    <section ref={containerRef} id="project" className="relative w-full min-h-screen py-16 flex flex-col justify-center overflow-hidden">
-      <div className="max-w-[1140px] mx-auto px-4 relative z-10 w-full">
-        <div className="text-[32px] md:text-[50px] font-bold text-center mb-4">
-          <BlurText
-            text="Projects"
-            delay={250}
-            animateBy="words"
-            direction="top"
-            className="!text-[32px] md:!text-[50px] font-bold text-center"
-          />
+    <section
+      ref={sectionRef}
+      id="project"
+      className={`relative w-full overflow-hidden ${
+        projects.length > 0 ? "min-h-[250svh] md:min-h-[260vh]" : "min-h-screen"
+      }`}
+    >
+      <div className="pointer-events-none relative z-20 mx-auto max-w-[1140px] px-4 pt-12 pb-4 md:pt-16 md:pb-6">
+        <div className="text-center text-[32px] font-bold md:text-[50px]">
+          <BlurText text="Projects" delay={180} animateBy="words" direction="top" className="!text-[32px] !font-bold md:!text-[50px]" />
         </div>
-
-        <div className="text-center font-[500] text-[#B8B8B8] text-[18px] tracking-[0.8px] leading-[1.5em] mb-8">
-          <ShinyText
-            text="A showcase of my hands-on experience, turning ideas into impactful digital solutions using modern web technologies"
-            disabled={false}
-            speed={3}
-            className="custom-class"
-          />
+        <div className="mx-auto mt-3 max-w-3xl text-center text-[16px] font-medium leading-relaxed tracking-[0.6px] text-[#B8B8B8] md:text-[18px]">
+          <ShinyText text="A selection of hands-on work. Scroll to bring a project into focus, then travel through the collection." disabled={false} speed={3} />
         </div>
-
-        {loading ? (
-          <div className="w-full flex justify-center py-20">
-            <Loader2 className="animate-spin h-8 w-8 text-gray-500" />
-          </div>
-        ) : projects.length === 0 ? (
-          <p className="w-full text-center text-gray-500 py-20">
-            No projects found.
-          </p>
-        ) : (
-          <div
-            ref={cardsContainerRef}
-            className="relative h-[520px] pb-12 overflow-visible"
-          >
-            <div
-              ref={trackRef}
-              className="absolute flex gap-10 items-center h-full"
-              style={{
-                top: "50%",
-                transform: "translateY(-50%)",
-              }}
-            >
-              {projects.map((project, i) => (
-                <ProjectCard key={project.id} index={i} {...project} />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
+
+      {loading ? (
+        <div className="flex min-h-screen items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-gray-500" /></div>
+      ) : projects.length === 0 ? (
+        <p className="flex min-h-screen items-center justify-center text-gray-500">No projects found.</p>
+      ) : (
+        <div
+          ref={viewportRef}
+          className="sticky top-0 h-[100svh] min-h-[440px] w-full overflow-hidden md:min-h-[520px]"
+        >
+          <div ref={trackRef} className="absolute left-0 top-[58%] flex w-max -translate-y-1/2 items-center gap-6 md:top-1/2 md:gap-10">
+            {projects.map((project, index) => <ProjectCard key={project.id} index={index} {...project} />)}
+          </div>
+        </div>
+      )}
     </section>
   );
 };

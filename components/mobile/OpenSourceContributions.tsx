@@ -272,7 +272,7 @@ export function OpenSourceContributions({ isFullPage = false }: { isFullPage?: b
             </div>
           ) : (
             <div className="flex justify-center py-4 text-center text-[13px] text-zinc-500">
-              No pull requests found. <span className="ml-1 text-zinc-400">(Add GITHUB_TOKEN in Vercel and redeploy)</span>
+              No pull requests found.
             </div>
           )}
         </div>

@@ -1,11 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import toast from "react-hot-toast";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 import {
   type TechIcon,
@@ -40,6 +45,7 @@ type ApiProject = {
   coverImage: string;
   featured: boolean;
   order: number | null;
+  videoUrl?: string | null;
   technologies?: string[];
 };
 
@@ -63,7 +69,7 @@ function mapApiToProject(api: ApiProject): Project {
     title: api.name,
     imageTitle: "Preview",
     src: api.coverImage || "/assets/images/no-preview-img.jpg",
-    video: "",
+    video: api.videoUrl || (api.coverImage && /\.(mp4|webm|ogg)(\?.*)?$/i.test(api.coverImage) ? api.coverImage : ""),
     description: api.description || "No description",
     tech,
     github: api.githubURL || "",
@@ -76,10 +82,12 @@ export const ProjectCard = ({
   project,
   setActiveVideo,
   isPriority = false,
+  deck = false,
 }: {
   project: Project;
   setActiveVideo: (v: string) => void;
   isPriority?: boolean;
+  deck?: boolean;
 }) => {
   const [hoveredTech, setHoveredTech] = useState<string | null>(null);
   const [shouldLoadHoverImage, setShouldLoadHoverImage] = useState(false);
@@ -92,7 +100,7 @@ export const ProjectCard = ({
 
   return (
     <div
-      className="flex flex-col group cursor-pointer"
+      className={`flex flex-col group cursor-pointer ${deck ? "w-[min(82vw,370px)] shrink-0" : ""}`}
       onClick={() => router.push(`/projects/${project.slug}`)}
       onMouseEnter={() => setShouldLoadHoverImage(true)}
       onFocus={() => setShouldLoadHoverImage(true)}
@@ -170,16 +178,28 @@ export const ProjectCard = ({
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
         >
           <div className="size-full overflow-hidden rounded-t-[9px]">
-            <Image
-              src={project.src}
-              alt={`${project.title} preview`}
-              width={600}
-              height={400}
-              preload={isPriority}
-              sizes="(min-width: 768px) 17vw, calc(100vw - 2rem)"
-              quality={70}
-              className="size-full object-cover"
-            />
+            {project.video && !project.video.includes("youtube") ? (
+              <video src={project.video} className="size-full object-cover" autoPlay muted loop playsInline preload="metadata" />
+            ) : project.video?.includes("youtube") ? (
+              <iframe
+                src={`${project.video}${project.video.includes("?") ? "&" : "?"}autoplay=1&mute=1&loop=1&controls=0&playsinline=1`}
+                title={`${project.title} preview`}
+                className="size-full border-0 pointer-events-none"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                tabIndex={-1}
+              />
+            ) : (
+              <Image
+                src={project.src}
+                alt={`${project.title} preview`}
+                width={600}
+                height={400}
+                preload={isPriority}
+                sizes="(min-width: 768px) 17vw, calc(100vw - 2rem)"
+                quality={70}
+                className="size-full object-cover"
+              />
+            )}
           </div>
         </motion.div>
       </motion.div>
@@ -259,15 +279,28 @@ export function ProjectsGrid() {
   const [projects, setProjects] = useState<ApiProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch("/api/portfolio/projects")
-      .then((res) => res.json())
+    const controller = new AbortController();
+
+    fetch("/api/portfolio/projects", { signal: controller.signal })
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Unable to load projects");
+        return res.json();
+      })
       .then((data) => {
         setProjects(Array.isArray(data) ? data : data.projects ?? []);
       })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+      .catch((error) => {
+        if (error.name !== "AbortError") toast.error("Failed to fetch projects");
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -280,9 +313,51 @@ export function ProjectsGrid() {
 
   const mapped = projects.map(mapApiToProject);
 
+  useEffect(() => {
+    const stage = stageRef.current;
+    const track = trackRef.current;
+    if (!stage || !track || loading || projects.length === 0) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      stage.style.height = "auto";
+      stage.style.overflow = "visible";
+      track.classList.add("flex-wrap");
+      return () => track.classList.remove("flex-wrap");
+    }
+
+    const context = gsap.context(() => {
+      const firstCard = track.querySelector<HTMLElement>(".group");
+      if (!firstCard) return;
+
+      const cardWidth = firstCard.offsetWidth;
+      const travel = Math.max(0, track.scrollWidth - cardWidth);
+      const centeredX = stage.clientWidth / 2 - cardWidth / 2;
+      const finalX = stage.clientWidth * 0.08 - travel;
+
+      gsap.set(track, { x: stage.clientWidth + 44, y: 96, scale: 0.76, autoAlpha: 0 });
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: stage,
+          start: "top 12%",
+          end: `+=${Math.max(window.innerHeight * 1.65, travel + cardWidth)}`,
+          scrub: 0.75,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      })
+        .to(track, { x: centeredX, y: 0, scale: 1, autoAlpha: 1, duration: 0.3, ease: "power3.out" })
+        .to(track, { x: finalX, duration: 0.7, ease: "none" });
+
+      ScrollTrigger.refresh();
+    }, stage);
+
+    return () => context.revert();
+  }, [loading, projects]);
+
   return (
     <>
-      <div className="flex flex-col relative z-10 w-full">
+      <div className="relative z-10 w-full">
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10">
             {[1, 2, 3, 4].map((i) => (
@@ -295,27 +370,16 @@ export function ProjectsGrid() {
               </div>
             ))}
           </div>
+        ) : mapped.length === 0 ? (
+          <p className="py-6 text-center text-[13px] text-zinc-500 dark:text-zinc-400">No projects found.</p>
         ) : (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10 md:gap-y-0 pb-10 md:pb-6">
-              {mapped.slice(0, 2).map((project) => (
-                <ProjectCard key={project.slug} project={project} setActiveVideo={setActiveVideo} isPriority />
+          <div ref={stageRef} className="relative -mx-4 h-[520px] overflow-hidden sm:h-[560px]">
+            <div ref={trackRef} className="absolute left-0 top-1/2 flex w-max -translate-y-1/2 items-start gap-5 px-4">
+              {mapped.map((project, index) => (
+                <ProjectCard key={project.slug} project={project} setActiveVideo={setActiveVideo} isPriority={index === 0} deck />
               ))}
             </div>
-
-            <div className="relative w-full h-0 hidden md:block">
-              <div className="absolute left-[-100vw] right-[-100vw] h-0 border-b border-black/30 dark:border-white/[0.15] pointer-events-none" style={{ maskImage: 'repeating-linear-gradient(to right, black 0, black 1px, transparent 1px, transparent 6px)', WebkitMaskImage: 'repeating-linear-gradient(to right, black 0, black 1px, transparent 1px, transparent 6px)' }} />
-              <div className="absolute top-0 -left-4 w-[2px] h-[2px] bg-black/40 dark:bg-white/[0.25] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20" />
-              <div className="absolute top-0 -right-4 w-[2px] h-[2px] bg-black/40 dark:bg-white/[0.25] translate-x-1/2 -translate-y-1/2 pointer-events-none z-20" />
-              <div className="absolute top-0 left-1/2 w-[2px] h-[2px] bg-black/40 dark:bg-white/[0.25] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20" />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10 md:gap-y-0 pt-0 md:pt-6">
-              {mapped.slice(2, 4).map((project) => (
-                <ProjectCard key={project.slug} project={project} setActiveVideo={setActiveVideo} />
-              ))}
-            </div>
-          </>
+          </div>
         )}
       </div>
 

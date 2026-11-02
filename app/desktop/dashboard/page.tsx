@@ -17,7 +17,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { BarChart3, Code, Clock } from "lucide-react";
+import { BarChart3, Code, Clock, Users } from "lucide-react";
 import type { TooltipItem } from "chart.js";
 import { Skeleton } from "@/components/desktop/ui/skeleton";
 import GradientText from "@/components/desktop/misc/GradientText";
@@ -68,22 +68,39 @@ const DashboardHome = () => {
   const [dailyBreakdown, setDailyBreakdown] = useState<DailySummary[]>([]);
   const [mainReady, setMainReady] = useState(false);
   const [projectsLoading, setProjectsLoading] = useState(true);
+  const [monthlyVisitors, setMonthlyVisitors] = useState<number | null>(null);
+  const [greeting, setGreeting] = useState("Welcome, Mubassim.");
+
+  useEffect(() => {
+    const updateGreeting = () => {
+      const hour = new Date().getHours();
+      if (hour < 5) setGreeting("Burning the midnight oil, Mubassim?");
+      else if (hour < 11) setGreeting("A fresh start, Mubassim.");
+      else if (hour < 17) setGreeting("Hope your day is flowing, Mubassim.");
+      else if (hour < 22) setGreeting("Evening focus looks good, Mubassim.");
+      else setGreeting("Late-night ideas welcome, Mubassim.");
+    };
+
+    updateGreeting();
+    const interval = window.setInterval(updateGreeting, 60 * 1000);
+    return () => window.clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       const today = new Date();
       const endStr = today.toISOString().split("T")[0];
 
-      const [wakaResult, , weeklyResult, monthlyResult] =
+      const [wakaResult, , weeklyResult, monthlyResult, trafficResult] =
         await Promise.allSettled([
           fetch("/api/wakatime?range=last_30_days").then((r) =>
             r.ok ? r.json() : null,
           ),
           fetch("/api/projects").then((r) => (r.ok ? r.json() : [])),
           (async () => {
-            const weekAgo = new Date(today);
-            weekAgo.setDate(today.getDate() - 6);
-            const startStr = weekAgo.toISOString().split("T")[0];
+            const monday = new Date(today);
+            monday.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+            const startStr = monday.toISOString().split("T")[0];
             const res = await fetch(
               `/api/wakatime/summaries?start=${startStr}&end=${endStr}`,
             );
@@ -105,6 +122,9 @@ const DashboardHome = () => {
             const json = await res.json();
             return json.data || [];
           })(),
+          fetch("/api/analytics/traffic?range=30d").then((r) =>
+            r.ok ? r.json() : null,
+          ),
         ]);
 
       if (wakaResult.status === "fulfilled") setWakaData(wakaResult.value);
@@ -112,6 +132,8 @@ const DashboardHome = () => {
         setWeeklySummaries(weeklyResult.value);
       if (monthlyResult.status === "fulfilled")
         setDailyBreakdown(monthlyResult.value);
+      if (trafficResult.status === "fulfilled")
+        setMonthlyVisitors(trafficResult.value?.visitors ?? null);
       setMainReady(true);
     };
 
@@ -133,9 +155,13 @@ const DashboardHome = () => {
     const labels: string[] = [];
     const data: number[] = [];
 
-    for (let i = 6; i >= 0; i--) {
-      const date = new Date();
-      date.setDate(date.getDate() - i);
+    const monday = new Date();
+    monday.setHours(0, 0, 0, 0);
+    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + i);
       const dateStr = date.toISOString().split("T")[0];
       const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
 
@@ -178,8 +204,11 @@ const DashboardHome = () => {
     },
     scales: {
       y: {
+        beginAtZero: true,
         ticks: {
-          callback: (value: string | number) => `${value}h`,
+          stepSize: 1,
+          precision: 0,
+          callback: (value: string | number) => `${Math.round(Number(value))}h`,
         },
       },
     },
@@ -236,15 +265,16 @@ const DashboardHome = () => {
   return (
     <div className="min-h-screen rounded-[15px] flex flex-col items-center justify-center p-6">
       <GradientText
-        colors={["#5227FF", "#FF9FFC", "#B497CF"]}
+        colors={["#7C3AED", "#D946EF", "#38BDF8"]}
         animationSpeed={8}
-        showBorder={false}
+        variant="linear"
+        glow={0}
         className="text-5xl sm:text-5xl font-extrabold mb-8"
       >
-        Welcome, Mubassim!
+        {greeting}
       </GradientText>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl w-full mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl w-full mb-10">
         <Dialog>
           <DialogTrigger asChild>
             <Card className="bg-zinc-900 text-white border-gray-700 cursor-pointer hover:border-blue-500/50 transition-colors">
@@ -356,6 +386,20 @@ const DashboardHome = () => {
           <CardContent>
             <p className="text-2xl font-bold">{productivity}%</p>
             <p className="text-sm text-gray-400">daily average vs 3hr target</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-zinc-900 text-white border-gray-700">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="w-5 h-5 text-violet-400" /> Visitors
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">
+              {monthlyVisitors === null ? "—" : monthlyVisitors.toLocaleString()}
+            </p>
+            <p className="text-sm text-gray-400">monthly visitors</p>
           </CardContent>
         </Card>
       </div>

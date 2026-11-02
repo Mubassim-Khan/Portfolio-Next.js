@@ -152,8 +152,8 @@ const Experience = () => {
                   </span>
                   <div className="flex items-center gap-3 mt-1">
                     {job.logo && (
-                      <div className="size-10 p-1 flex items-center justify-center overflow-hidden shrink-0">
-                        <img src={job.logo} alt={job.company} className="size-full object-contain rounded-xl"/>
+                      <div className="size-12 p-1 flex items-center justify-center overflow-hidden rounded-xl shrink-0 bg-white">
+                        <img src={job.logo} alt={job.company} className="size-full object-contain"/>
                       </div>
                     )}
                     <div>

@@ -23,13 +23,13 @@ export async function POST() {
   // Store the HASHED OTP and its timestamp in secure, HttpOnly cookies
   cookieStore.set("otp_hash", hashedOtp, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     path: "/",
     maxAge: otpValidDuration / 1000,
   });
   cookieStore.set("otp_timestamp", timestamp.toString(), {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     path: "/",
     maxAge: otpValidDuration / 1000,
   });

@@ -40,6 +40,7 @@ type Project = {
   url: string;
   description: string;
   coverImage: string;
+  videoUrl: string | null;
   order: number | null;
   featured: boolean;
   githubURL: string | null;
@@ -55,6 +56,7 @@ export default function ManageProjectsPage() {
   const [githubURL, setGithubURL] = useState("");
   const [order] = useState<number | null>(null);
   const [coverImage, setCoverImage] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
   const [featured, setFeatured] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
 
@@ -105,6 +107,7 @@ export default function ManageProjectsPage() {
       url: url.trim() || null, // Send null if empty
       description: description.trim(),
       coverImage: coverImage.trim() || null, // Send null if empty
+      videoUrl: videoUrl.trim() || null,
       featured,
       order,
       githubURL: githubURL.trim(),
@@ -166,6 +169,10 @@ export default function ManageProjectsPage() {
     setName(project.name);
     setUrl(project.url);
     setDescription(project.description);
+    setCoverImage(project.coverImage || "");
+    setVideoUrl(project.videoUrl || "");
+    setGithubURL(project.githubURL || "");
+    setFeatured(project.featured);
     setEditId(project.id);
     setDialogOpen(true);
   }
@@ -174,6 +181,10 @@ export default function ManageProjectsPage() {
     setName("");
     setUrl("");
     setDescription("");
+    setCoverImage("");
+    setVideoUrl("");
+    setGithubURL("");
+    setFeatured(false);
     setEditId(null);
   }
 
@@ -317,6 +328,11 @@ export default function ManageProjectsPage() {
                   placeholder="Cover Image URL"
                   value={coverImage}
                   onChange={(e) => setCoverImage(e.target.value)}
+                />
+                <Input
+                  placeholder="Preview video URL (MP4, WebM, or YouTube embed)"
+                  value={videoUrl}
+                  onChange={(e) => setVideoUrl(e.target.value)}
                 />
                 <Input
                   placeholder="GitHub Repository URL"

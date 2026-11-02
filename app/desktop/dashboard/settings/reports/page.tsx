@@ -64,7 +64,6 @@ export default function ReportGenerator() {
           timeRange,
           customDate: date,
           format,
-          ...(action === "email" ? { email: "Mubassim Ahmed Khan" } : {}),
         }),
       });
 

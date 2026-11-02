@@ -12,6 +12,7 @@ model Project {
   name        String
   url         String?       @unique
   coverImage  String?
+  videoUrl    String?
   description String?
   createdAt   DateTime     @default(now())
   logs        UptimeLog[]

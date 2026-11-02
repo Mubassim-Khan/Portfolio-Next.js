@@ -8,6 +8,7 @@ export async function POST(req: Request) {
       name: body.name,
       url: body.url,
       coverImage: body.coverImage,
+      videoUrl: body.videoUrl || null,
       description: body.description,
       githubURL: body.githubURL,
       featured: body.featured || false,

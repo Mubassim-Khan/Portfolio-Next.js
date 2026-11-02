@@ -64,7 +64,7 @@ const Banner = () => {
       id="home"
     >
       {/* Aurora Background */}
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full bg-[#090c16] [mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)]">
         <Aurora
           colorStops={["#7cff67", "#4CC9F0", "#5227FF"]}
           blend={0.5}
@@ -79,8 +79,12 @@ const Banner = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
         >
-          <span className="relative inline-block rounded-2xl px-6 py-3 bg-white/10 backdrop-blur-xl border border-white/20 after:absolute after:inset-0 after:rounded-xl after:content-[''] after:bg-gradient-to-r after:from-pink-500 after:via-purple-500 after:to-indigo-500 after:blur-[20px] after:opacity-50 after:animate-pulse after:-z-10">
-            Welcome to my Portfolio
+          <span className="relative inline-flex overflow-hidden rounded-2xl p-px shadow-[0_0_22px_rgba(139,92,246,0.22)]">
+            <span className="hero-welcome-border absolute inset-0" aria-hidden="true" />
+            <span className="hero-welcome-glass absolute inset-px rounded-[15px]" aria-hidden="true" />
+            <span className="relative rounded-[15px] border border-white/20 bg-white/[0.06] px-6 py-3 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.22)] backdrop-blur-2xl">
+              Welcome to my Portfolio
+            </span>
           </span>
 
           <h1 className="font-bold mt-6 text-white text-4xl md:text-5xl">

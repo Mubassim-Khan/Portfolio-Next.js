@@ -63,6 +63,7 @@ export async function PUT(req: NextRequest) {
         url: body.url || null,
         githubURL,
         coverImage: body.coverImage || null,
+        videoUrl: body.videoUrl || null,
         featured: body.featured || false,
         order: body.order || null,
       },
